@@ -1,0 +1,694 @@
+{% load static %}{% load humanize %}<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Propuesta Comercial</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      color: #333;
+      background-color: #fff;
+      text-align: justify;
+      line-height: 1.6;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Elementos decorativos geométricos */
+    .geometric-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .geometric-bg::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 500px;
+      height: 80px;
+      background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+      clip-path: polygon(0 0, 100% 0, 85% 100%, 0% 100%);
+      z-index: -1;
+    }
+
+    .geometric-bg::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 150px;
+      height: 80px;
+      background: linear-gradient(135deg, #9ca3af 0%, #6b7280 100%);
+      clip-path: polygon(15% 0, 100% 0, 100% 100%, 0% 100%);
+      z-index: -1;
+    }
+
+    /* Elementos decorativos en la parte inferior */
+    .bottom-geometric {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 200px;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .bottom-geometric::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 0;
+      border-left: 120px solid #9ca3af;
+      border-top: 200px solid transparent;
+      z-index: -1;
+    }
+
+    .bottom-geometric::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 120px;
+      width: 0;
+      height: 0;
+      border-left: 150px solid #1e3a8a;
+      border-top: 120px solid transparent;
+      z-index: -1;
+    }
+
+    /* Elementos decorativos del lado derecho */
+    .right-geometric {
+      position: fixed;
+      bottom: 0;
+      right: 0;
+      width: 300px;
+      height: 200px;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    .right-geometric::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 0;
+      height: 0;
+      border-right: 80px solid #3b82f6;
+      border-top: 100px solid transparent;
+      z-index: -1;
+    }
+
+    .right-geometric::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      right: 80px;
+      width: 0;
+      height: 0;
+      border-right: 100px solid #1e3a8a;
+      border-top: 150px solid transparent;
+      z-index: -1;
+    }
+
+    /* Elementos geométricos adicionales */
+    .center-geometric {
+      position: fixed;
+      top: 50%;
+      right: 0;
+      width: 50px;
+      height: 300px;
+      background: linear-gradient(180deg, #6b7280 0%, #9ca3af 100%);
+      clip-path: polygon(0 0, 100% 20%, 100% 80%, 0 100%);
+      z-index: -1;
+    }
+
+    /* Contenido principal */
+    .content {
+      position: relative;
+      z-index: 1;
+      margin: 40px;
+      background: rgba(255, 255, 255, 0.95);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .header {
+      border-bottom: 3px solid #1e3a8a;
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .header h2 {
+      margin: 0;
+      color: #1e3a8a;
+    }
+
+    .header .nit {
+      font-weight: bold;
+      color: #888;
+      font-size: 14px;
+      text-align: right;
+    }
+
+    .date-location, .recipient, .project-title, .section-title, .important-note, .notes-section, .signature-section {
+      margin-top: 30px;
+    }
+
+    .date-location {
+      text-align: left;
+    }
+
+    .recipient {
+      text-align: left;
+    }
+
+    .project-title {
+      text-align: left;
+      font-weight: bold;
+    }
+
+    .section-title {
+      font-size: 18px;
+      font-weight: bold;
+      color: #1e3a8a;
+      border-bottom: 2px solid #1e3a8a;
+      padding-bottom: 5px;
+      margin-bottom: 10px;
+      text-align: left;
+      position: relative;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 50px;
+      height: 4px;
+      background: #3b82f6;
+    }
+
+    .subsection-title {
+      font-size: 16px;
+      font-weight: bold;
+      margin-top: 15px;
+      color: #222;
+      text-align: left;
+    }
+
+    .cost-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      font-size: 13px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .cost-table th {
+      background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+      color: white;
+      padding: 12px 8px;
+      text-align: left;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .cost-table td {
+      border: 1px solid #e5e7eb;
+      padding: 8px;
+      font-size: 12px;
+      line-height: 1.3;
+      text-align: left;
+      background: rgba(255, 255, 255, 0.9);
+    }
+
+    .cost-table tr:nth-child(even) td {
+      background: rgba(248, 250, 252, 0.9);
+    }
+
+    .total-row td {
+      font-weight: bold;
+      background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%) !important;
+      padding: 12px 8px;
+      font-size: 13px;
+      text-align: left;
+      color: #1e3a8a;
+    }
+
+    ul {
+      margin-top: 10px;
+      padding-left: 20px;
+      text-align: justify;
+    }
+
+    ul li {
+      margin-bottom: 6px;
+      text-align: justify;
+    }
+
+    .important-note p,
+    .notes-section p {
+      margin: 8px 0;
+      line-height: 1.6;
+      text-align: justify;
+    }
+
+    .project-summary {
+      text-align: justify;
+      line-height: 1.6;
+      margin: 10px 0;
+    }
+
+    .warranty-info {
+      margin-top: 10px;
+      text-align: justify;
+    }
+
+    .signature-section {
+      margin-top: 30px;
+      text-align: left;
+    }
+
+    .signature-block {
+      font-weight: bold;
+      line-height: 1.6;
+      text-align: left;
+    }
+
+    .contact-section {
+      float: right;
+      background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+      padding: 15px;
+      border-radius: 8px;
+      border-left: 4px solid #3b82f6;
+      width: 280px;
+      font-size: 12px;
+      box-shadow: 0 4px 15px rgba(30, 58, 138, 0.1);
+      margin-top: 20px;
+      margin-bottom: 20px;
+      clear: both;
+      text-align: left;
+      position: relative;
+    }
+
+    .contact-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 0;
+      height: 0;
+      border-left: 20px solid transparent;
+      border-top: 20px solid #3b82f6;
+      opacity: 0.7;
+    }
+
+    .contact-section h3 {
+      color: #1e3a8a;
+      margin-top: 0;
+      margin-bottom: 10px;
+      font-size: 14px;
+      text-align: center;
+    }
+
+    .contact-info {
+      display: block;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 5px;
+      font-size: 11px;
+    }
+
+    .contact-item strong {
+      color: #1e3a8a;
+      margin-right: 6px;
+      min-width: 60px;
+      font-size: 11px;
+    }
+
+    .contact-item a {
+      color: #3b82f6;
+      text-decoration: none;
+      font-size: 11px;
+    }
+
+    .contact-item a:hover {
+      text-decoration: underline;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 60px;
+      font-size: 12px;
+      color: #999;
+    }
+
+    /* Estilos específicos para párrafos justificados */
+    p {
+      text-align: justify;
+      line-height: 1.6;
+      margin: 8px 0;
+    }
+
+    .justified-text {
+      text-align: justify;
+      line-height: 1.6;
+    }
+
+    /* Estilos para preservar espacios */
+    .description-content p {
+      margin: 12px 0;
+      text-align: justify;
+      line-height: 1.6;
+    }
+
+    /* ESTILOS PARA CONTROL DE PÁGINAS */
+    .final-page-section {
+      page-break-before: always;
+      page-break-inside: avoid;
+      break-inside: avoid;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      font-size: 16px;
+      position: relative;
+    }
+
+    .final-page-section .section-title {
+      font-size: 30px;
+      margin-top: 20px;
+      margin-bottom: 8px;
+    }
+
+    .final-page-section p {
+      margin: 6px 0;
+      line-height: 1.4;
+      font-size: 16px;
+    }
+
+    .final-page-section .important-note p {
+      font-size: 16px;
+      line-height: 1.4;
+    }
+
+    .final-page-section .signature-section {
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+
+    .final-page-section .signature-block {
+      line-height: 1.4;
+    }
+
+    .final-page-section .contact-section {
+      position: relative;
+      float: none;
+      width: auto;
+      margin: 20px 0;
+      clear: both;
+    }
+
+    /* Efectos adicionales para darle más dinamismo */
+    .section-title {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .section-title::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.2), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .section-title:hover::before {
+      left: 100%;
+    }
+
+    /* Media queries para impresión */
+    @media print {
+      .geometric-bg,
+      .bottom-geometric,
+      .right-geometric,
+      .center-geometric {
+        display: none;
+      }
+      
+      .final-page-section {
+        page-break-before: always;
+        page-break-inside: avoid;
+        break-inside: avoid;
+      }
+      
+      .final-page-section p {
+        font-size: 16px;
+        line-height: 1.3;
+        margin: 4px 0;
+      }
+      
+      .final-page-section .section-title {
+        font-size: 14px;
+        margin: 15px 0 6px 0;
+      }
+      
+      .content {
+        background: white;
+        box-shadow: none;
+      }
+    }
+
+    .keep-together {
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+  </style>
+</head>
+<body>
+<!-- Elementos decorativos geométricos -->
+<div class="geometric-bg"></div>
+<div class="bottom-geometric"></div>
+<div class="right-geometric"></div>
+<div class="center-geometric"></div>
+
+<div class="content">
+  <div class="header" style="display: flex; align-items: center; justify-content: space-between;">
+      <img src="{{ logo_url }}" alt="Logo empresa" style="width: 180px; height: auto; background: #fff; padding: 8px; border-radius: 8px;">
+      <div class="nit">NIT: 900954914-7</div>
+  </div>
+
+  <div class="date-location">
+      {{ sale_order.city }}, {{ sale_order.fecha_cotizacion|default:sale_order.date }}
+  </div>
+
+  <div class="recipient">
+      <p><strong>Señor (a):</strong></p>
+      <p>{{ sale_order.name }}<br>
+      {{ sale_order.type_identification }}: {{ sale_order.identification }}<br>
+      {{ sale_order.city }}</p>
+  </div>
+
+  <div class="project-title">
+      <strong>PROYECTO: {{ sale_order.proyect_type|upper }}. SISTEMA {{ sale_order.system_type|upper }}</strong>
+  </div>
+
+  <div class="section-title">
+      1. RESUMEN FINANCIERO Y COSTO DEL PROYECTO:
+  </div>
+
+  <div class="subsection-title">ANÁLISIS DE PRODUCCIÓN</div>
+
+  <table class="cost-table">
+      <thead>
+          <tr>
+              <th>EQUIPOS</th>
+              <th>VALOR</th>
+          </tr>
+      </thead>
+      <tbody>
+          {% if sale_order.solar_panels %}
+          <tr>
+              <td>{{ sale_order.number_panels }} PANELES DE {{ sale_order.panel_type }} W</td>
+              <td>${{sale_order.solar_panels_price|floatformat:2|intcomma}}</td>
+          </tr>
+          {% endif %}
+          {% if sale_order.Assembly_structures %}
+          <tr>
+              <td>ESTRUCTURAS DE MONTAJE</td>
+              <td>${{sale_order.Assembly_structures_price|floatformat:2|intcomma}}</td>
+          </tr>
+          {% endif %}
+          {% if sale_order.Wiring_and_cabinet %}
+          <tr>
+              <td>CABLEADO Y GABINETE</td>
+              <td>${{sale_order.Wiring_and_cabinet_price|floatformat:2|intcomma}}</td>
+          </tr>
+          {% endif %}
+          {% if sale_order.Legalization_and_designs %}
+          <tr>
+              <td>LEGALIZACIÓN Y DISEÑO</td>
+              <td>${{sale_order.Legalization_and_designs_price|floatformat:2|intcomma}}</td>
+          </tr>
+          {% endif %}
+          {% if sale_order.batterys %}
+          <tr>
+              <td>SUMINISTROS DE BATERÍAS</td>
+              <td>${{sale_order.batterys_price|floatformat:2|intcomma}}</td>
+          </tr>
+          {% endif %}
+          {% if sale_order.investors %}
+          <tr>
+              <td>INVERSOR</td>
+              <td>${{sale_order.investors_price|floatformat:2|intcomma}}</td>
+          </tr>
+          {% endif %}
+          {% if sale_order.Kit_5kw %}
+          <tr>
+              <td>KIT 5KW</td>
+              <td>${{sale_order.Kit_5kw_price|floatformat:2|intcomma}}</td>
+          </tr>
+          {% endif %}
+          {% if sale_order.Kit_8kw %}
+          <tr>
+              <td>KIT 8KW</td>
+              <td>${{sale_order.Kit_8kw_price|floatformat:2|intcomma}}</td>
+          </tr>
+          {% endif %}
+          {% if sale_order.Kit_12kw %}
+          <tr>
+              <td>KIT 12KW</td>
+              <td>${{sale_order.Kit_12kw_price|floatformat:2|intcomma}}</td>
+          </tr>
+          {% endif %}
+          {% if sale_order.Kit_15kw %}
+          <tr>
+              <td>KIT 15KW</td>
+              <td>${{sale_order.Kit_15kw_price|floatformat:2|intcomma}}</td>
+          </tr>
+          {% endif %}
+          {% if sale_order.Kit_30kw %}
+          <tr>
+              <td>KIT 30KW</td>
+              <td>${{sale_order.Kit_30kw_price|floatformat:2|intcomma}}</td>
+          </tr>
+          {% endif %}
+          {% if sale_order.Transport %}
+          <tr>
+              <td>TRANSPORTE</td>
+              <td>${{sale_order.Transport_price|floatformat:2|intcomma}}</td>
+          </tr>
+          {% endif %}
+          {% if sale_order.workforce %}
+          <tr>
+              <td>MANO DE OBRA</td>
+              <td>${{sale_order.workforce_price|floatformat:2|intcomma}}</td>
+          </tr>
+          {% endif %}
+          {% if sale_order.Microinverters %}
+          <tr>
+              <td>OTROS CONCEPTOS</td>
+              <td>${{sale_order.Microinverters_price|floatformat:2|intcomma}}</td>
+          </tr>
+          {% endif %}
+      </tbody>
+      <tfoot>
+          <tr class="total-row">
+              <td>SISTEMA {{ sale_order.system_type|upper }} DE {{ sale_order.power_required }} KW {{ sale_order.Type_installation|upper }}</td>
+              <td>${{ sale_order.total_quotation|floatformat:2|intcomma }}</td>
+          </tr>
+      </tfoot>
+  </table>
+  <br><br>
+  {% if sale_order.description %}
+  <div class="section-title">2. PROPUESTA DE SERVICIOS:</div>
+  <div class="justified-text">
+      {{sale_order.description|linebreaks}}
+  </div>
+  {% endif %}
+
+  <div class="section-title">3. RESUMEN DEL PROYECTO:</div>
+  <div class="project-summary">
+      El sistema {{ sale_order.system_type|upper }} propuesto tiene una potencia de {{ sale_order.power_required }} kW.
+      {{sale_order.description_2}}
+  </div>
+
+  <div class="section-title">4. ANOTACIÓN IMPORTANTE:</div>
+  <p class="justified-text">
+      Al realizar este proyecto usted tendrá el derecho a <strong>deducir su renta, en un periodo no mayor a 15 años</strong>, contados a partir del año gravable siguiente en el que haya entrado en operación la inversión, <strong>el 50% del total de la inversión realizada;</strong> tal como el artículo 11 de la Ley 1715 de 2014.
+  </p>
+
+  <div class="section-title">5. NOTAS ACLARATORIAS:</div>
+  <div class="notes-section">
+      <p><strong>VALIDEZ DE LA OFERTA:</strong> La oferta es válida por {{ sale_order.Validity_offer|default:"quince (15)" }} días calendario.</p>
+
+      <p><strong>CONFIDENCIALIDAD:</strong> Para proteger los derechos de las partes, sobre la respectiva información propiedad de ésta o sus afiliadas, se acuerda: Sin el previo consentimiento por escrito de la parte que revela información, la otra no divulgará, proveerá o suministrará, ninguna parte de la información, propiedad de la relevante o de sus empresas afiliadas, en ninguna forma, ni a ninguna persona, excepto a sus empleados, funcionarios, o directores, cuyo acceso a la información propiedad de la parte reveladora o de alguna de sus afiliadas, sea necesario para permitir la ejecución del presente oferta. Las partes se comprometen a tomar las medidas razonables y las mismas precauciones protectoras que usan para proteger su propia información, de cualquier divulgación a terceros.</p>
+
+      <div class="final-page-section">
+          <p><strong>FORMA DE PAGO:</strong> {{ sale_order.payment_type|default:"50% Anticipo, 30% Al recibir los equipos y 20% a recibido a satisfacción" }}.</p>
+
+          <p><strong>TIEMPO DE ENTREGA:</strong> {{ sale_order.Delivery_deadline|default:"90" }} Días.</p>
+
+          <p class="warranty-info"><strong>GARANTÍA:</strong> {{ sale_order.Warranty|default:"Paneles: 10 Años, Inversor: 7 Años, Batería: 5 Años" }}</p>
+      </div>
+  </div>
+
+  <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: 30px;">
+      <div class="signature-section">
+          <div class="signature-block">
+              <img src="{{ firma_url }}" alt="Firma" style="width: 180px; height: auto; margin-bottom: 5px;">
+              <div>_____________________________</div>
+              <br>
+              CARLOS TERRIOS<br>
+              Gerente Comercial<br>
+              PROINGELECTRIC SAS
+          </div>
+      </div>
+
+      <div class="contact-section">
+          <h3>CONTACTO</h3>
+          <div class="contact-info">
+              <div class="contact-item">
+                  <strong>Dir:</strong>
+                  <span>Carrera 14 #4A -43 Santa Marta</span>
+              </div>
+              <div class="contact-item">
+                  <strong>Tel:</strong>
+                  <span>301 7535841</span>
+              </div>
+              <div class="contact-item">
+                  <strong>Web:</strong>
+                  <a href="https://www.proingelectric.com.co" target="_blank">www.proingelectric.com.co</a>
+              </div>
+              <div class="contact-item">
+                  <strong>Email:</strong>
+                  <a href="mailto:proingelectricsas@gmail.com">proingelectricsas@gmail.com</a>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+</body>
+</html>

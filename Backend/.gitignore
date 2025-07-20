@@ -1,0 +1,7 @@
+media/*
+optiproenv/*
+**/migrations/*
+!**/migrations/__init__.py
+optipro/__pycache__/*
+**/__pycache__/*
+venv/
