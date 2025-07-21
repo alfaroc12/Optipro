@@ -16,6 +16,7 @@ import NotificationBell from "./NotificationBell";
 import { useNotifications } from "@/hooks/useNotifications";
 import { useUserProfile } from "@/hooks/useUserProfile";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import imgLogin from "../assets/Logo.svg"
 
 interface NavbarProps {
   toggleSidebar: () => void;
@@ -55,7 +56,7 @@ const Navbar: React.FC<NavbarProps> = ({
             className="cursor-pointer transition-transform duration-200 hover:scale-105"
           >
             <img
-              src="../src/assets/Logo.svg"
+              src={imgLogin}
               alt="OptiPro"
               className="h-14 md:h-16"
             />

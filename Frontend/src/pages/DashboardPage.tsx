@@ -42,7 +42,7 @@ const DashboardPage = () => {
               <CardHeader className="p-6 flex items-center">
                 <div className="mr-6 bg-blue-50 p-4 rounded-full transform group-hover:scale-110 transition-transform duration-300">
                   <img
-                    src="./src/assets/icons/Oferta.svg"
+                    src="../assets/icons/Oferta.svg"
                     alt="Ofertas"
                     width={72}
                     height={72}
@@ -69,7 +69,7 @@ const DashboardPage = () => {
               <CardHeader className="p-6 flex items-center">
                 <div className="mr-6 bg-blue-50 p-4 rounded-full transform group-hover:scale-110 transition-transform duration-300">
                   <img
-                    src="./src/assets/icons/Proyectos.svg"
+                    src="../assets/icons/Proyectos.svg"
                     alt="Proyectos"
                     width={72}
                     height={72}
@@ -96,7 +96,7 @@ const DashboardPage = () => {
               <CardHeader className="p-6 flex items-center">
                 <div className="mr-6 bg-blue-50 p-4 rounded-full transform group-hover:scale-110 transition-transform duration-300">
                   <img
-                    src="./src/assets/icons/Inventario.svg"
+                    src="../assets/icons/Inventario.svg"
                     alt="Inventario"
                     width={72}
                     height={72}

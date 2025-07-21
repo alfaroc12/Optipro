@@ -49,7 +49,7 @@ const DashboardPage = () => {
                 <CardHeader className="p-6 flex items-center">
                   <div className="mr-6 bg-blue-50 p-4 rounded-full transform group-hover:scale-110 transition-transform duration-300">
                     <img
-                      src="../src/assets/icons/Oferta.svg"
+                      src="../assets/icons/Oferta.svg"
                       alt="Ofertas"
                       width={72}
                       height={72}
@@ -76,7 +76,7 @@ const DashboardPage = () => {
                 <CardHeader className="p-6 flex items-center">
                   <div className="mr-6 bg-blue-50 p-4 rounded-full transform group-hover:scale-110 transition-transform duration-300">
                     <img
-                      src="../src/assets/icons/Proyectos.svg"
+                      src="../assets/icons/Proyectos.svg"
                       alt="Proyectos"
                       width={72}
                       height={72}
@@ -106,7 +106,7 @@ const DashboardPage = () => {
                 <CardContent className="p-6 flex flex-col items-center justify-center text-center h-full">
                   <div className="mb-4 bg-blue-50 p-4 rounded-full transform group-hover:scale-110 transition-transform duration-300">
                     <img
-                      src="../src/assets/icons/Inventario.svg"
+                      src="../assets/icons/Inventario.svg"
                       alt="Inventario"
                       width={60}
                       height={60}
@@ -126,7 +126,7 @@ const DashboardPage = () => {
                   <CardContent className="p-6 flex flex-col items-center justify-center text-center h-full">
                     <div className="mb-4 bg-blue-50 p-4 rounded-full transform group-hover:scale-110 transition-transform duration-300">
                       <img
-                        src="../src/assets/icons/Users.svg"
+                        src="../assets/icons/Users.svg"
                         alt="Usuarios"
                         width={60}
                         height={60}
