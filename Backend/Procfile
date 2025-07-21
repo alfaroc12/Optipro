@@ -1,1 +1,1 @@
-web: python manage.py collectstatic && uvicorn hotel.wsgi
+web: python manage.py collectstatic --noinput && uvicorn hotel.wsgi
