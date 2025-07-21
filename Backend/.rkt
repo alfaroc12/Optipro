@@ -1,0 +1,13 @@
+[packages]
+cairo = "*"
+pango = "*"
+gdk-pixbuf = "*"
+glib = "*"
+libffi = "*"
+libxml2 = "*"
+libxslt = "*"
+freetype = "*"
+fontconfig = "*"
+harfbuzz = "*"
+gobject-introspection = "*"
+gobject = "*"
