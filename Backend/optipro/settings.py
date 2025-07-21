@@ -47,7 +47,7 @@ CORS_ALLOW_ALL_ORIGINS = False
 
 
 #ALLOWED_HOSTS = ['*']
-ALLOWED_HOSTS = ['localhost','127.0.0.1','https://backend-optipro-production.up.railway.app']
+ALLOWED_HOSTS = ['localhost','127.0.0.1','backend-optipro-production.up.railway.app']
 
 
 # Application definition
