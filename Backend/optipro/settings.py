@@ -35,11 +35,11 @@ CORS_ALLOW_ALL_ORIGINS = True #variable debe desaparecer en produccion para evit
 CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1",
     "http://127.0.0.1:5173",
-    "http://localhost:5173"
+    "https://backend-optipro-production.up.railway.app"
 ]
 CSRF_TRUSTED_ORIGINS = [
     "http://127.0.0.1:5173",
-    "http://localhost:5173"
+    "https://backend-optipro-production.up.railway.app"
 ]
 
 CORS_ALLOW_CREDENTIALS = True
@@ -47,7 +47,7 @@ CORS_ALLOW_ALL_ORIGINS = False
 
 
 #ALLOWED_HOSTS = ['*']
-ALLOWED_HOSTS = ['localhost','127.0.0.1']
+ALLOWED_HOSTS = ['localhost','127.0.0.1','https://backend-optipro-production.up.railway.app']
 
 
 # Application definition
