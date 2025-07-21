@@ -10,17 +10,17 @@ const Sidebar: React.FC<SidebarProps> = ({ toggleSidebar }) => {
     {
       name: "OFERTA",
       path: "/ofertas",
-      icon: "../assets/icons/Oferta.svg",
+      icon: "../../assets/icons/Oferta.svg",
     },
     {
       name: "PROYECTOS",
       path: "/projects",
-      icon: "../assets/icons/Proyectos.svg",
+      icon: "../../assets/icons/Proyectos.svg",
     },
     {
       name: "INVENTARIO",
       path: "/inventario",
-      icon: "../assets/icons/Inventario.svg",
+      icon: "../../assets/icons/Inventario.svg",
     },
     {
       name: "INFORMES",

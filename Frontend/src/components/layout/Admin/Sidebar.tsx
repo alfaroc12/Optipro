@@ -18,19 +18,19 @@ const Sidebar: React.FC<SidebarProps> = ({ toggleSidebar }) => {
     {
       name: "OFERTA",
       path: "/admin/ofertas",
-      icon: "../assets/icons/Oferta.svg",
+      icon: "../../assets/icons/Oferta.svg",
       isExternal: false,
     },
     {
       name: "PROYECTOS",
       path: "/admin/projects",
-      icon: "../assets/icons/Proyectos.svg",
+      icon: "../../assets/icons/Proyectos.svg",
       isExternal: false,
     },
     {
       name: "INVENTARIO",
       path: "/admin/inventario",
-      icon: "../assets/icons/Inventario.svg",
+      icon: "../../assets/icons/Inventario.svg",
       isExternal: false,
     },
     {
