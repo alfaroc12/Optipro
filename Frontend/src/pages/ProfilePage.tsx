@@ -44,7 +44,7 @@ const ProfilePage = () => {
     categoria: "",
   });
   const [originalData, setOriginalData] = useState({ ...userData });
-  const [errorMessage, setErrorMessage] = useState(
+  const [, setErrorMessage] = useState(
     "Ha ocurrido un error al actualizar tu perfil."
   );
 
