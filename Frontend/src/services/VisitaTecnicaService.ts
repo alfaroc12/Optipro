@@ -12,6 +12,7 @@ export interface VisitaTecnicaData {
   N_identification: string;
   company: string;
   addres: string;
+  date_visit: string;
   start_time: string;
   end_time?: string;
   concept_visit: string;
