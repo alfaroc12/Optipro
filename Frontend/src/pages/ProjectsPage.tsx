@@ -43,7 +43,7 @@ interface Project {
   fechaEmision: string;
   potencia: number | null;
   valor: string;
-  etapa: "planificacion" | "ejecucion" | "finalizado" | "suspendido";
+  etapa: "Planificacion" | "Ejecucion" | "Finalizado" | "Suspendido";
   descripcion?: string;
   cliente?: string;
   fechaInicio?: string;
@@ -149,17 +149,6 @@ const ProjectsPage: React.FC = () => {
       cotizador: apiProject.sale_order?.cotizador || "Sin asignar",
     };
   };
-
-
-  const mapStatusToLocal = (apiStatus: string): string => {
-    switch (apiStatus) {
-      case 'finaly': return 'finaly';
-      case 'process': return 'process';
-      case 'planification': return 'planification';
-      default: return 'planificacion';
-    }
-  };
-
   const calcularProgresoDocumentos = (
     attachments: Array<{ name: string; attach: string }> = [],
     status: string = "planification"
@@ -355,15 +344,6 @@ const ProjectsPage: React.FC = () => {
       console.log("Eliminar proyecto:", id);
     }
   };
-
-  const showNewProjectForm = () => {
-    setShowForm(true);
-  };
-
-  const handleNewProjectClick = () => {
-    setShowForm(true);
-  };
-
   const handleFormSubmit = (data: any) => {
     console.log("Nuevo proyecto enviado:", data);
     setShowForm(false);
@@ -372,11 +352,6 @@ const ProjectsPage: React.FC = () => {
   const handleFormCancel = () => {
     setShowForm(false);
   };
-
-  const handleBackToProjects = () => {
-    setShowForm(false);
-  };
-
   const handleProjectSubmit = (updatedProject: Project) => {
     console.log("Proyecto actualizado:", updatedProject);
     setSelectedProject(null);

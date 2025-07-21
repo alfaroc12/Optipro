@@ -244,7 +244,7 @@ const AdminDetallesProyectoForm: React.FC<DetallesProyectoFormProps> = ({
 
 		return Object.entries(progressMap).reduce((total, [docKey, porcentaje]) => {
 			const regex = new RegExp(docKey, "i");
-			const tieneArchivo = attachments.some((att) => regex.test(att.name || att.attach));
+			attachments.some((att) => regex.test(att.name || att.attach));
 			const estadoCumplimiento = cumplimientoEstado?.[docKey];
 			if (estadoCumplimiento === "Completado") {
 				return total + porcentaje;
@@ -368,55 +368,6 @@ const AdminDetallesProyectoForm: React.FC<DetallesProyectoFormProps> = ({
 			await fetchProjectDetail();
 		}
 	};
-
-
-	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
-		setIsSubmitting(true);
-
-		// Validaciones de campos requeridos en Step 3
-		if (!formData.estadoCotizacion || !formData.supervisor || !formData.comentarios) {
-			showNotification("error", "Por favor completa todos los campos obligatorios.");
-			setIsSubmitting(false);
-			return;
-		}
-
-		try {
-			// Determinar estado según la selección
-			let status = "process";
-			if (formData.estadoCotizacion === "rechazado") status = "planification";
-			if (formData.estadoCotizacion === "aprobado") status = "process";
-
-			const payload = {
-				status,
-				supervisor: formData.supervisor,
-				comentarios: formData.comentarios,
-				estadoCotizacion: formData.estadoCotizacion,
-			};
-
-			const response = await api.put(`/proyect/update/${formData.id}/`, payload);
-
-			if (response.status === 200) {
-				showNotification("success", "Proyecto actualizado correctamente");
-				onSubmit({ ...formData, status });
-			} else {
-				throw new Error("Error al actualizar el proyecto");
-			}
-		} catch (error: any) {
-			console.error("Error al actualizar el proyecto:", error);
-			let errorMessage = "Error al actualizar el proyecto";
-
-			if (error.response) {
-				errorMessage += `: ${error.response.data.detail || error.response.statusText}`;
-			}
-
-			showNotification("error", errorMessage);
-		} finally {
-			setIsSubmitting(false);
-			await fetchProjectDetail();
-		}
-	};
-
 	const uploadDocument = async (
 		fieldKey: string,
 		file: File,
@@ -805,11 +756,6 @@ const AdminDetallesProyectoForm: React.FC<DetallesProyectoFormProps> = ({
 		const project  = dataProject || {};
 		const cliente  = project.sale_order|| {};
 
-		const projectName  = cliente.name || project.firs_name || "";
-		const projectCity  = project.ciudad || cliente.city || "";
-		const issueDate    = project.fechaEmision || project.date || "";
-		const powerKw      = project.potencia || cliente.power_required || "";
-		const projectValue = project.valor || cliente.total_quotation || "";
 
 		/* --------------------------------------------------------------------- */
 		return (
@@ -1232,9 +1178,9 @@ const AdminDetallesProyectoForm: React.FC<DetallesProyectoFormProps> = ({
 							</tr>
 							</thead>
 							<tbody>
-							{etapas.flatMap(({ etapa, documentos }, etapaIndex) =>
+							{etapas.flatMap(({ etapa, documentos }) =>
 								documentos.map((doc, docIndex) => {
-									const matching = (formData.attachments || []).filter((a) =>
+									const matching = (formData.attachments || []).filter((a: { name: string; }) =>
 										a.name.toLowerCase().includes(doc.key)
 									);
 									const isUploaded = matching.length > 0;

@@ -78,7 +78,6 @@ const DetallesProyectoForm: React.FC<DetallesProyectoFormProps> = ({
 																																		 onDelete,
 																																	 }) => {
 	const [formData, setFormData] = useState<Project>(project);
-	const [uploadedFiles, setUploadedFiles] = useState<Array<{file: File, comment: string}>>([]);
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [uploadingFile, setUploadingFile] = useState<string | null>(null);
 	const [notifications, setNotifications] = useState<Notification[]>([]);
