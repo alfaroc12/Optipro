@@ -15,5 +15,9 @@
     "strict": false,
     "noImplicitAny": false,
     "suppressImplicitAnyIndexErrors": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "allowUnreachableCode": true,
+    "allowUnusedLabels": true
   }
 }

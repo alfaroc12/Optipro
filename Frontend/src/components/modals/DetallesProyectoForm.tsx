@@ -16,36 +16,7 @@ import { Gauge } from "@mui/x-charts";
 import api from "@/services/api";
 import Chat from "@/components/modals/chat";
 import {LinearProgress} from "@mui/material";
-
-interface Project {
-	status: boolean;
-	id: number;
-	nombre: string;
-	ciudad: string;
-	fechaEmision: string;
-	potencia: number | null;
-	valor: string;
-	tipo: "publico" | "privado";
-	etapa: "planificacion" | "ejecucion" | "finalizado"
-	descripcion?: string;
-	cliente?: {
-		nombre: string;
-		nit: string;
-		direccion: string;
-		telefono: string;
-		correo: string;
-	};
-	fechaInicio?: string;
-	fechaFinalizacion?: string;
-	progreso?: number;
-	aceptacionOferta?: string | null;
-	rut?: string | null;
-	camaraComercio?: string | null;
-	cedulaRepresentante?: string | null;
-	numeroContrato?: string | null;
-	polizas?: string | null;
-	attachments?: Array<{ name: string; attach: string }>;
-}
+import { Project } from "@/types/project";
 
 interface DetallesProyectoFormProps {
 	project: Project;
@@ -69,10 +40,11 @@ const DetallesProyectoForm: React.FC<DetallesProyectoFormProps> = ({
 																																	 }) => {
 	const [formData, setFormData] = useState<Project>(project);
 	const [isSubmitting, setIsSubmitting] = useState(false);
-	const [uploadingFile, setUploadingFile] = useState<string | null>(null);
+	const [, setUploadingFile] = useState<string | null>(null);
 	const [notifications, setNotifications] = useState<Notification[]>([]);
 	const [currentStep, setCurrentStep] = useState<number>(1);
-	const [cumplimientoEstado, setCumplimientoEstado] = useState<Record<string, string>>({});
+	const [cumplimientoEstado, setCumplimientoEstado] = useState<Record<string, string>>({})
+	const [, setDataProject] = useState<Project | null>(null);;
 
 	const [novedadesEstado, setNovedadesEstado] = useState<Record<string, string>>({});
 
@@ -278,33 +250,6 @@ const DetallesProyectoForm: React.FC<DetallesProyectoFormProps> = ({
 			fetchProjectData();
 		}
 	};
-
-	const updateNovedad = async (docKey: string, nuevaNovedad: string) => {
-		setIsSubmitting(true);
-		try {
-			await api.patch(`/proyect/update/${formData.id}/`, {
-				novedades: {
-					[docKey]: nuevaNovedad,
-				},
-			});
-			showNotification("success", "Novedad actualizada");
-			setNovedadesEstado((prev) => ({
-				...prev,
-				[docKey]: nuevaNovedad,
-			}));
-		} catch (error: any) {
-			console.error("Error actualizando novedad:", error);
-			let msg = "Error al actualizar novedad";
-			if (error.response) {
-				msg += `: ${error.response.data.detail || error.response.statusText}`;
-			}
-			showNotification("error", msg);
-		} finally {
-			setIsSubmitting(false);
-		}
-	};
-
-
 	const renderCompactUploadField = (key: string, label: string) => {
 		const normalized = normalizeFileName(label);
 		const matchingFiles = (formData.attachments || []).filter((a: any) =>
@@ -445,13 +390,13 @@ const DetallesProyectoForm: React.FC<DetallesProyectoFormProps> = ({
 		}
 	};
 
-	const getStatusIcon = (etapa: string) => {
+	const getStatusIcon = (etapa: "Planificación" | "Ejecución" | "Finalizado" | "Suspendido" | undefined) => {
 		switch (etapa) {
-			case "finaly":
+			case "Finalizado":
 				return <CheckCircle className="w-4 h-4 text-green-500" />;
-			case "process":
+			case "Ejecución":
 				return <RefreshCw className="w-4 h-4 text-blue-500" />;
-			case "planification":
+			case "Planificación":
 				return <AlertCircle className="w-4 h-4 text-yellow-500" />;
 			default:
 				return <Clock className="w-4 h-4 text-gray-500" />;
@@ -758,10 +703,10 @@ const DetallesProyectoForm: React.FC<DetallesProyectoFormProps> = ({
 			<div className="mb-6">
 				<h4 className="font-semibold text-[#34509F] mb-3">Documentos legales</h4>
 				<div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-					{renderCompactUploadField("aceptacionOferta",  "Aceptación de oferta", formData.aceptacionOferta)}
-					{renderCompactUploadField("rut",               "RUT",                   formData.rut)}
-					{renderCompactUploadField("camaraComercio",    "Cámara de Comercio",    formData.camaraComercio)}
-					{renderCompactUploadField("cedulaRepresentante", "Copia cédula representante legal", formData.cedulaRepresentante)}
+					{renderCompactUploadField("aceptacionOferta","Aceptación de oferta")}
+					{renderCompactUploadField("rut","RUT",)}
+					{renderCompactUploadField("camaraComercio","Cámara de Comercio")}
+					{renderCompactUploadField("cedulaRepresentante","Copia cédula representante legal")}
 				</div>
 			</div>
 		</div>
@@ -782,8 +727,8 @@ const DetallesProyectoForm: React.FC<DetallesProyectoFormProps> = ({
 			{renderClientInfo()}
 
 			<div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-6">
-				{renderCompactUploadField("numeroContrato", "Número de contrato", formData.numeroContrato)}
-				{renderCompactUploadField("polizas", "Pólizas", formData.polizas)}
+				{renderCompactUploadField("numeroContrato", "Número de contrato")}
+				{renderCompactUploadField("polizas", "Pólizas")}
 			</div>
 
 			<div className="mb-6">
@@ -919,7 +864,7 @@ const DetallesProyectoForm: React.FC<DetallesProyectoFormProps> = ({
 							</tr>
 							</thead>
 							<tbody>
-							{etapas.flatMap(({ etapa, documentos }, etapaIndex) =>
+							{etapas.flatMap(({ etapa, documentos }) =>
 								documentos.map((doc, docIndex) => {
 									const matching = (formData.attachments || []).filter((a) =>
 										a.name.toLowerCase().includes(doc.key)
@@ -945,7 +890,7 @@ const DetallesProyectoForm: React.FC<DetallesProyectoFormProps> = ({
 											</td>
 											<td className="py-2 px-3 text-center border-r border-gray-300">
 												{isUploaded
-													? new Date(matching[0].date).toLocaleDateString()
+													? new Date(matching[0].date ?? "").toLocaleDateString()
 													: "-"}
 											</td>
 											<td className="py-2 px-3 text-center border-r border-gray-300">
@@ -964,7 +909,7 @@ const DetallesProyectoForm: React.FC<DetallesProyectoFormProps> = ({
 															</a>
 															<button
 																type="button"
-																onClick={() => eliminarArchivo(file.id, file.name)}
+																onClick={() => file.id !== undefined && eliminarArchivo(file.id, file.name)}
 																className="inline-flex items-center border border-red-500 text-red-500 rounded-full p-1 hover:bg-red-50"
 																title="Eliminar"
 															>
@@ -981,7 +926,7 @@ const DetallesProyectoForm: React.FC<DetallesProyectoFormProps> = ({
 															const file = e.target.files?.[0];
 															if (!file || !project?.id) return;
 															await uploadDocument(doc.key, file, project.id, doc.label);
-															await fetchProjectDetail();
+															await fetchProjectData();
 														}}
 														className="hidden"
 													/>
@@ -1134,17 +1079,17 @@ const DetallesProyectoForm: React.FC<DetallesProyectoFormProps> = ({
 					</p>
 					<div className="flex items-center gap-2 mt-1">
             <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${
-							formData.status === "finaly" ? "bg-green-100 text-green-800" :
-								formData.status === "process" ? "bg-blue-100 text-blue-800" :
-									formData.status === "planification" ? "bg-yellow-100 text-yellow-800" :
+							formData.etapa === "Finalizado" ? "bg-green-100 text-green-800" :
+								formData.etapa === "Ejecución" ? "bg-blue-100 text-blue-800" :
+									formData.etapa === "Planificación" ? "bg-yellow-100 text-yellow-800" :
 										"bg-gray-100 text-gray-800"
 						}`}>
               {getStatusIcon(formData.etapa)}
-							{formData.status ? formData.status.charAt(0).toUpperCase() + formData.status.slice(1) : "Sin estado"}
+							{formData.etapa ? formData.status.charAt(0).toUpperCase() + formData.status.slice(1) : "Sin estado"}
             </span>
 						{formData.progreso !== undefined && (
 							<span className="text-xs text-gray-500">
-								Progreso: {formData.status === "finaly" ? 100 : formData.progreso}%
+								Progreso: {formData.etapa === "Finalizado" ? 100 : formData.progreso}%
   						</span>
 						)}
 					</div>
@@ -1240,7 +1185,6 @@ const DetallesProyectoForm: React.FC<DetallesProyectoFormProps> = ({
 							{currentStep === 2 && (
 								<button
 									type="submit"
-									onClick={handleSubmit()}
 									className="flex items-center justify-center gap-2 px-8 py-2.5 bg-green-600 text-white font-medium rounded-lg hover:bg-green-700 transition-colors cursor-pointer"
 									disabled={isSubmitting}
 								>

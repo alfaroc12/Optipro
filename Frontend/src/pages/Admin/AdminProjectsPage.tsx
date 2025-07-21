@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { useAppSelector } from "@/hooks/useAppSelector";
+import { useState, useEffect} from "react";
+import {useDispatch} from "react-redux";
+import {useAppSelector} from "@/hooks/useAppSelector";
 import {
   fetchProjectsStart,
   fetchProjectsSuccess,
@@ -65,7 +65,7 @@ const AdminProjectsPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-  const [showProjectModal, setShowProjectModal] = useState(false);
+  const [, setShowProjectModal] = useState(false);
 
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [projectToDelete, setProjectToDelete] = useState<Project | null>(null);
@@ -180,7 +180,7 @@ const AdminProjectsPage: React.FC = () => {
       return matching ? total + porcentaje : total;
     }, 0);
   };
-  
+
   const mapApiProjectToLocal = (apiProject: any): any => {
     const atts = apiProject.attachments || [];
 
@@ -315,15 +315,15 @@ const AdminProjectsPage: React.FC = () => {
   const getStatusIcon = (etapa: string) => {
     switch (etapa) {
       case "Finalizado":
-        return <CheckCircle className="w-4 h-4" />;
+        return <CheckCircle className="w-4 h-4"/>;
       case "suspendido":
-        return <XCircle className="w-4 h-4" />;
+        return <XCircle className="w-4 h-4"/>;
       case "Ejecución":
-        return <RefreshCw className="w-4 h-4" />;
+        return <RefreshCw className="w-4 h-4"/>;
       case "Planificación":
-        return <AlertCircle className="w-4 h-4" />;
+        return <AlertCircle className="w-4 h-4"/>;
       default:
-        return <Clock className="w-4 h-4" />;
+        return <Clock className="w-4 h-4"/>;
     }
   };
   const handleViewProject = (project: Project) => {
@@ -337,7 +337,10 @@ const AdminProjectsPage: React.FC = () => {
     console.log("Editar proyecto:", project);
   };
 
-  const handleDeleteProject = (project: Project) => {
+  const handleDeleteProject = (id: any) => {
+    const project = allProjects.find(p => p.id === id);
+    if (!project) return;
+
     setProjectToDelete(project);
     setShowDeleteModal(true);
   };
@@ -499,7 +502,7 @@ const AdminProjectsPage: React.FC = () => {
                     await api.delete(`/proyecto/delete/${projectToDelete.id}/`);
                     const updated = allProjects.filter(p => p.id !== projectToDelete.id);
                     setAllProjects(updated);
-                    dispatch(fetchProjectsSuccess(updated));
+                    dispatch(fetchProjectsSuccess(updated as any));
                     setShowDeleteModal(false);
                     setProjectToDelete(null);
                   } catch (error) {

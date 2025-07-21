@@ -11,21 +11,13 @@ import {
 	Clock,
 	Download,
 	Trash2,
-	Pencil, FileText,
+	Pencil,
 } from "lucide-react";
 import { Gauge } from "@mui/x-charts";
 import api from "@/services/api";
 import Chat from "@/components/modals/chat.tsx";
 import {LinearProgress} from "@mui/material";
-
-const docTypes = [
-	{ key: 'numeroContrato',     regex: /contrato/i },
-	{ key: 'polizas',            regex: /polizas/i },
-	{ key: 'aceptacionOferta',   regex: /aceptacion/i },
-	{ key: 'camaraComercio',     regex: /camara/i },
-	{ key: 'cedulaRepresentante',regex: /cedula/i },
-	{ key: 'rut',                regex: /rut/i },
-];
+import {Project} from "@/types/project.ts";
 interface DetallesProyectoFormProps {
 	project: any;
 	onSubmit: (data: any) => void;
@@ -46,14 +38,14 @@ const AdminDetallesProyectoForm: React.FC<DetallesProyectoFormProps> = ({
 																																					onDelete,
 																																				}) => {
 	const [currentStep, setCurrentStep] = useState<number>(1);
-	const [uploadedFiles, setUploadedFiles] = useState<Array<{file: File, comment: string}>>([]);
+	const [uploadedFiles, ] = useState<Array<{file: File, comment: string}>>([]);
 	const [isSubmitting, setIsSubmitting] = useState(false);
-	const [uploadingFile, setUploadingFile] = useState<string | null>(null);
+	const [, setUploadingFile] = useState<string | null>(null);
 	const [notifications, setNotifications] = useState<Notification[]>([]);
 	const [showChat, setShowChat] = useState(false);
 
-	const [dataProject, setDataProject] = useState<any>();
-	const [formValues, setFormValues] = useState<any>({}); // Datos editables por el usuario
+	const [dataProject, setDataProject] = useState<Project | null>(null);
+	const [, setFormValues] = useState<any>({}); // Datos editables por el usuario
 	const [formData, setFormData] = useState<any>()
 
 	const [novedadesEstado, setNovedadesEstado] = useState<Record<string, string>>({});
@@ -102,7 +94,7 @@ const AdminDetallesProyectoForm: React.FC<DetallesProyectoFormProps> = ({
 
 		Object.keys(progressMapByStatus.process).forEach((docKey) => {
 			const regex = new RegExp(docKey, "i");
-			const tieneArchivo = (formData.attachments || []).some((att) =>
+			const tieneArchivo = (formData.attachments || []).some((att: { name: any; attach: any; }) =>
 				regex.test(att.name || att.attach)
 			);
 
@@ -158,7 +150,7 @@ const AdminDetallesProyectoForm: React.FC<DetallesProyectoFormProps> = ({
 
 		Object.keys(progressMapByStatus.process).forEach((docKey) => {
 			const regex = new RegExp(docKey, "i");
-			const matching = (formData.attachments || []).find((att) =>
+			const matching = (formData.attachments || []).find((att:any) =>
 				regex.test(att.name || att.attach)
 			);
 
@@ -280,7 +272,7 @@ const AdminDetallesProyectoForm: React.FC<DetallesProyectoFormProps> = ({
 			let newStatus = formData.status;
 
 		// Si está en planification y la cotización es aprobada, cambia a process
-			if (formData.status === "planification" && formData.estadoCotizacion === "aprobado") {
+			if (formData.etapa === "planification" && formData.estadoCotizacion === "aprobado") {
 				newStatus = "process";
 			}
 			const payload = {
@@ -584,7 +576,7 @@ const AdminDetallesProyectoForm: React.FC<DetallesProyectoFormProps> = ({
 					<div>
 						<label className="block mb-1 text-sm font-medium text-gray-600">Nombre</label>
 						<p className="text-gray-800">
-							{cliente.name || cliente.firs_name || "No especificado"}
+							{cliente.name || cliente.first_name || "No especificado"}
 						</p>
 					</div>
 					<div>
@@ -614,9 +606,9 @@ const AdminDetallesProyectoForm: React.FC<DetallesProyectoFormProps> = ({
 					<div>
 						<label className="block mb-1 text-sm font-medium text-gray-600">Tipo de Proyecto</label>
 						<p className="text-gray-800 capitalize">
-							{cliente.proyect_type === "private"
+							{cliente.project_type === "private"
 								? "Privado"
-								: cliente.proyect_type === "public"
+								: cliente.project_type === "public"
 									? "Público"
 									: "No especificado"}
 						</p>
@@ -664,7 +656,7 @@ const AdminDetallesProyectoForm: React.FC<DetallesProyectoFormProps> = ({
 
 	const actualizarEstadoAFinalizado = async () => {
 		try {
-			await api.patch(`/proyect/update/${dataProject.id}/`, { status: "finaly" });
+			await api.patch(`/proyect/update/${dataProject?.id}/`, { status: "finaly" });
 			alert("Estado del proyecto actualizado a Finalizado");
 			setFormData((prev: any) => ({ ...prev, status: "finaly" }));
 		} catch (error) {
@@ -753,8 +745,8 @@ const AdminDetallesProyectoForm: React.FC<DetallesProyectoFormProps> = ({
 		/* --------------------------------------------------------------------- */
 		/*  NORMALIZAMOS la data que llega del backend                            */
 		/* --------------------------------------------------------------------- */
-		const project  = dataProject || {};
-		const cliente  = project.sale_order|| {};
+		const project = dataProject || {};
+		console.log(project); //
 
 
 		/* --------------------------------------------------------------------- */
@@ -1210,7 +1202,7 @@ const AdminDetallesProyectoForm: React.FC<DetallesProyectoFormProps> = ({
 											<td className="py-2 px-3 text-center border-r border-gray-300">
 												<div className="flex flex-col gap-1 items-center">
 													<p className="text-xs text-gray-500 mb-1">{doc.label}</p>
-													{matching.map((file, idx) => (
+													{matching.map((file: any, idx: number) => (
 														<div key={idx} className="flex items-center gap-2">
 															<a
 																href={`http://127.0.0.1:8000${file.attach}`}
@@ -1229,8 +1221,6 @@ const AdminDetallesProyectoForm: React.FC<DetallesProyectoFormProps> = ({
 															>
 																<Trash2 className="w-4 h-4" />
 															</button>
-
-
 														</div>
 													))}
 													<input
@@ -1265,7 +1255,7 @@ const AdminDetallesProyectoForm: React.FC<DetallesProyectoFormProps> = ({
 															[doc.key]: newValue,
 														}));
 
-														const matching = (formData.attachments || []).find((att) =>
+														const matching = (formData.attachments || []).find((att: any) =>
 															att.name.toLowerCase().includes(doc.key)
 														);
 														if (matching) {
@@ -1296,7 +1286,7 @@ const AdminDetallesProyectoForm: React.FC<DetallesProyectoFormProps> = ({
 															[doc.key]: newValue,
 														}));
 
-														const matching = (formData.attachments || []).find((att) =>
+														const matching = (formData.attachments || []).find((att: { name: string; }) =>
 															att.name.toLowerCase().includes(doc.key)
 														);
 
@@ -1356,7 +1346,7 @@ const AdminDetallesProyectoForm: React.FC<DetallesProyectoFormProps> = ({
 			return (
 				<div className="p-6">
 					<Chat
-						projectId={dataProject.sale_order?.id}
+						projectId={dataProject.sale_order?.id ?? 0}
 						onBack={() => setShowChat(false)}
 					/>
 				</div>

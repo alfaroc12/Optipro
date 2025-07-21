@@ -13,7 +13,6 @@ import {
   ChevronDown,
   Search,
   Download,
-  Plus,
   RefreshCw,
   Clock,
   Pencil,
@@ -36,20 +35,7 @@ import api from "@/services/api";
 import NuevoProyectoForm from "@/components/modals/NuevoProyectoForm";
 import DetallesProyectoForm from "@/components/modals/DetallesProyectoForm";
 
-interface Project {
-  id: number;
-  nombre: string;
-  ciudad: string;
-  fechaEmision: string;
-  potencia: number | null;
-  valor: string;
-  etapa: "Planificación" | "Ejecución" | "Finalizado" | "Suspendido";
-  descripcion?: string;
-  cliente?: string;
-  fechaInicio?: string;
-  fechaFinalizacion?: string;
-  progreso?: number;
-}
+import { Project } from "@/types/project";
 
 const ProjectsPage: React.FC = () => {
   const dispatch = useDispatch();
@@ -62,7 +48,7 @@ const ProjectsPage: React.FC = () => {
   const [filterStatus, setFilterStatus] = useState<string | null>(null);
   const [showForm, setShowForm] = useState(false);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [, setIsLoading] = useState<boolean>(false);
   const [allProjects, setAllProjects] = useState<Project[]>([]);
 
   // Datos de ejemplo para mostrar la funcionalidad
@@ -113,17 +99,14 @@ const ProjectsPage: React.FC = () => {
 
     let etapaTraducida = "";
     switch (apiProject.status) {
-      case "finaly":
+      case "Finalizado":
         etapaTraducida = "Finalizado";
         break;
-      case "process":
+      case "Ejecución":
         etapaTraducida = "Ejecución";
         break;
-      case "planification":
+      case "Planificación":
         etapaTraducida = "Planificación";
-        break;
-      case "suspendido":
-        etapaTraducida = "suspendido";
         break;
       default:
         etapaTraducida = "otro";
@@ -283,11 +266,11 @@ const ProjectsPage: React.FC = () => {
 
   const isFilterActive = searchTerm !== "" || filterStatus !== null;
 
-  const getStatusStyles = (etapa: string) => {
+  const getStatusStyles = (etapa: "Planificación" | "Ejecución" | "Finalizado" | "Suspendido" | undefined) => {
     switch (etapa) {
       case "Finalizado":
         return "bg-green-100 text-green-800";
-      case "suspendido":
+      case "Suspendido":
         return "bg-red-100 text-red-800";
       case "Ejecución":
         return "bg-blue-100 text-blue-800";
@@ -298,27 +281,27 @@ const ProjectsPage: React.FC = () => {
     }
   };
 
-  const getStatusLabel = (etapa: string) => {
+  const getStatusLabel = (etapa: "Planificación" | "Ejecución" | "Finalizado" | "Suspendido" | undefined) => {
     switch (etapa) {
-      case "planification":
+      case "Planificación":
         return "Planificación";
-      case "process":
+      case "Ejecución":
         return "Ejecución";
-      case "finaly":
+      case "Finalizado":
         return "Finalizado";
-      case "suspendido":
-        return "suspendido";
+      case "Suspendido":
+        return "Suspendido";
       default:
         return etapa;
     }
   };
 
 
-  const getStatusIcon = (etapa: string) => {
+  const getStatusIcon = (etapa: "Planificación" | "Ejecución" | "Finalizado" | "Suspendido" | undefined) => {
     switch (etapa) {
       case "Finalizado":
         return <CheckCircle className="w-4 h-4" />;
-      case "suspendido":
+      case "Suspendido":
         return <XCircle className="w-4 h-4" />;
       case "Ejecución":
         return <RefreshCw className="w-4 h-4" />;
