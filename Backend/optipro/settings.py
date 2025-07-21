@@ -30,7 +30,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-CORS_ALLOW_ALL_ORIGINS = True #variable debe desaparecer en produccion para evitara vulnerabilidad, permite cualquier conexion
+
 
 CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1",
