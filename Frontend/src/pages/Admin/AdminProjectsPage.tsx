@@ -43,7 +43,7 @@ interface Project {
   fechaEmision: string;
   potencia: number | null;
   valor: string;
-  etapa: "planification" | "process" | "finaly"
+  etapa: "Planificación" | "Ejecución" | "Finalizado"
   descripcion?: string;
   cliente?: string;
   fechaInicio?: string;
@@ -102,15 +102,6 @@ const AdminProjectsPage: React.FC = () => {
   }, [dispatch]);
 
   // Mapear el estado de la API al formato local
-  const mapStatusToLocal = (apiStatus: string): string => {
-    switch (apiStatus) {
-      case 'finaly': return 'finaly';
-      case 'process': return 'process';
-      case 'planification': return 'planification';
-      default: return 'planificacion';
-    }
-  };
-
   const calcularProgresoDocumentos = (
     attachments: Array<{ name: string; attach: string }> = [],
     status: string = "planification"
@@ -221,10 +212,6 @@ const AdminProjectsPage: React.FC = () => {
         etapaTraducida = "otro";
     }
 
-    <span>
-      {etapaTraducida.charAt(0).toUpperCase() + etapaTraducida.slice(1)}
-    </span>
-
     return {
       id: apiProject.id,
       nombre: apiProject.sale_order?.name || `Proyecto ${apiProject.code}`,
@@ -271,12 +258,6 @@ const AdminProjectsPage: React.FC = () => {
     startIndex,
     startIndex + itemsPerPage
   );
-
-  const handleCloseProjectModal = () => {
-    setShowProjectModal(false);
-    setSelectedProject(null);
-  };
-
   const handlePageChange = (page: number) => setCurrentPage(page);
   const handleItemsPerPageChange = (
     event: React.ChangeEvent<HTMLSelectElement>
@@ -345,13 +326,6 @@ const AdminProjectsPage: React.FC = () => {
         return <Clock className="w-4 h-4" />;
     }
   };
-
-  const handleFileUpload = (event) => {
-    const files = event.target.files;
-    // Aquí puedes subir los archivos al backend, almacenarlos en estado, etc.
-    console.log("Archivos seleccionados:", files);
-  };
-
   const handleViewProject = (project: Project) => {
     setSelectedProject(project);
     setShowProjectModal(true);
@@ -367,45 +341,6 @@ const AdminProjectsPage: React.FC = () => {
     setProjectToDelete(project);
     setShowDeleteModal(true);
   };
-
-
-
-  const getDocTypesByStatus = (status: string): RegExp[] => {
-    if (status === "process") {
-      return [
-        /anticipo/i,
-        /listado_de_materiales/i,
-        /acta_de_compra/i,
-        /acta_de_inicio/i,
-        /legalizacion/i,
-        /retie/i,
-        /acta_de_avance_de_obra_1/i,
-        /acta_de_avance_de_obra_2/i,
-        /acta_de_entrega_final/i,
-        /factura/i,
-      ];
-    } else if (status === "planification") {
-      return [
-        /aceptacion_de_oferta/i,
-        /camara_de_comercio/i,
-        /rut/i,
-        /copia_cedula_representante_legal/i,
-        /numero_de_contrato/i,
-        /polizas/i,
-      ];
-    }
-    return [];
-  };
-
-
-  const showNewProjectForm = () => {
-    setShowForm(true);
-  };
-
-  const handleNewProjectClick = () => {
-    setShowForm(true);
-  };
-
   const handleFormSubmit = (data: any) => {
     console.log("Nuevo proyecto enviado:", data);
     setShowForm(false);
@@ -424,11 +359,6 @@ const AdminProjectsPage: React.FC = () => {
   const handleFormCancel = () => {
     setShowForm(false);
   };
-
-  const handleBackToProjects = () => {
-    setShowForm(false);
-  };
-
   const generatePaginationLinks = () => {
     const pages = [];
     const maxVisiblePages = 5;
