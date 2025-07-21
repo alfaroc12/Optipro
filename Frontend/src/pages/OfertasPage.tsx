@@ -400,7 +400,7 @@ const OfertasPage = () => {
 
         // Verificar si hay datos de navegación desde una notificación
         if (location.state && location.state.fromNotification) {
-          const { id, showDetail, viewType } = location.state as {
+          const { id, viewType } = location.state as {
             id: string | number;
             showDetail: boolean;
             viewType: string;

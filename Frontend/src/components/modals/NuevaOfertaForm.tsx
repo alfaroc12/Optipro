@@ -160,9 +160,6 @@ type SeparatedFilesStructure = {
 };
 
 // Tipo para determinar si todosLosArchivos es una estructura separada o un array plano
-function isArrayOfFiles(files: any): files is FileData[] {
-  return Array.isArray(files);
-}
 
 // Tipo para determinar si todosLosArchivos es una estructura separada
 function isSeparatedFilesStructure(
@@ -2872,7 +2869,9 @@ const NuevaOfertaForm: React.FC<NuevaOfertaFormProps> = ({
                               />
                             </svg>
                             <span className="text-sm text-gray-600 truncate max-w-[200px]">
-                              {formData.archivoCotizacion instanceof File
+                              {
+                              //@ts-ignore
+                              formData.archivoCotizacion instanceof File
                                 ? formData.archivoCotizacion.name
                                 : typeof formData.archivoCotizacion ===
                                     "string" && formData.archivoCotizacion

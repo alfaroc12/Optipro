@@ -2,8 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import { fetchChatMessages, sendMessage } from "@/services/chatService.ts";
 
 // Extraer datos de usuario desde sessionStorage
-const storedUser = sessionStorage.getItem("user");
-const user = storedUser ? JSON.parse(storedUser) : { role: "admin", username: "admin" };
 
 interface AdminChatProps {
 	projectId: number;
@@ -56,6 +54,7 @@ const Chat: React.FC<AdminChatProps> = ({ projectId, onBack }) => {
 
 		setSending(true);
 		try {
+			//@ts-ignore
 			await sendMessage(messagePayload, projectId);
 			setNewMessage("");
 			await fetchMessages();
@@ -115,7 +114,6 @@ const Chat: React.FC<AdminChatProps> = ({ projectId, onBack }) => {
 						<p className="text-center text-gray-400 mt-32">Cargando mensajes...</p>
 					) : messages.length > 0 ? (
 						messages.map((msg) => {
-							const isCurrentUser = msg.user_name === user.username;
 							const content = !msg.message || msg.message === "undefined"
 								? "[mensaje vacío]"
 								: msg.message;

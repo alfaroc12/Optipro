@@ -25,7 +25,7 @@ const QuotationInfo: React.FC<QuotationInfoProps> = ({
   const [showDocuments, setShowDocuments] = useState(false);
   const [showDrones, setShowDrones] = useState(false);
   const [isConverting, setIsConverting] = useState(false);
-  const [conversionError, setConversionError] = useState<string | null>(null);
+  const [, setConversionError] = useState<string | null>(null);
   const [conversionSuccess, setConversionSuccess] = useState(false);
   const [hasProject, setHasProject] = useState(false);
 
@@ -119,14 +119,6 @@ const QuotationInfo: React.FC<QuotationInfoProps> = ({
     onDocumentsToggle?.(newShowDocuments);
   };
 
-  const handleToggleDrones = () => {
-    const newShowDrones = !showDrones;
-    setShowDrones(newShowDrones);
-    if (newShowDrones) {
-      setShowDocuments(false);
-    }
-    onDocumentsToggle?.(newShowDrones);
-  };
 
   const handleConvertToProject = async () => {
     // Si ya verificamos que existe un proyecto, no hacemos nada

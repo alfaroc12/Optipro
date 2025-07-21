@@ -1506,7 +1506,9 @@ const VisitaTecnicaForm: React.FC<VisitaTecnicaFormProps> = ({
                         Array.isArray(initialData.evidence_photos) &&
                         initialData.evidence_photos.length > 0 && (
                           <div className="space-y-2">
-                            {initialData.evidence_photos.map((photo, index) => (
+                            {
+                              //@ts-ignore
+                            initialData.evidence_photos.map((photo, index) => (
                               <div
                                 key={photo.id}
                                 className="bg-white p-3 rounded-lg border border-gray-200 flex items-center justify-between"

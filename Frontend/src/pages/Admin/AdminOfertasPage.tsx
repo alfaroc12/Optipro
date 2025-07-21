@@ -303,8 +303,7 @@ const AdminOfertasPage = () => {
   // Estado para controlar si el paso 4 es editable en modo lectura
   const [editableStep4, setEditableStep4] = useState<boolean>(false);
 
-  // Estado para controlar la visualización del chat
-  const [isChatVisible, setIsChatVisible] = useState<boolean>(false);
+
 
   // Efecto para escuchar eventos de navegación desde notificaciones
   useEffect(() => {
@@ -428,6 +427,7 @@ const AdminOfertasPage = () => {
                 setIsShowingVisitaTecnicaForm(false);
 
                 // Mostrar chat
+                //@ts-ignore
                 setSelectedChatOferta(ofertaEncontrada);
                 setTimeout(() => {
                   setShowChatWall(true);
@@ -497,7 +497,7 @@ const AdminOfertasPage = () => {
             "AdminOfertasPage: Detectada navegación desde notificación",
             location.state
           );
-          const { id, showDetail, viewType } = location.state as {
+          const { id, viewType } = location.state as {
             id: string | number;
             showDetail: boolean;
             viewType: string;

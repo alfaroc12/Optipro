@@ -30,7 +30,7 @@ const Navbar: React.FC<NavbarProps> = ({
   // Usamos el hook unificado de notificaciones
   useNotifications();
   // Obtener la información del perfil de usuario
-  const { profileData, loading } = useUserProfile();
+  const { profileData } = useUserProfile();
 
   const handleLogout = () => {
     dispatch(logout());

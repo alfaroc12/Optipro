@@ -8,7 +8,6 @@ import {
   User,
 } from "lucide-react";
 import { Notification } from "@/hooks/useNotifications";
-import { useNavigate } from "react-router-dom";
 
 interface NotificationItemProps {
   notification: Notification;
@@ -21,7 +20,6 @@ const NotificationItem: React.FC<NotificationItemProps> = ({
   onMarkAsRead,
   onAction,
 }) => {
-  const navigate = useNavigate();
 
   // Determine estilos basados en el tipo de notificación
   const getNotificationStyles = (type: string, _priority: string) => {
