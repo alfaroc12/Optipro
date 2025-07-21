@@ -33,12 +33,11 @@ DEBUG = False
 
 
 CORS_ALLOWED_ORIGINS = [
-    "http://127.0.0.1",
-    "http://frontend-optipro-production.up.railway.app",
+    "https://frontend-optipro-production.up.railway.app",
     "https://backend-optipro-production.up.railway.app"
 ]
 CSRF_TRUSTED_ORIGINS = [
-    "http://frontend-optipro-production.up.railway.app",
+    "https://frontend-optipro-production.up.railway.app",
     "https://backend-optipro-production.up.railway.app"
 ]
 
