@@ -1,1 +1,0 @@
-from .notifications_ut import notify_sale_order_status_change,notify_sale_order_to_project
