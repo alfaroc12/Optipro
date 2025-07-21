@@ -43,7 +43,7 @@ interface Project {
   fechaEmision: string;
   potencia: number | null;
   valor: string;
-  etapa: "planification" | "process" | "finaly"
+  etapa: "Planificación" | "Ejecución" | "Finalizado"
   descripcion?: string;
   cliente?: string;
   fechaInicio?: string;

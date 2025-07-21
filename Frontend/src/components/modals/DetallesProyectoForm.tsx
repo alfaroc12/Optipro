@@ -11,21 +11,11 @@ import {
 	Clock,
 	Download,
 	Trash2,
-	FileText,
 } from "lucide-react";
 import { Gauge } from "@mui/x-charts";
 import api from "@/services/api";
 import Chat from "@/components/modals/chat";
 import {LinearProgress} from "@mui/material";
-
-const docTypes = [
-	{ key: 'numeroContrato',     regex: /contrato/i },
-	{ key: 'polizas',            regex: /polizas/i },
-	{ key: 'aceptacionOferta',   regex: /aceptacion/i },
-	{ key: 'camaraComercio',     regex: /camara/i },
-	{ key: 'cedulaRepresentante',regex: /cedula/i },
-	{ key: 'rut',                regex: /rut/i },
-];
 
 interface Project {
 	status: boolean;
