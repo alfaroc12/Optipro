@@ -27,12 +27,12 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     # path('', include('person.urls')),
     # path('', include('product.urls')),
-    path('', include('user.urls')),
-    path('', include('proyect.urls')),
-    path('', include('sale_order.urls')),
-    path('', include('technical_visit.urls')),
-    path('', include('chat.urls')),
-    path('api/', include('notifications.urls')),
+    path('', include('backend.user.urls')),
+    path('', include('backend.proyect.urls')),
+    path('', include('backend.sale_order.urls')),
+    path('', include('backend.technical_visit.urls')),
+    path('', include('backend.chat.urls')),
+    path('api/', include('backend.notifications.urls')),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
 ]
 
