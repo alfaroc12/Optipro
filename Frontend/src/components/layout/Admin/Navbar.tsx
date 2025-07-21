@@ -56,7 +56,7 @@ const Navbar: React.FC<NavbarProps> = ({
             className="cursor-pointer transition-transform duration-200 hover:scale-105"
           >
             <img
-              src="../assets/Logo.svg"
+              src="../../assets/Logo.svg"
               alt="OptiPro"
               className="h-14 md:h-16"
             />
