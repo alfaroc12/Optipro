@@ -64,7 +64,6 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'django_extensions', 
     'django.contrib.humanize',   
-    # 'channels',
     # 'product',
     'user',
     'technical_visit',
