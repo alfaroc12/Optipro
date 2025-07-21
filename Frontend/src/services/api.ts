@@ -3,7 +3,7 @@ import store from "@/store/store";
 import { logout } from "@/store/slices/authSlice";
 
 const api = axios.create({
-  baseURL: "http://127.0.0.1:8000/", // URL base del backend
+  baseURL: `${import.meta.env.VITE_API_URL}`, // URL base del backend
 });
 
 // Interceptor para añadir el token a las peticiones
