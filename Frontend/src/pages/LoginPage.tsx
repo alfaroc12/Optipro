@@ -1,5 +1,6 @@
 import type React from "react";
 import LoginForm from "@/components/auth/LoginForm";
+import imgLogin from "../assets/Logo.svg"
 
 const LoginPage: React.FC = () => {
   return (
@@ -9,7 +10,7 @@ const LoginPage: React.FC = () => {
       <div className="absolute inset-0 bg-[url('/src/assets/imgs/background.svg')] bg-cover bg-center opacity-30 z-0"></div>
       {/* Logo */}
       <div className="mb-8 z-10">
-        <img src="/src/assets/Logo.svg" alt="OptiPRO" className="h-16" />
+        <img src={imgLogin} alt="OptiPRO" className="h-16" />
       </div>
      
       <LoginForm />

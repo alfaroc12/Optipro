@@ -6,7 +6,7 @@ from sale_order.views.v_comentary_sale_order import (
     V_comentary_sale_order_list_by_oferta, V_comentary_sale_order_get_or_create
 )
 from sale_order.views.v_attach_sale_order import V_attach_sale_order_create, V_attach_sale_order_list, V_attach_sale_order_retrive, V_attach_sale_order_update
-from sale_order.views.v_quotation_document import QuotationDocumentView, DebugAttachSaleOrderView, quotation_pdf_weasy_view
+from sale_order.views.v_quotation_document import QuotationDocumentView, DebugAttachSaleOrderView, quotation_pdf_native_view
 from sale_order.views.v_simple_file_upload import SimpleFileUploadView
 
 urlpatterns = [
@@ -37,7 +37,7 @@ urlpatterns = [
       
     # API para documento principal de cotización
     # path('api/quotations/<int:cotizacion_id>/document/', QuotationDocumentView.as_view(), name='quotation-document'),
-    path('api/quotations_pdf/<int:cotizacion_id>/', quotation_pdf_weasy_view, name='quotation-document-weasy'),
+    path('api/quotations_pdf/<int:cotizacion_id>/', quotation_pdf_native_view, name='quotation-document-weasy'),
     
     # Endpoint de depuración
     path('debug/attach_sale_order/', DebugAttachSaleOrderView.as_view(), name='debug-attach-sale-order'),
