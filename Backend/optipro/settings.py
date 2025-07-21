@@ -64,14 +64,13 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'django_extensions', 
     'django.contrib.humanize',   
-    # 'product',
     'user',
     'technical_visit',
-    # 'person',
     'sale_order',
     'proyect',
     'chat',
     'notifications',
+    'whitenoise.runserver_nostatic',
 
 ]
 
