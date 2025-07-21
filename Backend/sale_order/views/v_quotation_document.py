@@ -6,7 +6,7 @@ from django.http import FileResponse, Http404, JsonResponse
 from sale_order.models.sale_order import M_sale_order
 from sale_order.models.attach_sale_order import M_attach_sale_order
 import logging
-from sale_order.utils.pdf_weasy import generate_sale_order_pdf_weasy
+from sale_order.utils.pdf_reportlab import generate_sale_order_pdf_reportlab
 from django.shortcuts import get_object_or_404
 
 
@@ -71,7 +71,7 @@ class DebugAttachSaleOrderView(APIView):
             'results': adjuntos
         })
     
-def quotation_pdf_weasy_view(request, cotizacion_id):
+def quotation_pdf_native_view(request, cotizacion_id):
     sale_order = get_object_or_404(M_sale_order, pk=cotizacion_id)
-    pdf_path = generate_sale_order_pdf_weasy(request, sale_order)
-    return FileResponse(open(pdf_path, 'rb'), content_type='application/pdf')
+    pdf_buffer = generate_sale_order_pdf_reportlab(sale_order)
+    return FileResponse(pdf_buffer, as_attachment=True, filename=f"cotizacion_{sale_order.code}.pdf")
