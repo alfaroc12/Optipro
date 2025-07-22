@@ -1,4 +1,3 @@
-
 import { BarChart3 } from "lucide-react";
 import {
   Card,
@@ -42,12 +41,11 @@ const DashboardPage = () => {
           </CardContent>
         </Card>
 
-
         {/* Main layout container */}
         <div className="max-w-[1440px] mx-auto">
-          {/* Top row - Ofertas y Proyectos */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
-            {/* Ofertas Card */}
+          {/* Mobile: All cards in single column */}
+          <div className="block md:hidden space-y-4">
+            {/* Ofertas Card - Mobile */}
             <Link to="/admin/ofertas" className="block no-underline group w-full max-w-[700px] mx-auto">
               <Card className="w-full optipro-border optipro-shadow rounded-[20px] hover:shadow-xl transition-all duration-300 cursor-pointer overflow-hidden bg-white transform group-hover:-translate-y-1">
                 <div className="absolute top-0 left-0 h-1 w-full bg-gradient-to-r from-blue-400 to-blue-600"></div>
@@ -74,7 +72,7 @@ const DashboardPage = () => {
               </Card>
             </Link>
 
-            {/* Proyectos Card */}
+            {/* Proyectos Card - Mobile */}
             <Link to="/admin/projects" className="block no-underline group w-full max-w-[700px] mx-auto">
               <Card className="w-full optipro-border optipro-shadow rounded-[20px] hover:shadow-xl transition-all duration-300 cursor-pointer overflow-hidden bg-white transform group-hover:-translate-y-1">
                 <div className="absolute top-0 left-0 h-1 w-full bg-gradient-to-r from-blue-400 to-blue-600"></div>
@@ -100,71 +98,215 @@ const DashboardPage = () => {
                 </CardHeader>
               </Card>
             </Link>
-          </div>
 
-          {/* Bottom row - Inventario, Usuarios, Ideas ocupando todo el ancho sin gaps */}
-          <div className={`grid ${!isSupervisor ? 'grid-cols-3' : 'grid-cols-2'} gap-2`}>
-            {/* Inventario Card - Square style */}
-            <Link to="/admin/inventario" className="block no-underline group">
-              <Card className="w-full h-full optipro-border optipro-shadow rounded-[20px] hover:shadow-xl transition-all duration-300 cursor-pointer overflow-hidden bg-white transform group-hover:-translate-y-1">
+            {/* Inventario Card - Mobile (same style as Ofertas/Proyectos) */}
+            <Link to="/admin/inventario" className="block no-underline group w-full max-w-[700px] mx-auto">
+              <Card className="w-full optipro-border optipro-shadow rounded-[20px] hover:shadow-xl transition-all duration-300 cursor-pointer overflow-hidden bg-white transform group-hover:-translate-y-1">
                 <div className="absolute top-0 left-0 h-1 w-full bg-gradient-to-r from-blue-400 to-blue-600"></div>
-                <CardContent className="p-6 flex flex-col items-center justify-center text-center h-full">
-                  <div className="mb-4 bg-blue-50 p-4 rounded-full transform group-hover:scale-110 transition-transform duration-300">
+                <CardHeader className="p-6 flex items-center">
+                  <div className="mr-6 bg-blue-50 p-4 rounded-full transform group-hover:scale-110 transition-transform duration-300">
                     <img
                       src={InventarioIcon}
                       alt="Inventario"
-                      width={60}
-                      height={60}
-                      className="w-12 h-12"
+                      width={72}
+                      height={72}
+                      className="w-16 h-16"
                     />
                   </div>
-                  <CardTitle className="optipro-small-title">INVENTARIO</CardTitle>
-                </CardContent>
+                  <div>
+                    <CardTitle className="optipro-card-title mb-2">
+                      INVENTARIO
+                    </CardTitle>
+                    <CardDescription className="optipro-card-description">
+                      Control y gestión
+                      <br />de stock de productos
+                    </CardDescription>
+                  </div>
+                </CardHeader>
               </Card>
             </Link>
 
-            {/* Usuarios Card - solo visible si no es supervisor */}
+            {/* Usuarios Card - Mobile (solo visible si no es supervisor) */}
             {!isSupervisor && (
-              <Link to="/admin/Users" className="block no-underline group">
+              <Link to="/admin/Users" className="block no-underline group w-full max-w-[700px] mx-auto">
+                <Card className="w-full optipro-border optipro-shadow rounded-[20px] hover:shadow-xl transition-all duration-300 cursor-pointer overflow-hidden bg-white transform group-hover:-translate-y-1">
+                  <div className="absolute top-0 left-0 h-1 w-full bg-gradient-to-r from-blue-400 to-blue-600"></div>
+                  <CardHeader className="p-6 flex items-center">
+                    <div className="mr-6 bg-blue-50 p-4 rounded-full transform group-hover:scale-110 transition-transform duration-300">
+                      <img
+                        src={UsersIcon}
+                        alt="Usuarios"
+                        width={72}
+                        height={72}
+                        className="w-16 h-16"
+                      />
+                    </div>
+                    <div>
+                      <CardTitle className="optipro-card-title mb-2">
+                        USUARIOS
+                      </CardTitle>
+                      <CardDescription className="optipro-card-description">
+                        Administración de
+                        <br />usuarios del sistema
+                      </CardDescription>
+                    </div>
+                  </CardHeader>
+                </Card>
+              </Link>
+            )}
+
+            {/* Informes Card - Mobile (same style as Ofertas/Proyectos) */}
+            <a 
+              href="https://app.powerbi.com/view?r=eyJrIjoiMTAxZjExMzctZWJjMi00NzcyLThhYWUtM2VhYTlhNWQ4MWFhIiwidCI6IjhkMzY4MzZlLTZiNzUtNGRlNi1iYWI5LTVmNGIxNzc1NDI3ZiIsImMiOjR9" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="block no-underline group w-full max-w-[700px] mx-auto"
+            >
+              <Card className="w-full optipro-border optipro-shadow rounded-[20px] hover:shadow-xl transition-all duration-300 cursor-pointer overflow-hidden bg-white transform group-hover:-translate-y-1">
+                <div className="absolute top-0 left-0 h-1 w-full bg-gradient-to-r from-blue-400 to-blue-600"></div>
+                <CardHeader className="p-6 flex items-center">
+                  <div className="mr-6 bg-blue-50 p-4 rounded-full transform group-hover:scale-110 transition-transform duration-300">
+                    <BarChart3 
+                      size={64}
+                      className="w-16 h-16 text-blue-600"
+                    />
+                  </div>
+                  <div>
+                    <CardTitle className="optipro-card-title mb-2">
+                      INFORMES
+                    </CardTitle>
+                    <CardDescription className="optipro-card-description">
+                      Reportes y análisis
+                      <br />de datos del negocio
+                    </CardDescription>
+                  </div>
+                </CardHeader>
+              </Card>
+            </a>
+          </div>
+
+          {/* Desktop/Tablet: Original layout */}
+          <div className="hidden md:block">
+            {/* Top row - Ofertas y Proyectos */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
+              {/* Ofertas Card */}
+              <Link to="/admin/ofertas" className="block no-underline group w-full max-w-[700px] mx-auto">
+                <Card className="w-full optipro-border optipro-shadow rounded-[20px] hover:shadow-xl transition-all duration-300 cursor-pointer overflow-hidden bg-white transform group-hover:-translate-y-1">
+                  <div className="absolute top-0 left-0 h-1 w-full bg-gradient-to-r from-blue-400 to-blue-600"></div>
+                  <CardHeader className="p-6 flex items-center">
+                    <div className="mr-6 bg-blue-50 p-4 rounded-full transform group-hover:scale-110 transition-transform duration-300">
+                      <img
+                        src={OfertaIcon}
+                        alt="Ofertas"
+                        width={72}
+                        height={72}
+                        className="w-16 h-16"
+                      />
+                    </div>
+                    <div>
+                      <CardTitle className="optipro-card-title mb-2">
+                        OFERTAS
+                      </CardTitle>
+                      <CardDescription className="optipro-card-description">
+                        Gestiona oportunidades
+                        <br />y estado de cotizaciones
+                      </CardDescription>
+                    </div>
+                  </CardHeader>
+                </Card>
+              </Link>
+
+              {/* Proyectos Card */}
+              <Link to="/admin/projects" className="block no-underline group w-full max-w-[700px] mx-auto">
+                <Card className="w-full optipro-border optipro-shadow rounded-[20px] hover:shadow-xl transition-all duration-300 cursor-pointer overflow-hidden bg-white transform group-hover:-translate-y-1">
+                  <div className="absolute top-0 left-0 h-1 w-full bg-gradient-to-r from-blue-400 to-blue-600"></div>
+                  <CardHeader className="p-6 flex items-center">
+                    <div className="mr-6 bg-blue-50 p-4 rounded-full transform group-hover:scale-110 transition-transform duration-300">
+                      <img
+                        src={ProyectosIcon}
+                        alt="Proyectos"
+                        width={72}
+                        height={72}
+                        className="w-16 h-16"
+                      />
+                    </div>
+                    <div>
+                      <CardTitle className="optipro-card-title mb-2">
+                        PROYECTOS
+                      </CardTitle>
+                      <CardDescription className="optipro-card-description">
+                        Optimiza la ejecución y<br />
+                        seguimiento de proyectos
+                      </CardDescription>
+                    </div>
+                  </CardHeader>
+                </Card>
+              </Link>
+            </div>
+
+            {/* Bottom row - Inventario, Usuarios, Ideas ocupando todo el ancho sin gaps */}
+            <div className={`grid ${!isSupervisor ? 'grid-cols-3' : 'grid-cols-2'} gap-2`}>
+              {/* Inventario Card - Square style */}
+              <Link to="/admin/inventario" className="block no-underline group">
                 <Card className="w-full h-full optipro-border optipro-shadow rounded-[20px] hover:shadow-xl transition-all duration-300 cursor-pointer overflow-hidden bg-white transform group-hover:-translate-y-1">
                   <div className="absolute top-0 left-0 h-1 w-full bg-gradient-to-r from-blue-400 to-blue-600"></div>
                   <CardContent className="p-6 flex flex-col items-center justify-center text-center h-full">
                     <div className="mb-4 bg-blue-50 p-4 rounded-full transform group-hover:scale-110 transition-transform duration-300">
                       <img
-                        src={UsersIcon}
-                        alt="Usuarios"
+                        src={InventarioIcon}
+                        alt="Inventario"
                         width={60}
                         height={60}
                         className="w-12 h-12"
                       />
                     </div>
-                    <CardTitle className="optipro-small-title">USUARIOS</CardTitle>
+                    <CardTitle className="optipro-small-title">INVENTARIO</CardTitle>
                   </CardContent>
                 </Card>
               </Link>
-            )}
 
-            {/* Ideas Card */}
-            {/* Informes Card */}
-        <a 
-          href="https://app.powerbi.com/view?r=eyJrIjoiMTAxZjExMzctZWJjMi00NzcyLThhYWUtM2VhYTlhNWQ4MWFhIiwidCI6IjhkMzY4MzZlLTZiNzUtNGRlNi1iYWI5LTVmNGIxNzc1NDI3ZiIsImMiOjR9" 
-          target="_blank" 
-          rel="noopener noreferrer"
-          className="block no-underline group"
-        >
-          <Card className="w-full h-full optipro-border optipro-shadow rounded-[20px] hover:shadow-xl transition-all duration-300 cursor-pointer overflow-hidden bg-white transform group-hover:-translate-y-1">
-            <div className="absolute top-0 left-0 h-1 w-full bg-gradient-to-r from-blue-400 to-blue-600"></div>
-            <CardContent className="p-6 flex flex-col items-center justify-center text-center h-full">
-              <div className="mb-4 bg-blue-50 p-4 rounded-full transform group-hover:scale-110 transition-transform duration-300">
-                <BarChart3 
-                  size={48}
-                  className="w-12 h-12 text-blue-600"
-                />
-              </div>
-              <CardTitle className="optipro-small-title">INFORMES</CardTitle>
-            </CardContent>
-          </Card>
-        </a>
+              {/* Usuarios Card - solo visible si no es supervisor */}
+              {!isSupervisor && (
+                <Link to="/admin/Users" className="block no-underline group">
+                  <Card className="w-full h-full optipro-border optipro-shadow rounded-[20px] hover:shadow-xl transition-all duration-300 cursor-pointer overflow-hidden bg-white transform group-hover:-translate-y-1">
+                    <div className="absolute top-0 left-0 h-1 w-full bg-gradient-to-r from-blue-400 to-blue-600"></div>
+                    <CardContent className="p-6 flex flex-col items-center justify-center text-center h-full">
+                      <div className="mb-4 bg-blue-50 p-4 rounded-full transform group-hover:scale-110 transition-transform duration-300">
+                        <img
+                          src={UsersIcon}
+                          alt="Usuarios"
+                          width={60}
+                          height={60}
+                          className="w-12 h-12"
+                        />
+                      </div>
+                      <CardTitle className="optipro-small-title">USUARIOS</CardTitle>
+                    </CardContent>
+                  </Card>
+                </Link>
+              )}
+
+              {/* Informes Card */}
+              <a 
+                href="https://app.powerbi.com/view?r=eyJrIjoiMTAxZjExMzctZWJjMi00NzcyLThhYWUtM2VhYTlhNWQ4MWFhIiwidCI6IjhkMzY4MzZlLTZiNzUtNGRlNi1iYWI5LTVmNGIxNzc1NDI3ZiIsImMiOjR9" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="block no-underline group"
+              >
+                <Card className="w-full h-full optipro-border optipro-shadow rounded-[20px] hover:shadow-xl transition-all duration-300 cursor-pointer overflow-hidden bg-white transform group-hover:-translate-y-1">
+                  <div className="absolute top-0 left-0 h-1 w-full bg-gradient-to-r from-blue-400 to-blue-600"></div>
+                  <CardContent className="p-6 flex flex-col items-center justify-center text-center h-full">
+                    <div className="mb-4 bg-blue-50 p-4 rounded-full transform group-hover:scale-110 transition-transform duration-300">
+                      <BarChart3 
+                        size={48}
+                        className="w-12 h-12 text-blue-600"
+                      />
+                    </div>
+                    <CardTitle className="optipro-small-title">INFORMES</CardTitle>
+                  </CardContent>
+                </Card>
+              </a>
+            </div>
           </div>
         </div>
 
