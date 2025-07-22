@@ -187,7 +187,7 @@ const ChatWall: React.FC<ChatWallProps> = ({
       filesToUpload.forEach((file) => {
         formData.append("attachments", file);
       });
-      const response = await fetch(`${import.meta.env.VITE_API_URL}`, {
+      const response = await fetch(`${API_URL}/api/chat/messages/`, {
         method: "POST",
         body: formData,
       });
