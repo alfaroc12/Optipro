@@ -188,7 +188,7 @@ const DashboardPage = () => {
           {/* Desktop/Tablet: Original layout */}
           <div className="hidden md:block">
             {/* Top row - Ofertas y Proyectos */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
               {/* Ofertas Card */}
               <Link to="/admin/ofertas" className="block no-underline group w-full max-w-[700px] mx-auto">
                 <Card className="w-full optipro-border optipro-shadow rounded-[20px] hover:shadow-xl transition-all duration-300 cursor-pointer overflow-hidden bg-white transform group-hover:-translate-y-1">
