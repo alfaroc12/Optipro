@@ -12,6 +12,11 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAppSelector } from "@/hooks/useAppSelector";
 
+import OfertaIcon from "../../assets/icons/Oferta.svg";
+import ProyectosIcon from "../../assets/icons/Proyectos.svg";
+import InventarioIcon from "../../assets/icons/Inventario.svg";
+import UsersIcon from "../../assets/icons/Users.svg";
+
 const DashboardPage = () => {
   const [, setSidebarOpen] = useState(false);
   const { user } = useAppSelector((state: any) => state.auth);
@@ -49,7 +54,7 @@ const DashboardPage = () => {
                 <CardHeader className="p-6 flex items-center">
                   <div className="mr-6 bg-blue-50 p-4 rounded-full transform group-hover:scale-110 transition-transform duration-300">
                     <img
-                      src="../assets/icons/Oferta.svg"
+                      src={OfertaIcon}
                       alt="Ofertas"
                       width={72}
                       height={72}
@@ -76,7 +81,7 @@ const DashboardPage = () => {
                 <CardHeader className="p-6 flex items-center">
                   <div className="mr-6 bg-blue-50 p-4 rounded-full transform group-hover:scale-110 transition-transform duration-300">
                     <img
-                      src="../assets/icons/Proyectos.svg"
+                      src={ProyectosIcon}
                       alt="Proyectos"
                       width={72}
                       height={72}
@@ -106,7 +111,7 @@ const DashboardPage = () => {
                 <CardContent className="p-6 flex flex-col items-center justify-center text-center h-full">
                   <div className="mb-4 bg-blue-50 p-4 rounded-full transform group-hover:scale-110 transition-transform duration-300">
                     <img
-                      src="../assets/icons/Inventario.svg"
+                      src={InventarioIcon}
                       alt="Inventario"
                       width={60}
                       height={60}
