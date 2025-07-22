@@ -21,6 +21,8 @@ import {
 } from "lucide-react";
 import QuotationInfo from "./QuotationInfo";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 const COMMITMENT_OPTIONS = [
   "Llamar coordinar visita",
   "Retomar negociacion",
