@@ -2551,8 +2551,8 @@ const AdminNuevaOfertaForm: React.FC<NuevaOfertaFormProps> = ({
                         className="appearance-none w-4 h-4 rounded border border-gray-300 bg-white checked:bg-[#4178D4] checked:border-[#4178D4] focus:outline-none focus:ring-2 focus:ring-[#4178D4] focus:ring-offset-2 transition-all"
                         disabled={isFieldReadOnly(2)}
                       />
-                      <label htmlFor="inversor" className="ml-2">
-                        Inversores/<br />Microinversores
+                      <label htmlFor="inversor" className="ml-2 whitespace-nowrap">
+                        Inversores/Microinversores
                       </label>
                     </div>
                     <div className="flex items-center">
