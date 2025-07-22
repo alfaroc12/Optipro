@@ -24,8 +24,8 @@ const Sidebar: React.FC<SidebarProps> = ({ toggleSidebar }) => {
     },
     {
       name: "INVENTARIO",
-      path: InventarioIcon,
-      icon: "../../assets/icons/Inventario.svg",
+      path: "/inventario",
+      icon: InventarioIcon,
     },
     {
       name: "INFORMES",
