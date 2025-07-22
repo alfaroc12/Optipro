@@ -34,12 +34,12 @@ DEBUG = False
 
 CORS_ALLOWED_ORIGINS = [
     "https://frontend-optipro-production.up.railway.app",
-    "https://backend-optipro-production.up.railway.app"
+    "https://backend-optipro-production.up.railway.app",
     "https://optipro.site"
 ]
 CSRF_TRUSTED_ORIGINS = [
     "https://frontend-optipro-production.up.railway.app",
-    "https://backend-optipro-production.up.railway.app"
+    "https://backend-optipro-production.up.railway.app",
     "https://optipro.site"
 ]
 
