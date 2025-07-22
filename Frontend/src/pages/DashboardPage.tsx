@@ -10,6 +10,10 @@ import Navbar from "@/components/layout/Navbar";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
+import OfertaIcon from "../assets/icons/Oferta.svg";
+import ProyectosIcon from "../assets/icons/Proyectos.svg";
+import InventarioIcon from "../assets/icons/Inventario.svg";
+
 const DashboardPage = () => {
   const [, setSidebarOpen] = useState(false);
 
@@ -42,7 +46,7 @@ const DashboardPage = () => {
               <CardHeader className="p-6 flex items-center">
                 <div className="mr-6 bg-blue-50 p-4 rounded-full transform group-hover:scale-110 transition-transform duration-300">
                   <img
-                    src="../../assets/icons/Oferta.svg"
+                    src={OfertaIcon}
                     alt="Ofertas"
                     width={72}
                     height={72}
@@ -69,7 +73,7 @@ const DashboardPage = () => {
               <CardHeader className="p-6 flex items-center">
                 <div className="mr-6 bg-blue-50 p-4 rounded-full transform group-hover:scale-110 transition-transform duration-300">
                   <img
-                    src="../../assets/icons/Proyectos.svg"
+                    src={ProyectosIcon}
                     alt="Proyectos"
                     width={72}
                     height={72}
@@ -96,7 +100,7 @@ const DashboardPage = () => {
               <CardHeader className="p-6 flex items-center">
                 <div className="mr-6 bg-blue-50 p-4 rounded-full transform group-hover:scale-110 transition-transform duration-300">
                   <img
-                    src="../../assets/icons/Inventario.svg"
+                    src={InventarioIcon}
                     alt="Inventario"
                     width={72}
                     height={72}
