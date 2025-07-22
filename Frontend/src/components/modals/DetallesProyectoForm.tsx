@@ -185,6 +185,7 @@ const DetallesProyectoForm: React.FC<DetallesProyectoFormProps> = ({
 
 			const detailResponse = await api.get(`/proyect/retrive/${project.id}/`);
 			const projectData = detailResponse.data;
+			console.log(projectData)
 			setFormData(projectData);
 
 		} catch (error) {
@@ -658,7 +659,7 @@ const DetallesProyectoForm: React.FC<DetallesProyectoFormProps> = ({
 				<label className="block mb-1.5 font-medium text-gray-700">Descripción</label>
 				<textarea
 					name="descripcion"
-					value={formData.descripcion || ""}
+					value={formData.sale_order?.description || ""}
 					onChange={handleChange}
 					placeholder="Descripción detallada del proyecto"
 					className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg"
@@ -737,11 +738,14 @@ const DetallesProyectoForm: React.FC<DetallesProyectoFormProps> = ({
 				</label>
 				<textarea
 					name="descripcion"
-					value={formData.descripcion || ""}
+					value={formData.sale_order?.description_2 || ""}
 					onChange={e =>
 						setFormData((prev: any) => ({
 							...prev,
-							descripcion: e.target.value,
+							sale_order: {
+								...prev.sale_order,
+								description_2: e.target.value,
+							},
 						}))
 					}
 					placeholder="Notas relevantes sobre el contrato"

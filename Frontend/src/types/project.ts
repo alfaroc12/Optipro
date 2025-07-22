@@ -13,6 +13,8 @@ export interface SaleOrder {
   date_start: string;
   power_required: number
   project_type: string
+  description: string;
+  description_2: string
 }
 
 export interface Project {

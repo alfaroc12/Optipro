@@ -991,12 +991,15 @@ const AdminDetallesProyectoForm: React.FC<DetallesProyectoFormProps> = ({
 					Notas del contrato
 				</label>
 				<textarea
-					name="descripcion"
-					value={formData.descripcion || ""}
+					name="Notas del contrato"
+					value={formData.sale_order?.description_2 || ""}
 					onChange={e =>
 						setFormData((prev: any) => ({
 							...prev,
-							descripcion: e.target.value,
+							sale_order: {
+								...prev.sale_order,
+								description_2: e.target.value,
+							},
 						}))
 					}
 					placeholder="Notas relevantes sobre el contrato"
