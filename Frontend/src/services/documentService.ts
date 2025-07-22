@@ -2,8 +2,7 @@ import axios from "axios";
 import api from "./api";
 
 // Usar una constante directa para evitar problemas con process.env en el navegador
-const API_URL = "https://48zbcjbj-8000.use2.devtunnels.ms/";
-
+const API_URL = `${import.meta.env.VITE_API_URL}`;
 export interface QuotationDocument {
   id: string;
   name: string;
