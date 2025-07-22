@@ -131,7 +131,7 @@ const DashboardPage = () => {
                   <CardContent className="p-6 flex flex-col items-center justify-center text-center h-full">
                     <div className="mb-4 bg-blue-50 p-4 rounded-full transform group-hover:scale-110 transition-transform duration-300">
                       <img
-                        src="../assets/icons/Users.svg"
+                        src={UsersIcon}
                         alt="Usuarios"
                         width={60}
                         height={60}
