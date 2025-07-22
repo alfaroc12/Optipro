@@ -3,6 +3,10 @@ import { Link, useLocation } from "react-router-dom";
 import { X, BarChart3 } from "lucide-react";
 import { useAppSelector } from "@/hooks/useAppSelector";
 
+import OfertaIcon from "../../assets/icons/Oferta.svg";
+import ProyectosIcon from "../../assets/icons/Proyectos.svg";
+import InventarioIcon from "../../assets/icons/Inventario.svg";
+
 interface SidebarProps {
   toggleSidebar?: () => void;
 }
@@ -18,19 +22,19 @@ const Sidebar: React.FC<SidebarProps> = ({ toggleSidebar }) => {
     {
       name: "OFERTA",
       path: "/admin/ofertas",
-      icon: "../../assets/icons/Oferta.svg",
+      icon: OfertaIcon,
       isExternal: false,
     },
     {
       name: "PROYECTOS",
       path: "/admin/projects",
-      icon: "../../assets/icons/Proyectos.svg",
+      icon: ProyectosIcon,
       isExternal: false,
     },
     {
       name: "INVENTARIO",
       path: "/admin/inventario",
-      icon: "../../assets/icons/Inventario.svg",
+      icon: InventarioIcon,
       isExternal: false,
     },
     {
