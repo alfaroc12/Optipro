@@ -37,8 +37,8 @@ const DashboardPage = () => {
           </CardContent>
         </Card>
 
-        {/* Main grid layout reorganizado para eliminar el espacio grande */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 place-items-center max-w-[1440px] mx-auto">
+        {/* Main grid layout - Cambiado lg:grid-cols-2 por md:grid-cols-2 */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 place-items-center max-w-[1440px] mx-auto">
           {/* Ofertas Card */}
           <Link to="/ofertas" className="block no-underline group w-full max-w-[700px]">
             <Card className="w-full optipro-border optipro-shadow rounded-[20px] hover:shadow-xl transition-all duration-300 cursor-pointer overflow-hidden bg-white transform group-hover:-translate-y-1">
