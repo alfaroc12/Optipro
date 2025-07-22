@@ -1084,17 +1084,17 @@ const DetallesProyectoForm: React.FC<DetallesProyectoFormProps> = ({
 					</p>
 					<div className="flex items-center gap-2 mt-1">
             <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${
-							formData.etapa === "Finalizado" ? "bg-green-100 text-green-800" :
-								formData.etapa === "Ejecución" ? "bg-blue-100 text-blue-800" :
-									formData.etapa === "Planificación" ? "bg-yellow-100 text-yellow-800" :
+							formData.status === "finaly" ? "bg-green-100 text-green-800" :
+								formData.status === "process" ? "bg-blue-100 text-blue-800" :
+									formData.status === "planification" ? "bg-yellow-100 text-yellow-800" :
 										"bg-gray-100 text-gray-800"
 						}`}>
-              {getStatusIcon(formData.etapa)}
-							{formData.etapa ? formData.status.charAt(0).toUpperCase() + formData.status.slice(1) : "Sin estado"}
+              {getStatusIcon(formData.status)}
+							{formData.status}
             </span>
 						{formData.progreso !== undefined && (
 							<span className="text-xs text-gray-500">
-								Progreso: {formData.etapa === "Finalizado" ? 100 : formData.progreso}%
+								Progreso: {formData.status === "finaly" ? 100 : formData.progreso}%
   						</span>
 						)}
 					</div>

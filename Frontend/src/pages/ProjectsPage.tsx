@@ -99,13 +99,13 @@ const ProjectsPage: React.FC = () => {
 
     let etapaTraducida = "";
     switch (apiProject.status) {
-      case "Finalizado":
+      case "finaly":
         etapaTraducida = "Finalizado";
         break;
-      case "Ejecución":
+      case "process":
         etapaTraducida = "Ejecución";
         break;
-      case "Planificación":
+      case "planification":
         etapaTraducida = "Planificación";
         break;
       default:
