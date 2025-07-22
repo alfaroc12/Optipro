@@ -41,7 +41,7 @@ def notify_admins_sale_order (sale_order):
         'timestamp': timezone.now().isoformat()
     }
 
-    message = f'se ha creado una nuev aorden de venta #{sale_order.code} para {sale_order.name}'
+    message = f'Se ha creado una nueva cotizacion comercial #{sale_order.code} para {sale_order.name}'
 
     notify_all_admins('new_sale_order', message,notificacaion_data)
 
@@ -90,12 +90,12 @@ def notify_sale_order_status_change(sale_order, old_state, new_state):
     }
 
     # Notificar a los administradores
-    admin_message = f'La orden de venta #{sale_order.code} de {sale_order.name} cambió de estado {old_state} a {new_state}'
+    admin_message = f'La orden de cotizacion comercial #{sale_order.code} de {sale_order.name} cambió de estado {old_state} a {new_state}'
     notify_all_admins('state_change', admin_message, notification_data)
 
     # Notificar al usuario que creó la orden
     if sale_order.user_id:
-        user_message = f'Su orden de venta #{sale_order.code} cambió de estado a {new_state}'
+        user_message = f'Su orden de cotizacion comercial #{sale_order.code} cambió de estado a {new_state}'
         create_notification('state_change', user_message, notification_data, sale_order.user_id)
 
 def notify_sale_order_to_project(sale_order, project):
@@ -113,12 +113,12 @@ def notify_sale_order_to_project(sale_order, project):
     }
 
     # Notificar a los administradores
-    admin_message = f'La orden de venta #{sale_order.code} de {sale_order.name} se convirtió en el proyecto #{project.code}'
+    admin_message = f'La orden de cotizacion #{sale_order.code} de {sale_order.name} se convirtió en el proyecto #{project.code}'
     notify_all_admins('new_project', admin_message, notification_data)
 
     # Notificar al usuario que creó la orden
     if sale_order.user_id:
-        user_message = f'Su orden de venta #{sale_order.code} se ha convertido en proyecto #{project.code}'
+        user_message = f'Su orden de cotizacion #{sale_order.code} se ha convertido en proyecto #{project.code}'
         create_notification('new_project', user_message, notification_data, sale_order.user_id)
 
 def notify_new_message(chat, message, sender):

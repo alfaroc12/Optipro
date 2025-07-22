@@ -17,5 +17,5 @@ class sz_evidence_photo(serializers.ModelSerializer):
                 return request.build_absolute_uri(obj.photo.url)
             # Si no hay request, construye la URL absoluta manualmente
             # Asume que el backend corre en localhost:8000 si no hay request
-            return f"http://127.0.0.1:8000{obj.photo.url}"
+            return f"https://backend-optipro-production.up.railway.app{obj.photo.url}"
         return None
