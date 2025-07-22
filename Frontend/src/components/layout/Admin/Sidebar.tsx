@@ -3,9 +3,9 @@ import { Link, useLocation } from "react-router-dom";
 import { X, BarChart3 } from "lucide-react";
 import { useAppSelector } from "@/hooks/useAppSelector";
 
-import OfertaIcon from "../../assets/icons/Oferta.svg";
-import ProyectosIcon from "../../assets/icons/Proyectos.svg";
-import InventarioIcon from "../../assets/icons/Inventario.svg";
+import OfertaIcon from "../../../assets/icons/Oferta.svg";
+import ProyectosIcon from "../../../assets/icons/Proyectos.svg";
+import InventarioIcon from "../../../assets/icons/Inventario.svg";
 
 interface SidebarProps {
   toggleSidebar?: () => void;
