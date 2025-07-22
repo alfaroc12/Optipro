@@ -16,7 +16,7 @@ import NotificationBell from "./NotificationBell";
 import { useNotifications } from "@/hooks/useNotifications";
 import { useUserProfile } from "@/hooks/useUserProfile";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import Logo from "../../assets/Logo.svg";
+import Logo from "../../../assets/Logo.svg";
 
 interface NavbarProps {
   toggleSidebar: () => void;
