@@ -1,4 +1,3 @@
-// src/types/project.ts
 export interface SaleOrder {
   id: number;
   name: string;
@@ -26,7 +25,7 @@ export interface Project {
   etapa?: "Planificación" | "Ejecución" | "Finalizado" | "Suspendido";
   sale_order?: SaleOrder;
   attachments?: Attachment[];
-  [key: string]: any; // evitar errores en propiedades dinámicas
+  [key: string]: any;
 }
 
 interface Attachment {

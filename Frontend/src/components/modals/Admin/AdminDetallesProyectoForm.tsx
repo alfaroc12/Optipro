@@ -993,6 +993,12 @@ const AdminDetallesProyectoForm: React.FC<DetallesProyectoFormProps> = ({
 				<textarea
 					name="descripcion"
 					value={formData.descripcion || ""}
+					onChange={e =>
+						setFormData((prev: any) => ({
+							...prev,
+							descripcion: e.target.value,
+						}))
+					}
 					placeholder="Notas relevantes sobre el contrato"
 					className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg"
 					rows={4}
