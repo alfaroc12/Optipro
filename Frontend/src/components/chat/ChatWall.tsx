@@ -188,8 +188,9 @@ const ChatWall: React.FC<ChatWallProps> = ({
         formData.append("attachments", file);
       });
       const response = await fetch(`${API_URL}/api/chat/messages/`, {
-        method: "POST",
-        body: formData,
+      method: "POST",
+      body: formData,
+      credentials: "include",
       });
 
       if (!response.ok) {
