@@ -2552,7 +2552,7 @@ const AdminNuevaOfertaForm: React.FC<NuevaOfertaFormProps> = ({
                         disabled={isFieldReadOnly(2)}
                       />
                       <label htmlFor="inversor" className="ml-2">
-                        Inversores/Microinversores
+                        Inversores/<br />Microinversores
                       </label>
                     </div>
                     <div className="flex items-center">
