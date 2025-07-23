@@ -38,7 +38,7 @@ class M_technical_visit(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name='technical_visits')
 
     class Meta:
-        db_table = 'technical_visit'  # Arreglado: era 'thechnical_visit'
+        db_table = 'thechnical_visit'  
 
     def __str__(self):
         return f'{self.code}'
