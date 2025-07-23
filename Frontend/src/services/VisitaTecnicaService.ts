@@ -15,19 +15,8 @@ export interface VisitaTecnicaData {
   date_visit: string;
   start_time: string;
   end_time?: string;
-  concept_visi  /**
-   * Obtener una visita técnica por ID (función duplicada)
-   */
-  //@ts-ignore
-  async getById(id: number): Promise<VisitaTecnicaResponse> {
-    try {
-      const response = await api.get(`technical_visit/retrieve/${id}/`);
-      return response.data;
-    } catch (error: any) {
-      console.error("Error fetching technical visit by id:", error);
-      throw error;
-    }
-  }, description_more?: string;
+  concept_visit?: string;
+  description_more?: string;
   evidence_photo?: File[] | null; // MODIFICADO: ahora es array de archivos
   nic?: string;
 
@@ -314,19 +303,6 @@ export const visitaTecnicaService = {
   },
 
   /**
-   * Obtener una visita técnica por ID
-   */
-  async getById(id: number): Promise<VisitaTecnicaResponse> {
-    try {
-      const response = await api.get(`technical_visit/retrieve/${id}/`);
-      return response.data;
-    } catch (error: any) {
-      console.error("Error fetching technical visit:", error);
-      throw error;
-    }
-  },
-
-  /**
    * Actualizar una visita técnica
    */
   async update(
@@ -419,10 +395,9 @@ export const visitaTecnicaService = {
   /**
    * Obtener visita técnica por ID
    */
-  //@ts-ignore
   async getById(id: number): Promise<VisitaTecnicaResponse> {
     try {
-      const response = await api.get(`technical_visit/retrive/${id}/`);
+      const response = await api.get(`technical_visit/retrieve/${id}/`);
       return response.data;
     } catch (error: any) {
       console.error("Error fetching technical visit by id:", error);

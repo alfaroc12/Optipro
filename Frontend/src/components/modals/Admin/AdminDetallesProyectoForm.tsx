@@ -49,7 +49,6 @@ const AdminDetallesProyectoForm: React.FC<DetallesProyectoFormProps> = ({
 	const [formData, setFormData] = useState<any>()
 
 	const [novedadesEstado, setNovedadesEstado] = useState<Record<string, string>>({});
-	const [extraFile, setExtraFile] = useState<File | null>(null);
 
 
 	const fetchProjectDetail = async () => {
