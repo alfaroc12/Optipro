@@ -7,6 +7,10 @@ from .sz_comentary_sale_order import sz_comentary_sale_order_retrive
 from .sz_attach_sale_order import sz_attach_sale_order_list
 from technical_visit.serializers.sz_technical_visit import sz_technical_visit_retrive
 from django.core.files import File
+import logging
+
+# Configurar logger
+logger = logging.getLogger(__name__)
 
 
 class sz_sale_order(serializers.ModelSerializer):
@@ -430,8 +434,12 @@ class sz_sale_order_retrive(serializers.ModelSerializer):    # person_id_name = 
         ]
         
     def get_comentaries(self, obj):
-        comentarios = M_comentary_sale_order.objects.filter(sale_order_id=obj.id)
-        return sz_comentary_sale_order_retrive(comentarios, many=True).data
+        try:
+            comentarios = M_comentary_sale_order.objects.filter(sale_order_id=obj.id)
+            return sz_comentary_sale_order_retrive(comentarios, many=True).data
+        except Exception as e:
+            logger.error(f"Error al obtener comentarios para sale_order {obj.id}: {e}")
+            return []
       # Método para obtener los archivos adjuntos relacionados
     def get_archivos_adjuntos(self, obj):
         try:
@@ -449,7 +457,7 @@ class sz_sale_order_retrive(serializers.ModelSerializer):    # person_id_name = 
             
             return resultado
         except Exception as e:
-            print(f"Error al obtener archivos adjuntos: {e}")
+            logger.error(f"Error al obtener archivos adjuntos para sale_order {obj.id}: {e}")
             return {'archivos_generales': [], 'hoja_calculo': []}      # Modificamos el método update para asegurar que todos los campos se actualicen correctamente
     def update(self, instance, validated_data):
         print("\n--- ACTUALIZANDO DATOS EN SERIALIZADOR ---")
@@ -509,6 +517,11 @@ class sz_sale_order_retrive(serializers.ModelSerializer):    # person_id_name = 
         return instance
 
     def get_technical_visit_details(self, obj):
-        if hasattr(obj, 'technical_visit_id') and obj.technical_visit_id:
-            return sz_technical_visit_retrive(obj.technical_visit_id).data
-        return None
+        try:
+            if hasattr(obj, 'technical_visit_id') and obj.technical_visit_id:
+                logger.info(f"Serializing technical visit {obj.technical_visit_id.id} for sale_order {obj.id}")
+                return sz_technical_visit_retrive(obj.technical_visit_id).data
+            return None
+        except Exception as e:
+            logger.error(f"Error al obtener detalles de visita técnica para sale_order {obj.id}: {e}")
+            return None

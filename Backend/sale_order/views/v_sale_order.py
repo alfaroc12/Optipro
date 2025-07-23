@@ -17,6 +17,10 @@ from notifications.utils.notifications_ut import notify_admins_sale_order
 from django.http import FileResponse, Http404
 from datetime import timedelta
 from django.utils import timezone
+import logging
+
+# Configurar logger
+logger = logging.getLogger(__name__)
 
 class V_sale_order_create(CreateAPIView):
     permission_classes = [IsAuthenticated]  # Cambiamos a IsAuthenticated para asegurar que hay un usuario
@@ -95,6 +99,34 @@ class V_sale_order_retrive(RetrieveAPIView): #class retrieve return response wit
     model_class = M_sale_order
     queryset = model_class.objects.all()
     serializer_class = sz_sale_order_retrive
+    
+    def retrieve(self, request, *args, **kwargs):
+        try:
+            logger.info(f"Attempting to retrieve sale_order with ID: {kwargs.get('pk')}")
+            instance = self.get_object()
+            logger.info(f"Found sale_order: {instance.code} (ID: {instance.id})")
+            
+            # Verificar si tiene technical_visit_id
+            if instance.technical_visit_id:
+                logger.info(f"Sale order has technical visit: {instance.technical_visit_id.id}")
+            else:
+                logger.info("Sale order has no associated technical visit")
+            
+            serializer = self.get_serializer(instance)
+            logger.info("Serialization completed successfully")
+            return Response(serializer.data)
+        except M_sale_order.DoesNotExist:
+            logger.warning(f"Sale order with ID {kwargs.get('pk')} not found")
+            return Response(
+                {"error": "Sale order not found"}, 
+                status=status.HTTP_404_NOT_FOUND
+            )
+        except Exception as e:
+            logger.error(f"Error en retrieve sale_order: {e}", exc_info=True)
+            return Response(
+                {"error": "Internal server error", "details": str(e)}, 
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
 
 class V_sale_order_update(UpdateAPIView): #class update have request post with data for update
     permission_classes = [AllowAny]
