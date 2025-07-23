@@ -6,6 +6,12 @@ from technical_visit.models.technical_visit import M_technical_visit
 from technical_visit.serializers.sz_technical_visit import sz_technical_visit, sz_technical_visit_list, sz_technical_visit_retrive
 from django.db.models import F, Q
 from function.paginator import Limit_paginator
+import logging
+import random
+from django.db import transaction
+from function.code_generators import generate_technical_visit_code
+
+logger = logging.getLogger(__name__)
 
 class V_technical_visit_create(CreateAPIView):
     permission_classes = [AllowAny]
@@ -13,63 +19,100 @@ class V_technical_visit_create(CreateAPIView):
     model_class = M_technical_visit
 
     def perform_create(self, serializer):
-        # Asignar el usuario actual a la visita técnica
-        if self.request.user.is_authenticated:
-            return serializer.save(user_id=self.request.user)
-        return serializer.save()
+        try:
+            # Generar código único antes de guardar usando la utilidad compartida
+            unique_code = generate_technical_visit_code()
+            
+            # Asignar el usuario actual y el código a la visita técnica
+            if self.request.user.is_authenticated:
+                return serializer.save(user_id=self.request.user, code=unique_code)
+            return serializer.save(code=unique_code)
+        except Exception as e:
+            logger.error(f"Error al crear visita técnica: {str(e)}")
+            raise
     
     def create(self, request, *args, **kwargs):
-        data = request.data.copy()
-        evidence_files = []
-        if hasattr(request, 'FILES'):
-            for key in request.FILES.keys():
-                if key.startswith('evidence_photo'):
-                    if isinstance(request.FILES.getlist(key), list):
-                        evidence_files.extend(request.FILES.getlist(key))
-                    else:
-                        evidence_files.append(request.FILES[key])
-        if evidence_files:
-            data.setlist('evidence_photo', evidence_files)
-
-        # Reconstruir el diccionario para question_id
-        question_fields = [f'Q_{i}' for i in range(1, 7)] + [f'Q_{i}_comentary' for i in range(1, 7)]
-        question_data = {}
-        for field in question_fields:
-            value = data.pop(f'question_id.{field}', None)
-            if value:
-                question_data[field] = value[0] if isinstance(value, list) else value
-        if question_data:
-            data['question_id'] = question_data
-
-        # --- AJUSTE: convertir QueryDict a dict plano para DRF ---
-        from django.http import QueryDict
-        if isinstance(data, QueryDict):
-            data = data.dict()
+        try:
+            data = request.data.copy()
+            evidence_files = []
+            
+            # Procesar archivos de evidencia de manera segura
+            if hasattr(request, 'FILES'):
+                for key in request.FILES.keys():
+                    if key.startswith('evidence_photo'):
+                        file_list = request.FILES.getlist(key)
+                        if isinstance(file_list, list):
+                            evidence_files.extend(file_list)
+                        else:
+                            evidence_files.append(request.FILES[key])
+            
             if evidence_files:
-                data['evidence_photo'] = evidence_files
+                data.setlist('evidence_photo', evidence_files)
+
+            # Reconstruir el diccionario para question_id de manera segura
+            question_fields = [f'Q_{i}' for i in range(1, 7)] + [f'Q_{i}_comentary' for i in range(1, 7)]
+            question_data = {}
+            
+            for field in question_fields:
+                value = data.pop(f'question_id.{field}', None)
+                if value is not None:
+                    question_data[field] = value[0] if isinstance(value, list) and len(value) > 0 else value
+            
             if question_data:
                 data['question_id'] = question_data
-        # --- FIN AJUSTE ---
 
-        serializer = self.serializer_class(data=data, context={'request': request})
-        print(serializer)
+            # Convertir QueryDict a dict plano para DRF de manera segura
+            from django.http import QueryDict
+            if isinstance(data, QueryDict):
+                try:
+                    data = data.dict()
+                    if evidence_files:
+                        data['evidence_photo'] = evidence_files
+                    if question_data:
+                        data['question_id'] = question_data
+                except Exception as e:
+                    logger.error(f"Error al procesar QueryDict: {str(e)}")
+                    return Response(
+                        {"error": "Error al procesar los datos de la solicitud"},
+                        status=status.HTTP_400_BAD_REQUEST
+                    )
 
-        if serializer.is_valid():
-            self.perform_create(serializer)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        
-        error_messages = {
-            "error": "Data Invalid",
-            "messages": serializer.errors
-        }
-
-        return Response(error_messages, status=status.HTTP_400_BAD_REQUEST)
+            # Crear y validar el serializer
+            serializer = self.serializer_class(data=data, context={'request': request})
+            
+            if serializer.is_valid():
+                try:
+                    # Usar transacción atómica para evitar conflictos de concurrencia
+                    with transaction.atomic():
+                        self.perform_create(serializer)
+                    logger.info(f"Visita técnica creada exitosamente: {serializer.data.get('code', 'N/A')}")
+                    return Response(serializer.data, status=status.HTTP_201_CREATED)
+                except Exception as e:
+                    logger.error(f"Error al guardar visita técnica: {str(e)}")
+                    return Response(
+                        {"error": "Error interno al crear la visita técnica"},
+                        status=status.HTTP_500_INTERNAL_SERVER_ERROR
+                    )
+            else:
+                logger.warning(f"Datos inválidos para crear visita técnica: {serializer.errors}")
+                error_messages = {
+                    "error": "Datos inválidos",
+                    "messages": serializer.errors
+                }
+                return Response(error_messages, status=status.HTTP_400_BAD_REQUEST)
+                
+        except Exception as e:
+            logger.error(f"Error inesperado al crear visita técnica: {str(e)}")
+            return Response(
+                {"error": "Error interno del servidor"},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
 
 class V_technical_visit_list(ListAPIView):
     permission_classes = [AllowAny]
     serializer_class = sz_technical_visit_list
     pagination_class = Limit_paginator
-    queryset = M_technical_visit.objects.all()
+    queryset = M_technical_visit.objects.all().order_by('-date_visit', '-id')  # Ordenar por fecha de visita descendente, luego por ID
 
     def get_queryset(self): #overwrite function get_queryset, permit alter queryset initial 
         queryset = super().get_queryset()

@@ -23,7 +23,7 @@ class sz_technical_question(serializers.ModelSerializer):
         ]
 
 class sz_technical_question_fk(serializers.ModelSerializer):
-    class meta:
+    class Meta:  # Arreglado: era 'meta' en lugar de 'Meta'
         model = M_technical_question
         fields = [
             'id',

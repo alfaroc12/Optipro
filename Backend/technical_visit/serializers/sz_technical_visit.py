@@ -41,6 +41,7 @@ class sz_technical_visit(serializers.ModelSerializer):
             'evidence_photo',
             'nic',
         ]
+        read_only_fields = ['id', 'code', 'evidence_photos']  # code se genera automáticamente
     
     def get_evidence_photos(self, obj):
         evidence_photos = obj.evidence_photos.all()

@@ -35,7 +35,7 @@ class V_proyect_list(ListAPIView):
     permission_classes = [AllowAny]
     serializer_class = sz_proyect_list
     pagination_class = Limit_paginator
-    queryset = M_proyect.objects.all()
+    queryset = M_proyect.objects.all().order_by('-date', '-id')  # Ordenar por fecha descendente, luego por ID
 
     def get_queryset(self): #overwrite function get_queryset, permit alter queryset initial 
         queryset = super().get_queryset()

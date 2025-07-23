@@ -33,7 +33,7 @@ class V_product_list(ListAPIView):
     permission_classes = [AllowAny]
     serializer_class = sz_product_list
     pagination_class = Limit_paginator
-    queryset = M_product.objects.all()
+    queryset = M_product.objects.all().order_by('name', 'id')  # Ordenar por nombre, luego por ID
 
     def get_queryset(self): #overwrite function get_queryset, permit alter queryset initial 
         queryset = super().get_queryset()

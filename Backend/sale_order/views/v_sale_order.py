@@ -56,7 +56,7 @@ class V_sale_order_list(ListAPIView):
     permission_classes = [AllowAny]
     serializer_class = sz_sale_order_list
     pagination_class = Limit_paginator
-    queryset = M_sale_order.objects.all()
+    queryset = M_sale_order.objects.all().order_by('-id')  # Ordenar por ID descendente (más recientes primero)
 
     def get_queryset(self): #overwrite function get_queryset, permit alter queryset initial 
         queryset = super().get_queryset()

@@ -33,7 +33,6 @@ class M_sale_order(models.Model):
         ]
         # Filtrar partes vacías y unir con espacios
         self.name = " ".join(filter(None, name_parts))
-        print(f"Nombre recalculado en save(): {self.name}")
         
         # Llamar al método save original
         super(M_sale_order, self).save(*args, **kwargs)
