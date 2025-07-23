@@ -49,6 +49,7 @@ const AdminDetallesProyectoForm: React.FC<DetallesProyectoFormProps> = ({
 	const [formData, setFormData] = useState<any>()
 
 	const [novedadesEstado, setNovedadesEstado] = useState<Record<string, string>>({});
+	const [extraFile, setExtraFile] = useState<File | null>(null);
 
 
 	const fetchProjectDetail = async () => {
@@ -986,28 +987,72 @@ const AdminDetallesProyectoForm: React.FC<DetallesProyectoFormProps> = ({
 			</div>
 
 
-			<div className="mb-6">
+			<div>
 				<label className="block mb-1.5 font-medium text-gray-700">
-					Notas del contrato
+					Adjuntar archivo adicional
 				</label>
-				<textarea
-					name="Notas del contrato"
-					value={formData.sale_order?.description_2 || ""}
-					onChange={e =>
-						setFormData((prev: any) => ({
-							...prev,
-							sale_order: {
-								...prev.sale_order,
-								description_2: e.target.value,
-							},
-						}))
-					}
-					placeholder="Notas relevantes sobre el contrato"
-					className="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg"
-					rows={4}
+
+				{/* Input real */}
+				<input
+					type="file"
+					id="fileUploadExtra"
+					className="hidden"
 					disabled={isSubmitting}
+					onChange={async (e) => {
+						const file = e.target.files?.[0];
+						if (!file || !project?.id) return;
+
+						const label = "Documento adicional"; // Cambia si quieres
+						await uploadDocument("extra", file, project.id, label);
+						await fetchProjectDetail();
+					}}
 				/>
+
+				{/* Botón estilizado */}
+				<label
+					htmlFor="fileUploadExtra"
+					className={`flex items-center gap-2 px-4 py-2 border border-[#4178D4] rounded-lg bg-white text-[#4178D4] hover:bg-blue-50 cursor-pointer transition-colors ${
+						isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
+					}`}
+				>
+					<Upload className="w-5 h-5" />
+					<span>Adjuntar archivo</span>
+				</label>
+
+				{/* Lista de archivos subidos que coinciden con "documento_adicional" */}
+				<div className="mt-2 space-y-1">
+					{(formData.attachments || [])
+						.filter((a: any) =>
+							a.name?.toLowerCase().includes("documento_adicional")
+						)
+						.map((file: any) => (
+							<div
+								key={file.id}
+								className="flex items-center gap-2 text-sm text-gray-700"
+							>
+								<a
+									href={`http://127.0.0.1:8000${file.attach}`}
+									target="_blank"
+									rel="noopener noreferrer"
+									className="flex items-center gap-1 text-blue-600 hover:underline"
+								>
+									<Download className="w-4 h-4" />
+									{file.name}
+								</a>
+								<button
+									type="button"
+									className="text-red-500 hover:text-red-700"
+									title="Eliminar"
+									onClick={() => eliminarArchivo(file.id, file.name)}
+								>
+									<Trash2 className="w-4 h-4" />
+								</button>
+							</div>
+						))}
+				</div>
 			</div>
+
+
 		</div>
 	);
 
@@ -1148,13 +1193,6 @@ const AdminDetallesProyectoForm: React.FC<DetallesProyectoFormProps> = ({
 			"Cambio por erro en calculos",
 			"adicion de equipos",
 		];
-		//
-		// const novedadesOptions = [
-		// 	{ label: "Ninguna", value: "none" },
-		// 	{ label: "Cambios solicitados por cliente", value: "Changes requested by customer" },
-		// 	{ label: "Cambios por error de cálculo", value: "Change due to error in calculations" },
-		// 	{ label: "Adición de equipos", value: "adding equipment" },
-		// ];
 
 		const cumplimientoOptions = ["Pendiente", "En progreso", "Completado"];
 
