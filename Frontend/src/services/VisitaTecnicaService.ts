@@ -120,6 +120,14 @@ export interface VisitaTecnicaFormData {
 }
 
 // 2. MODIFICAR LA FUNCIÓN mapFormDataToBackend
+// Función auxiliar para asegurar que los valores sean strings únicos
+const ensureString = (value: any): string => {
+  if (Array.isArray(value)) {
+    return String(value[0] || '');
+  }
+  return String(value || '');
+};
+
 const mapFormDataToBackend = (
   formData: VisitaTecnicaFormData
 ): VisitaTecnicaData => {
@@ -128,11 +136,15 @@ const mapFormDataToBackend = (
 
   // Mapear el valor del concepto a las opciones válidas del backend
   let conceptVisit = "proceeds"; // valor predeterminado
-  if (formData.conceptoVisitante === "Procede") {
+  const conceptoValue = Array.isArray(formData.conceptoVisitante) 
+    ? formData.conceptoVisitante[0] 
+    : formData.conceptoVisitante;
+    
+  if (conceptoValue === "Procede") {
     conceptVisit = "proceeds";
-  } else if (formData.conceptoVisitante === "No procede") {
+  } else if (conceptoValue === "No procede") {
     conceptVisit = "not applicable";
-  } else if (formData.conceptoVisitante === "Procede con condiciones") {
+  } else if (conceptoValue === "Procede con condiciones") {
     conceptVisit = "proceed conditions";
   }
 
@@ -176,34 +188,34 @@ const mapFormDataToBackend = (
 
   return {
     code: code,
-    name: formData.nombre,
-    last_name: formData.apellidos,
-    city: formData.ciudad,
-    department: formData.departamento,
-    phone: formData.telefono,
-    N_identification: formData.nitcc,
-    company: formData.nombreEmpresa,
-    addres: formData.direccion,
-    date_visit : formatDate(formData.fechaVisita),
-    start_time: formatTime(formData.horaInicio),
-    end_time: formData.horaFin ? formatTime(formData.horaFin) : undefined,
+    name: ensureString(formData.nombre),
+    last_name: ensureString(formData.apellidos),
+    city: ensureString(formData.ciudad),
+    department: ensureString(formData.departamento),
+    phone: ensureString(formData.telefono),
+    N_identification: ensureString(formData.nitcc),
+    company: ensureString(formData.nombreEmpresa),
+    addres: ensureString(formData.direccion),
+    date_visit : formatDate(ensureString(formData.fechaVisita)),
+    start_time: formatTime(ensureString(formData.horaInicio)),
+    end_time: formData.horaFin ? formatTime(ensureString(formData.horaFin)) : undefined,
     concept_visit: conceptVisit,
-    description_more: formData.observacionesAdicionales || undefined,
+    description_more: formData.observacionesAdicionales ? ensureString(formData.observacionesAdicionales) : undefined,
     evidence_photo: evidenceFiles, // MODIFICADO: array de archivos
-    nic: formData.nic || undefined,
+    nic: formData.nic ? ensureString(formData.nic) : undefined,
     question_id: {
-      Q_1: formData.tipoMedida,
-      Q_1_comentary: formData.comentariosTipoMedida || undefined,
-      Q_2: formData.sistemaPuestaTierra,
-      Q_2_comentary: formData.comentariosSistemaPuestaTierra || undefined,
-      Q_3: formData.disponibilidadSitio,
-      Q_3_comentary: formData.comentariosDisponibilidadSitio || undefined,
-      Q_4: formData.condicionesAcceso,
-      Q_4_comentary: formData.comentariosCondicionesAcceso || undefined,
-      Q_5: formData.verificacionAerea,
-      Q_5_comentary: formData.comentariosVerificacionAerea || undefined,
-      Q_6: formData.copiaFactura,
-      Q_6_comentary: formData.comentariosCopiaFactura || undefined,
+      Q_1: ensureString(formData.tipoMedida),
+      Q_1_comentary: formData.comentariosTipoMedida ? ensureString(formData.comentariosTipoMedida) : undefined,
+      Q_2: ensureString(formData.sistemaPuestaTierra),
+      Q_2_comentary: formData.comentariosSistemaPuestaTierra ? ensureString(formData.comentariosSistemaPuestaTierra) : undefined,
+      Q_3: ensureString(formData.disponibilidadSitio),
+      Q_3_comentary: formData.comentariosDisponibilidadSitio ? ensureString(formData.comentariosDisponibilidadSitio) : undefined,
+      Q_4: ensureString(formData.condicionesAcceso),
+      Q_4_comentary: formData.comentariosCondicionesAcceso ? ensureString(formData.comentariosCondicionesAcceso) : undefined,
+      Q_5: ensureString(formData.verificacionAerea),
+      Q_5_comentary: formData.comentariosVerificacionAerea ? ensureString(formData.comentariosVerificacionAerea) : undefined,
+      Q_6: ensureString(formData.copiaFactura),
+      Q_6_comentary: formData.comentariosCopiaFactura ? ensureString(formData.comentariosCopiaFactura) : undefined,
     },
   };
 };
@@ -239,7 +251,7 @@ export const visitaTecnicaService = {
       // Crear un FormData para manejar múltiples archivos
       const formDataObj = new FormData();
 
-      // Agregar campos simples
+      // Agregar campos simples usando set() para evitar arrays
       Object.entries(backendData).forEach(([key, value]) => {
         if (key === "evidence_photo") {
           // Los archivos se manejan por separado
@@ -247,32 +259,51 @@ export const visitaTecnicaService = {
         } else if (key === "question_id") {
           // Los datos de preguntas se manejan por separado
           return;
-        } else if (value !== undefined) {
-          formDataObj.append(key, value as string);
+        } else if (value !== undefined && value !== null) {
+          // Usar set() en lugar de append() para campos únicos
+          formDataObj.set(key, String(value));
         }
       });
 
-      // Agregar archivos de evidencia
+      // Agregar archivos de evidencia (aquí sí usamos append para múltiples archivos)
       if (formData.evidenciaFiles && formData.evidenciaFiles.length > 0) {
         formData.evidenciaFiles.forEach((file, _index) => {
           formDataObj.append(`evidence_photo`, file);
         });
       }
 
-      // Agregar datos de preguntas técnicas
+      // Agregar datos de preguntas técnicas usando set() para evitar duplicados
       const questions = backendData.question_id;
       if (questions) {
         Object.entries(questions).forEach(([qKey, qValue]) => {
-          if (qValue !== undefined) {
-            formDataObj.append(`question_id.${qKey}`, qValue as string);
+          if (qValue !== undefined && qValue !== null) {
+            // Usar set() para asegurar que cada pregunta tenga un solo valor
+            formDataObj.set(`question_id.${qKey}`, String(qValue));
           }
         });
       }
 
       // Agregar debug para ver qué se está enviando
-      console.log("FormData entries:");
+      console.log("FormData entries before sending:");
+      console.log("=== CAMPOS SIMPLES ===");
       for (let [key, value] of formDataObj.entries()) {
-        console.log(key, value);
+        if (!key.startsWith('question_id.') && key !== 'evidence_photo') {
+          console.log(`${key}: "${value}" (type: ${typeof value})`);
+        }
+      }
+      
+      console.log("=== PREGUNTAS TÉCNICAS ===");
+      for (let [key, value] of formDataObj.entries()) {
+        if (key.startsWith('question_id.')) {
+          console.log(`${key}: "${value}" (type: ${typeof value})`);
+        }
+      }
+      
+      console.log("=== ARCHIVOS ===");
+      for (let [key, value] of formDataObj.entries()) {
+        if (key === 'evidence_photo') {
+          console.log(`${key}: ${value instanceof File ? value.name : value}`);
+        }
       }
 
       // Enviar los datos como FormData
@@ -315,7 +346,7 @@ export const visitaTecnicaService = {
       // Crear un FormData para manejar múltiples archivos
       const formDataObj = new FormData();
 
-      // Agregar campos simples
+      // Agregar campos simples usando set() para evitar arrays
       Object.entries(backendData).forEach(([key, value]) => {
         if (key === "evidence_photo") {
           // Los archivos se manejan por separado
@@ -323,24 +354,26 @@ export const visitaTecnicaService = {
         } else if (key === "question_id") {
           // Los datos de preguntas se manejan por separado
           return;
-        } else if (value !== undefined) {
-          formDataObj.append(key, value as string);
+        } else if (value !== undefined && value !== null) {
+          // Usar set() en lugar de append() para campos únicos
+          formDataObj.set(key, String(value));
         }
       });
 
-      // Agregar archivos de evidencia
+      // Agregar archivos de evidencia (aquí sí usamos append para múltiples archivos)
       if (formData.evidenciaFiles && formData.evidenciaFiles.length > 0) {
         formData.evidenciaFiles.forEach((file, _index) => {
           formDataObj.append(`evidence_photo`, file);
         });
       }
 
-      // Agregar datos de preguntas técnicas
+      // Agregar datos de preguntas técnicas usando set() para evitar duplicados
       const questions = backendData.question_id;
       if (questions) {
         Object.entries(questions).forEach(([qKey, qValue]) => {
-          if (qValue !== undefined) {
-            formDataObj.append(`question_id.${qKey}`, qValue as string);
+          if (qValue !== undefined && qValue !== null) {
+            // Usar set() para asegurar que cada pregunta tenga un solo valor
+            formDataObj.set(`question_id.${qKey}`, String(qValue));
           }
         });
       }

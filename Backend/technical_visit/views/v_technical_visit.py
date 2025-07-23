@@ -34,12 +34,21 @@ class V_technical_visit_create(CreateAPIView):
     def create(self, request, *args, **kwargs):
         try:
             logger.info("Iniciando creación de visita técnica")
+            logger.info(f"Datos recibidos: {dict(request.data)}")
             
             # Crear una copia mutable de los datos
             if hasattr(request.data, '_mutable'):
                 request.data._mutable = True
             
-            data = dict(request.data)
+            # Convertir request.data a diccionario normal para mejor manipulación
+            data = {}
+            for key, value in request.data.items():
+                if isinstance(value, list) and len(value) == 1:
+                    # Si es una lista con un solo elemento, extraer el elemento
+                    data[key] = value[0]
+                else:
+                    data[key] = value
+            
             evidence_files = []
             
             # Procesar archivos de evidencia de manera más eficiente
@@ -64,13 +73,15 @@ class V_technical_visit_create(CreateAPIView):
                 if field_key in data:
                     value = data.pop(field_key)
                     if isinstance(value, list) and len(value) > 0:
-                        question_data[field] = value[0]
+                        question_data[field] = str(value[0]).strip()
                     elif value is not None:
-                        question_data[field] = value
+                        question_data[field] = str(value).strip()
             
             if question_data:
                 data['question_id'] = question_data
                 logger.info(f"Procesadas {len(question_data)} respuestas de preguntas")
+
+            logger.info(f"Datos procesados antes del serializer: {data}")
 
             # Crear el serializer con los datos procesados
             serializer = self.serializer_class(data=data, context={'request': request})

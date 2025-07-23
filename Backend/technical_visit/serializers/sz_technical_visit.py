@@ -46,6 +46,35 @@ class sz_technical_visit(serializers.ModelSerializer):
         ]
         read_only_fields = ['id', 'code', 'evidence_photos']  # code se genera automáticamente
     
+    def validate(self, data):
+        """
+        Validación personalizada para campos requeridos
+        """
+        # Campos que son obligatorios en el modelo
+        required_fields = {
+            'name': 'Nombre',
+            'last_name': 'Apellidos', 
+            'city': 'Ciudad',
+            'department': 'Departamento',
+            'phone': 'Teléfono',
+            'company': 'Empresa',
+            'addres': 'Dirección',
+            'date_visit': 'Fecha de visita',
+            'start_time': 'Hora de inicio',
+            'concept_visit': 'Concepto de visita'
+        }
+        
+        errors = {}
+        
+        for field, display_name in required_fields.items():
+            if field not in data or not data[field] or str(data[field]).strip() == '':
+                errors[field] = f"{display_name} es requerido"
+        
+        if errors:
+            raise serializers.ValidationError(errors)
+            
+        return data
+    
     def get_evidence_photos(self, obj):
         evidence_photos = obj.evidence_photos.all()
         if evidence_photos.exists():
@@ -54,14 +83,93 @@ class sz_technical_visit(serializers.ModelSerializer):
         return []
     
     def to_internal_value(self, data):
-    # Convertir AM/PM a formato 24h si es necesario
+        """
+        Procesar y limpiar los datos antes de la validación
+        """
+        logger.info(f"Datos originales recibidos en serializer: {data}")
+        
+        # Crear una copia mutable de los datos
+        if hasattr(data, 'copy'):
+            data = data.copy()
+        else:
+            data = dict(data)
+        
+        # Campos de texto que pueden venir como listas
+        text_fields = [
+            'name', 'last_name', 'city', 'department', 'phone', 
+            'N_identification', 'company', 'addres', 'concept_visit',
+            'description_more', 'nic'
+        ]
+        
+        # Convertir listas a strings para campos de texto
+        for field in text_fields:
+            if field in data:
+                value = data[field]
+                if isinstance(value, list) and len(value) > 0:
+                    # Tomar el primer elemento de la lista
+                    data[field] = str(value[0]).strip()
+                elif isinstance(value, list) and len(value) == 0:
+                    data[field] = ''
+                elif value is not None:
+                    data[field] = str(value).strip()
+        
+        # Manejar concept_visit específicamente por sus choices
+        if 'concept_visit' in data:
+            concept_value = data['concept_visit']
+            if isinstance(concept_value, list) and len(concept_value) > 0:
+                concept_value = str(concept_value[0]).strip()
+            elif concept_value is not None:
+                concept_value = str(concept_value).strip()
+            
+            # Mapear posibles valores del frontend a los choices del modelo
+            concept_mapping = {
+                'procede': 'proceeds',
+                'proceeds': 'proceeds',
+                'no procede': 'not applicable',
+                'not applicable': 'not applicable',
+                'procede con condiciones': 'proceed conditions',
+                'proceed conditions': 'proceed conditions'
+            }
+            
+            data['concept_visit'] = concept_mapping.get(concept_value, concept_value)
+            logger.info(f"Concept visit mapeado: {concept_value} -> {data['concept_visit']}")
+        
+        # Manejar fechas
+        if 'date_visit' in data:
+            date_value = data['date_visit']
+            if isinstance(date_value, list) and len(date_value) > 0:
+                data['date_visit'] = str(date_value[0]).strip()
+            elif date_value is not None:
+                data['date_visit'] = str(date_value).strip()
+        
+        # Convertir horas de AM/PM a formato 24h si es necesario
         for field in ['start_time', 'end_time']:
-            if field in data and isinstance(data[field], str):
+            if field in data:
+                time_value = data[field]
+                if isinstance(time_value, list) and len(time_value) > 0:
+                    time_value = str(time_value[0]).strip()
+                elif time_value is not None:
+                    time_value = str(time_value).strip()
+                else:
+                    continue
+                
                 try:
-                    data[field] = datetime.strptime(data[field], "%I:%M %p").time()
-                except ValueError:
-                    pass  
+                    # Intentar diferentes formatos de tiempo
+                    if 'AM' in time_value.upper() or 'PM' in time_value.upper():
+                        # Formato 12 horas con AM/PM
+                        parsed_time = datetime.strptime(time_value, "%I:%M %p").time()
+                        data[field] = parsed_time.strftime("%H:%M")
+                        logger.info(f"Tiempo convertido {field}: {time_value} -> {data[field]}")
+                    elif ':' in time_value:
+                        # Ya está en formato 24h, validar y mantener
+                        datetime.strptime(time_value, "%H:%M")
+                        data[field] = time_value
+                except ValueError as e:
+                    logger.error(f"Error al parsear tiempo {field}: {time_value} - {e}")
+                    # Si no se puede parsear, mantener el valor original para que Django maneje el error
+                    data[field] = time_value
 
+        logger.info(f"Datos procesados en serializer: {data}")
         return super().to_internal_value(data)
 
     def create(self, validated_data):
