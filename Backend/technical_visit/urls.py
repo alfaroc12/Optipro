@@ -19,4 +19,3 @@ urlpatterns = [
     #filter 
     path ('technical-visits/nit-cc/', V_filter_nitCC_identification.as_view()),
 ]
-]
