@@ -9,7 +9,7 @@ from function.paginator import Limit_paginator
 import logging
 import random
 from django.db import transaction
-from function.code_generators import generate_technical_visit_code
+from function.code_generators import generate_technical_visit_code_with_prefix
 
 logger = logging.getLogger(__name__)
 
@@ -20,8 +20,8 @@ class V_technical_visit_create(CreateAPIView):
 
     def perform_create(self, serializer):
         try:
-            # Generar código único antes de guardar usando la utilidad compartida
-            unique_code = generate_technical_visit_code()
+            # Generar código único antes de guardar usando la utilidad compartida con prefijo VT
+            unique_code = generate_technical_visit_code_with_prefix()
             
             # Asignar el usuario actual y el código a la visita técnica
             if self.request.user.is_authenticated:
@@ -33,78 +33,74 @@ class V_technical_visit_create(CreateAPIView):
     
     def create(self, request, *args, **kwargs):
         try:
-            data = request.data.copy()
+            logger.info("Iniciando creación de visita técnica")
+            
+            # Crear una copia mutable de los datos
+            if hasattr(request.data, '_mutable'):
+                request.data._mutable = True
+            
+            data = dict(request.data)
             evidence_files = []
             
-            # Procesar archivos de evidencia de manera segura
-            if hasattr(request, 'FILES'):
+            # Procesar archivos de evidencia de manera más eficiente
+            if hasattr(request, 'FILES') and request.FILES:
+                logger.info(f"Procesando {len(request.FILES)} archivos")
                 for key in request.FILES.keys():
                     if key.startswith('evidence_photo'):
                         file_list = request.FILES.getlist(key)
-                        if isinstance(file_list, list):
-                            evidence_files.extend(file_list)
-                        else:
-                            evidence_files.append(request.FILES[key])
-            
-            if evidence_files:
-                data.setlist('evidence_photo', evidence_files)
+                        evidence_files.extend(file_list)
+                
+                # Solo agregar si hay archivos
+                if evidence_files:
+                    data['evidence_photo'] = evidence_files
+                    logger.info(f"Se agregaron {len(evidence_files)} archivos de evidencia")
 
-            # Reconstruir el diccionario para question_id de manera segura
-            question_fields = [f'Q_{i}' for i in range(1, 7)] + [f'Q_{i}_comentary' for i in range(1, 7)]
+            # Procesar campos de preguntas de manera optimizada
             question_data = {}
+            question_fields = [f'Q_{i}' for i in range(1, 7)] + [f'Q_{i}_comentary' for i in range(1, 7)]
             
             for field in question_fields:
-                value = data.pop(f'question_id.{field}', None)
-                if value is not None:
-                    question_data[field] = value[0] if isinstance(value, list) and len(value) > 0 else value
+                field_key = f'question_id.{field}'
+                if field_key in data:
+                    value = data.pop(field_key)
+                    if isinstance(value, list) and len(value) > 0:
+                        question_data[field] = value[0]
+                    elif value is not None:
+                        question_data[field] = value
             
             if question_data:
                 data['question_id'] = question_data
+                logger.info(f"Procesadas {len(question_data)} respuestas de preguntas")
 
-            # Convertir QueryDict a dict plano para DRF de manera segura
-            from django.http import QueryDict
-            if isinstance(data, QueryDict):
-                try:
-                    data = data.dict()
-                    if evidence_files:
-                        data['evidence_photo'] = evidence_files
-                    if question_data:
-                        data['question_id'] = question_data
-                except Exception as e:
-                    logger.error(f"Error al procesar QueryDict: {str(e)}")
-                    return Response(
-                        {"error": "Error al procesar los datos de la solicitud"},
-                        status=status.HTTP_400_BAD_REQUEST
-                    )
-
-            # Crear y validar el serializer
+            # Crear el serializer con los datos procesados
             serializer = self.serializer_class(data=data, context={'request': request})
             
             if serializer.is_valid():
                 try:
-                    # Usar transacción atómica para evitar conflictos de concurrencia
+                    # Usar transacción atómica optimizada
                     with transaction.atomic():
-                        self.perform_create(serializer)
-                    logger.info(f"Visita técnica creada exitosamente: {serializer.data.get('code', 'N/A')}")
+                        instance = self.perform_create(serializer)
+                    
+                    logger.info(f"Visita técnica creada exitosamente: {instance.code}")
                     return Response(serializer.data, status=status.HTTP_201_CREATED)
+                    
                 except Exception as e:
-                    logger.error(f"Error al guardar visita técnica: {str(e)}")
+                    logger.error(f"Error al guardar visita técnica: {str(e)}", exc_info=True)
                     return Response(
-                        {"error": "Error interno al crear la visita técnica"},
+                        {"error": "Error interno al crear la visita técnica", "details": str(e)},
                         status=status.HTTP_500_INTERNAL_SERVER_ERROR
                     )
             else:
                 logger.warning(f"Datos inválidos para crear visita técnica: {serializer.errors}")
-                error_messages = {
+                return Response({
                     "error": "Datos inválidos",
                     "messages": serializer.errors
-                }
-                return Response(error_messages, status=status.HTTP_400_BAD_REQUEST)
+                }, status=status.HTTP_400_BAD_REQUEST)
                 
         except Exception as e:
-            logger.error(f"Error inesperado al crear visita técnica: {str(e)}")
+            logger.error(f"Error inesperado al crear visita técnica: {str(e)}", exc_info=True)
             return Response(
-                {"error": "Error interno del servidor"},
+                {"error": "Error interno del servidor", "details": str(e)},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
 
