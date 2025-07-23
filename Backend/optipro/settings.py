@@ -87,13 +87,17 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),  # cuanto debe durar el token de acceso
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),     # cada cuanto se va a refrescar el token
-    'ROTATE_REFRESH_TOKENS': True,                  # pasar el token en cada solicitud de acceso
-    'BLACKLIST_AFTER_ROTATION': True,          # invalidacion de tokens de accesos
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=120),  # Aumentado a 2 horas para evitar expiraciones frecuentes
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=3),      # Aumentado a 3 días
+    'ROTATE_REFRESH_TOKENS': True,                    # pasar el token en cada solicitud de acceso
+    'BLACKLIST_AFTER_ROTATION': True,                # invalidacion de tokens de accesos
     'ALGORITHM': 'HS256',
     'SIGNING_KEY': SECRET_KEY,
     'AUTH_HEADER_TYPES': ('Bearer',),
+    'UPDATE_LAST_LOGIN': True,                        # Actualizar último login
+    'SLIDING_TOKEN_REFRESH_EXP_CLAIM': 'refresh_exp',
+    'SLIDING_TOKEN_LIFETIME': timedelta(minutes=120),
+    'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=3),
 }
 
 MIDDLEWARE = [
@@ -241,3 +245,18 @@ LOGGING = {
         },
     },
 }
+
+# Configuraciones de sesión para prevenir cierres inesperados
+SESSION_COOKIE_AGE = 86400  # 24 horas
+SESSION_SAVE_EVERY_REQUEST = True  # Renovar sesión en cada request
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False  # No cerrar al cerrar browser
+SESSION_COOKIE_SECURE = True  # HTTPS only en producción
+SESSION_COOKIE_HTTPONLY = True  # Prevenir acceso desde JavaScript
+SESSION_COOKIE_SAMESITE = 'Lax'  # Protección CSRF
+
+# Configuraciones de timeout más robustas
+DATA_UPLOAD_MAX_MEMORY_SIZE = 100 * 1024 * 1024  # 100MB
+FILE_UPLOAD_MAX_MEMORY_SIZE = 50 * 1024 * 1024   # 50MB
+
+# Configuraciones adicionales para prevenir timeouts
+CONN_MAX_AGE = 60  # Reutilizar conexiones DB por 60 segundos

@@ -16,8 +16,8 @@ only_letters_numbers = RegexValidator(
 )
 
 only_lters_for_names = RegexValidator(
-    regex=r'^[a-zA-ZáéíóúÁÉÍÓÚñÑ.]+(?: [a-zA-ZáéíóúÁÉÍÓÚñÑ.]+)*$',
-    message='the field only accepts letters, periods, and single spaces between words.',
+    regex=r'^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ0-9\s.,;:()\-]+$',
+    message='the field accepts letters, numbers, accents, spaces and common punctuation.',
 )
 
 only_numbers = RegexValidator(

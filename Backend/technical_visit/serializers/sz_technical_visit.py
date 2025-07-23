@@ -85,9 +85,7 @@ class sz_technical_visit(serializers.ModelSerializer):
     def to_internal_value(self, data):
         """
         Procesar y limpiar los datos antes de la validación
-        """
-        logger.info(f"Datos originales recibidos en serializer: {data}")
-        
+        """        
         # Crear una copia mutable de los datos
         if hasattr(data, 'copy'):
             data = data.copy()
@@ -132,7 +130,6 @@ class sz_technical_visit(serializers.ModelSerializer):
             }
             
             data['concept_visit'] = concept_mapping.get(concept_value, concept_value)
-            logger.info(f"Concept visit mapeado: {concept_value} -> {data['concept_visit']}")
         
         # Manejar fechas
         if 'date_visit' in data:
@@ -159,43 +156,41 @@ class sz_technical_visit(serializers.ModelSerializer):
                         # Formato 12 horas con AM/PM
                         parsed_time = datetime.strptime(time_value, "%I:%M %p").time()
                         data[field] = parsed_time.strftime("%H:%M")
-                        logger.info(f"Tiempo convertido {field}: {time_value} -> {data[field]}")
                     elif ':' in time_value:
                         # Ya está en formato 24h, validar y mantener
                         datetime.strptime(time_value, "%H:%M")
                         data[field] = time_value
                 except ValueError as e:
-                    logger.error(f"Error al parsear tiempo {field}: {time_value} - {e}")
                     # Si no se puede parsear, mantener el valor original para que Django maneje el error
                     data[field] = time_value
 
-        logger.info(f"Datos procesados en serializer: {data}")
         return super().to_internal_value(data)
 
     def create(self, validated_data):
         try:
-            logger.info("Iniciando creación de visita técnica en serializer")
-            
             questions_data = validated_data.pop('question_id', {})
             evidence_photos_data = validated_data.pop('evidence_photo', [])
-            
-            logger.info(f"Creando visita técnica con {len(evidence_photos_data)} fotos de evidencia")
 
             with transaction.atomic():
-                # Crear la pregunta técnica primero
+                # Crear la pregunta técnica con valores por defecto si está vacía
                 if questions_data:
                     questions_tec = M_technical_question.objects.create(**questions_data)
-                    logger.info(f"Pregunta técnica creada con ID: {questions_tec.id}")
                 else:
-                    # Si no hay datos de pregunta, crear una vacía
-                    questions_tec = M_technical_question.objects.create()
-                    logger.info("Pregunta técnica vacía creada")
+                    # Usar valores por defecto para evitar el error de campos requeridos vacíos
+                    default_questions = {
+                        'Q_1': 'Bifásica',
+                        'Q_2': 'No tiene',
+                        'Q_3': 'Buenas condiciones',
+                        'Q_4': 'Fácil acceso',
+                        'Q_5': 'Pendiente',
+                        'Q_6': 'Pendiente'
+                    }
+                    questions_tec = M_technical_question.objects.create(**default_questions)
                 
                 # Crear la visita técnica
                 visit = M_technical_visit.objects.create(question_id=questions_tec, **validated_data)
-                logger.info(f"Visita técnica creada con código: {visit.code}")
                 
-                # Procesar fotos de evidencia de manera eficiente
+                # Procesar fotos de evidencia
                 if evidence_photos_data:
                     photo_objects = []
                     for index, photo in enumerate(evidence_photos_data):
@@ -206,20 +201,15 @@ class sz_technical_visit(serializers.ModelSerializer):
                         )
                         photo_objects.append(photo_obj)
                     
-                    # Bulk create para mejor performance
                     M_evidence_photo.objects.bulk_create(photo_objects)
-                    logger.info(f"Se crearon {len(photo_objects)} fotos de evidencia")
                 
             return visit
             
         except Exception as e:
-            logger.error(f"Error en create del serializer: {str(e)}", exc_info=True)
             raise
 
     def update(self, instance, validated_data):
         try:
-            logger.info(f"Actualizando visita técnica: {instance.code}")
-            
             questions_data = validated_data.pop('question_id', {})
             evidence_photos_data = validated_data.pop('evidence_photo', [])
 
@@ -228,14 +218,12 @@ class sz_technical_visit(serializers.ModelSerializer):
                 for attr, value in validated_data.items():
                     setattr(instance, attr, value)
                 instance.save()
-                logger.info("Datos de visita técnica actualizados")
                 
                 # Actualizar preguntas técnicas si hay datos
                 if questions_data and instance.question_id:
                     for attr, value in questions_data.items():
                         setattr(instance.question_id, attr, value)
                     instance.question_id.save()
-                    logger.info("Preguntas técnicas actualizadas")
                 
                 # Actualizar fotos de evidencia si hay nuevas
                 if evidence_photos_data:

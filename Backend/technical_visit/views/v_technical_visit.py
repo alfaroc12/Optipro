@@ -33,9 +33,6 @@ class V_technical_visit_create(CreateAPIView):
     
     def create(self, request, *args, **kwargs):
         try:
-            logger.info("Iniciando creación de visita técnica")
-            logger.info(f"Datos recibidos: {dict(request.data)}")
-            
             # Crear una copia mutable de los datos
             if hasattr(request.data, '_mutable'):
                 request.data._mutable = True
@@ -44,27 +41,23 @@ class V_technical_visit_create(CreateAPIView):
             data = {}
             for key, value in request.data.items():
                 if isinstance(value, list) and len(value) == 1:
-                    # Si es una lista con un solo elemento, extraer el elemento
                     data[key] = value[0]
                 else:
                     data[key] = value
             
             evidence_files = []
             
-            # Procesar archivos de evidencia de manera más eficiente
+            # Procesar archivos de evidencia
             if hasattr(request, 'FILES') and request.FILES:
-                logger.info(f"Procesando {len(request.FILES)} archivos")
                 for key in request.FILES.keys():
                     if key.startswith('evidence_photo'):
                         file_list = request.FILES.getlist(key)
                         evidence_files.extend(file_list)
                 
-                # Solo agregar si hay archivos
                 if evidence_files:
                     data['evidence_photo'] = evidence_files
-                    logger.info(f"Se agregaron {len(evidence_files)} archivos de evidencia")
 
-            # Procesar campos de preguntas de manera optimizada
+            # Procesar campos de preguntas
             question_data = {}
             question_fields = [f'Q_{i}' for i in range(1, 7)] + [f'Q_{i}_comentary' for i in range(1, 7)]
             
@@ -79,10 +72,7 @@ class V_technical_visit_create(CreateAPIView):
             
             if question_data:
                 data['question_id'] = question_data
-                logger.info(f"Procesadas {len(question_data)} respuestas de preguntas")
-
-            logger.info(f"Datos procesados antes del serializer: {data}")
-
+            
             # Crear el serializer con los datos procesados
             serializer = self.serializer_class(data=data, context={'request': request})
             
@@ -92,24 +82,20 @@ class V_technical_visit_create(CreateAPIView):
                     with transaction.atomic():
                         instance = self.perform_create(serializer)
                     
-                    logger.info(f"Visita técnica creada exitosamente: {instance.code}")
                     return Response(serializer.data, status=status.HTTP_201_CREATED)
                     
                 except Exception as e:
-                    logger.error(f"Error al guardar visita técnica: {str(e)}", exc_info=True)
                     return Response(
                         {"error": "Error interno al crear la visita técnica", "details": str(e)},
                         status=status.HTTP_500_INTERNAL_SERVER_ERROR
                     )
             else:
-                logger.warning(f"Datos inválidos para crear visita técnica: {serializer.errors}")
                 return Response({
                     "error": "Datos inválidos",
                     "messages": serializer.errors
                 }, status=status.HTTP_400_BAD_REQUEST)
                 
         except Exception as e:
-            logger.error(f"Error inesperado al crear visita técnica: {str(e)}", exc_info=True)
             return Response(
                 {"error": "Error interno del servidor", "details": str(e)},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
