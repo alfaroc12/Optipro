@@ -183,7 +183,7 @@ const DetallesProyectoForm: React.FC<DetallesProyectoFormProps> = ({
 		try {
 			if (!project?.id) return;
 
-			const detailResponse = await api.get(`/proyect/retrive/${project.id}/`);
+			const detailResponse = await api.get(`/proyect/retrieve/${project.id}/`);
 			const projectData = detailResponse.data;
 			console.log(projectData)
 			setFormData(projectData);

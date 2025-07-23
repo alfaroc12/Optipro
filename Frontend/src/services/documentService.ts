@@ -21,7 +21,7 @@ export const fetchQuotationDocument = async (
   try {
     // Primero intentamos obtener los detalles de la oferta para verificar si hay un archivo
     const ofertaResponse = await api.get(
-      `/sale_order/retrive/${cotizacionId}/`
+      `/sale_order/retrieve/${cotizacionId}/`
     );
 
     if (!ofertaResponse.data || !ofertaResponse.data.archivo_cotizacion) {
@@ -229,7 +229,7 @@ export const downloadQuotationDocument = async (
   try {
     // Primero obtenemos los detalles del documento
     const detailResponse = await axios.get(
-      `${API_URL}/sale_order/attach_sale_order/retrive/${documentId}/`
+      `${API_URL}/sale_order/attach_sale_order/retrieve/${documentId}/`
     );
 
     if (!detailResponse.data || !detailResponse.data.attach) {

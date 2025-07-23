@@ -83,7 +83,7 @@ const AdminProjectsPage: React.FC = () => {
         // Luego obtener los detalles de cada proyecto
         const projectsWithDetails = await Promise.all(
           projectsList.map(async (project: any) => {
-            const detailsResponse = await api.get(`/proyect/retrive/${project.id}/`);
+            const detailsResponse = await api.get(`/proyect/retrieve/${project.id}/`);
             return mapApiProjectToLocal(detailsResponse.data);
           })
         );
@@ -526,7 +526,7 @@ const AdminProjectsPage: React.FC = () => {
             project={selectedProject}
             onSubmit={(updatedProject) => {
               // Lógica para actualizar el proyecto
-              api.put(`/proyect/retrive/${updatedProject.id}/`, updatedProject)
+              api.put(`/proyect/retrieve/${updatedProject.id}/`, updatedProject)
                 .then(response => {
                   const updated = mapApiProjectToLocal(response.data);
                   setAllProjects(allProjects.map(p => p.id === updated.id ? updated : p));

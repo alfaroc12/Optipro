@@ -56,7 +56,7 @@ const AdminDetallesProyectoForm: React.FC<DetallesProyectoFormProps> = ({
 		if (!project?.id) return;
 
 		try {
-			const response = await api.get(`/proyect/retrive/${project.id}/`);
+			const response = await api.get(`/proyect/retrieve/${project.id}/`);
 			const fullProject = response.data;
 			const progreso = calcularProgresoDocumentos(fullProject.attachments || [], fullProject.status);
 			const etapa = mapStatusToLocal(fullProject.status);

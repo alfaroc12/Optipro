@@ -500,7 +500,7 @@ const ofertaServiceFixed = {
   }, // Obtener oferta por ID
   getOferta: async (id: number) => {
     try {
-      const response = await api.get(`/sale_order/retrive/${id}/`);
+      const response = await api.get(`/sale_order/retrieve/${id}/`);
 
       if (!response.data) {
         console.error(`No se encontraron datos para la oferta ${id}`);
@@ -1059,7 +1059,7 @@ const ofertaServiceFixed = {
     try {
       // Obtenemos el ID de la oferta del comentario
       const response = await api.get(
-        `/comentary_sale_order/retrive/${comentarioId}/`
+        `/comentary_sale_order/retrieve/${comentarioId}/`
       );
       if (!response.data || !response.data.sale_order_id) {
         throw new Error(

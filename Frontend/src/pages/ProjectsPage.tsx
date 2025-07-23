@@ -66,7 +66,7 @@ const ProjectsPage: React.FC = () => {
         // Luego obtener los detalles de cada proyecto
         const projectsWithDetails = await Promise.all(
           projectsList.map(async (project: any) => {
-            const detailsResponse = await api.get(`/proyect/retrive/${project.id}/`);
+            const detailsResponse = await api.get(`/proyect/retrieve/${project.id}/`);
             return mapApiProjectToLocal(detailsResponse.data);
           })
         );
