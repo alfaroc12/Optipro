@@ -520,8 +520,16 @@ class sz_sale_order_retrive(serializers.ModelSerializer):    # person_id_name = 
         try:
             if hasattr(obj, 'technical_visit_id') and obj.technical_visit_id:
                 logger.info(f"Serializing technical visit {obj.technical_visit_id.id} for sale_order {obj.id}")
+                
+                # Verificar que la visita técnica aún existe
+                from technical_visit.models.technical_visit import M_technical_visit
+                if not M_technical_visit.objects.filter(id=obj.technical_visit_id.id).exists():
+                    logger.warning(f"Technical visit {obj.technical_visit_id.id} referenced by sale_order {obj.id} no longer exists")
+                    return None
+                
                 return sz_technical_visit_retrive(obj.technical_visit_id).data
             return None
         except Exception as e:
-            logger.error(f"Error al obtener detalles de visita técnica para sale_order {obj.id}: {e}")
+            logger.error(f"Error al obtener detalles de visita técnica para sale_order {obj.id}: {e}", exc_info=True)
+            # En lugar de fallar, devolver None para mantener la funcionalidad
             return None

@@ -166,3 +166,63 @@ class V_Notification(viewsets.ModelViewSet):
             'unread': unread,
             'types': type_counts
         })
+    
+    @action(detail=False, methods=['post'])
+    def validate_and_cleanup(self, request):
+        """
+        Valida todas las notificaciones del usuario y elimina las que referencian
+        objetos que ya no existen
+        """
+        from notifications.utils.notifications_ut import validate_notification_references
+        
+        queryset = self.get_queryset().filter(is_read=False)
+        invalid_notifications = []
+        valid_count = 0
+        
+        for notification in queryset:
+            if not validate_notification_references(notification):
+                invalid_notifications.append({
+                    'id': notification.id,
+                    'type': notification.type,
+                    'message': notification.message,
+                    'reason': 'Referencia no válida'
+                })
+                notification.delete()
+            else:
+                valid_count += 1
+        
+        return Response({
+            'message': 'Validación completada',
+            'valid_notifications': valid_count,
+            'removed_notifications': len(invalid_notifications),
+            'removed_details': invalid_notifications
+        })
+    
+    @action(detail=True, methods=['post'])
+    def validate_reference(self, request, pk=None):
+        """
+        Valida si una notificación específica hace referencia a objetos que aún existen
+        """
+        from notifications.utils.notifications_ut import validate_notification_references
+        
+        try:
+            notification = self.get_object()
+            is_valid = validate_notification_references(notification)
+            
+            if not is_valid:
+                # La notificación hace referencia a algo que ya no existe
+                return Response({
+                    'valid': False,
+                    'message': 'Esta notificación hace referencia a un elemento que ya no existe',
+                    'recommendation': 'La notificación será eliminada automáticamente'
+                }, status=status.HTTP_410_GONE)
+            
+            return Response({
+                'valid': True,
+                'message': 'La notificación es válida'
+            })
+            
+        except m_notification.DoesNotExist:
+            return Response({
+                'error': 'Notificación no encontrada'
+            }, status=status.HTTP_404_NOT_FOUND)

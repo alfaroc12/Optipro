@@ -182,3 +182,66 @@ def notify_new_project_attachment(attach_obj, user):
     # Notifica a todos los administradores
     notify_all_admins('new_project_attachment', message, notification_data)
     # Puedes notificar también al responsable del proyecto si lo deseas
+
+def validate_notification_references(notification):
+    """
+    Valida si las referencias de una notificación aún existen
+    Retorna True si la notificación es válida, False si debe ser eliminada
+    """
+    try:
+        if notification.type in ['new_sale_order', 'quote_reminder']:
+            # Verificar si la sale_order aún existe
+            sale_order_id = notification.data.get('sale_order_id')
+            if sale_order_id:
+                return M_sale_order.objects.filter(id=sale_order_id).exists()
+        
+        # Para otros tipos de notificaciones, asumimos que son válidas por defecto
+        return True
+    except Exception:
+        # Si hay error en la validación, mantener la notificación
+        return True
+
+@shared_task
+def cleanup_orphaned_notifications():
+    """
+    Tarea de Celery para limpiar notificaciones que referencian objetos que ya no existen
+    """
+    from notifications.models.m_notifications import m_notification
+    
+    deleted_count = 0
+    total_checked = 0
+    
+    # Obtener todas las notificaciones no leídas relacionadas con sale_orders
+    notifications = m_notification.objects.filter(
+        type__in=['new_sale_order', 'quote_reminder'],
+        is_read=False
+    )
+    
+    for notification in notifications:
+        total_checked += 1
+        if not validate_notification_references(notification):
+            notification.delete()
+            deleted_count += 1
+    
+    return f"Limpieza completada: {deleted_count} notificaciones eliminadas de {total_checked} revisadas"
+
+def mark_notification_as_invalid(notification_id, reason="Referencia no válida"):
+    """
+    Marca una notificación como inválida y la elimina o actualiza
+    """
+    try:
+        from notifications.models.m_notifications import m_notification
+        notification = m_notification.objects.get(id=notification_id)
+        
+        # Opción 1: Eliminar la notificación
+        notification.delete()
+        return True
+        
+        # Opción 2: Marcar como leída y agregar información del error
+        # notification.is_read = True
+        # notification.message = f"[ELIMINADO] {notification.message} - {reason}"
+        # notification.save()
+        # return True
+        
+    except m_notification.DoesNotExist:
+        return False

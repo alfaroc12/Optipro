@@ -103,7 +103,21 @@ class V_sale_order_retrive(RetrieveAPIView): #class retrieve return response wit
     
     def retrieve(self, request, *args, **kwargs):
         try:
-            logger.info(f"Attempting to retrieve sale_order with ID: {kwargs.get('pk')}")
+            sale_order_id = kwargs.get('pk')
+            logger.info(f"Attempting to retrieve sale_order with ID: {sale_order_id}")
+            
+            # Verificar primero si la oferta existe
+            if not M_sale_order.objects.filter(id=sale_order_id).exists():
+                logger.warning(f"Sale order with ID {sale_order_id} not found")
+                return Response(
+                    {
+                        "error": "Oferta no encontrada",
+                        "message": f"La oferta con ID {sale_order_id} ya no existe o ha sido eliminada.",
+                        "code": "SALE_ORDER_NOT_FOUND"
+                    }, 
+                    status=status.HTTP_404_NOT_FOUND
+                )
+            
             instance = self.get_object()
             logger.info(f"Found sale_order: {instance.code} (ID: {instance.id})")
             
@@ -116,16 +130,28 @@ class V_sale_order_retrive(RetrieveAPIView): #class retrieve return response wit
             serializer = self.get_serializer(instance)
             logger.info("Serialization completed successfully")
             return Response(serializer.data)
+            
         except M_sale_order.DoesNotExist:
-            logger.warning(f"Sale order with ID {kwargs.get('pk')} not found")
+            sale_order_id = kwargs.get('pk')
+            logger.warning(f"Sale order with ID {sale_order_id} not found (DoesNotExist)")
             return Response(
-                {"error": "Sale order not found"}, 
+                {
+                    "error": "Oferta no encontrada",
+                    "message": f"La oferta con ID {sale_order_id} ya no existe o ha sido eliminada.",
+                    "code": "SALE_ORDER_NOT_FOUND"
+                }, 
                 status=status.HTTP_404_NOT_FOUND
             )
         except Exception as e:
-            logger.error(f"Error en retrieve sale_order: {e}", exc_info=True)
+            sale_order_id = kwargs.get('pk')
+            logger.error(f"Error en retrieve sale_order {sale_order_id}: {e}", exc_info=True)
             return Response(
-                {"error": "Internal server error", "details": str(e)}, 
+                {
+                    "error": "Error interno del servidor",
+                    "message": f"Ocurrió un error al obtener la oferta con ID {sale_order_id}. Por favor, contacte al administrador.",
+                    "code": "INTERNAL_ERROR",
+                    "details": str(e) if hasattr(e, '__str__') else "Error desconocido"
+                }, 
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
 
