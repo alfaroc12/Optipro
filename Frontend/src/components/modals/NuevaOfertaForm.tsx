@@ -1943,21 +1943,21 @@ const NuevaOfertaForm: React.FC<NuevaOfertaFormProps> = ({
 
                   {/* Inversor */}
                   <div className="flex items-center justify-between gap-4 p-2 hover:bg-gray-50 rounded-lg">
-                    <div className="flex items-center">
+                    <div className="flex items-center flex-1 min-w-0">
                       <input
                         type="checkbox"
                         id="inversor"
                         name="inversor"
                         checked={formData.equipamiento.inversor}
                         onChange={handleEquipmentChange}
-                        className="appearance-none w-4 h-4 rounded border border-gray-300 bg-white checked:bg-[#4178D4] checked:border-[#4178D4] focus:outline-none focus:ring-2 focus:ring-[#4178D4] focus:ring-offset-2 transition-all"
+                        className="appearance-none w-4 h-4 rounded border border-gray-300 bg-white checked:bg-[#4178D4] checked:border-[#4178D4] focus:outline-none focus:ring-2 focus:ring-[#4178D4] focus:ring-offset-2 transition-all flex-shrink-0"
                         disabled={readOnly}
                       />
                       <label htmlFor="inversor" className="ml-2">
                         Inversores/Microinversores
                       </label>
                     </div>
-                    <div className="flex items-center">
+                    <div className="flex items-center flex-shrink-0">
                       <span className="text-gray-500 mr-2">$</span>
                       <input
                         type="text"
@@ -1971,7 +1971,7 @@ const NuevaOfertaForm: React.FC<NuevaOfertaFormProps> = ({
                         }
                         onChange={handlePriceChange}
                         placeholder="0"
-                        className="w-32 p-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#4178D4] focus:border-transparent"
+                        className="w-24 p-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#4178D4] focus:border-transparent"
                         disabled={!formData.equipamiento.inversor || readOnly}
                       />
                     </div>
