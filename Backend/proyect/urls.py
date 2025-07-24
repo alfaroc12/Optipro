@@ -11,7 +11,7 @@ urlpatterns = [
     path('proyect/retrieve/<int:pk>/', V_proyect_retrive.as_view()),  # Corregido endpoint
     path('proyect/retrive/<int:pk>/', V_proyect_retrive.as_view()),   # TEMPORAL: Compatibilidad hacia atrás
     path('proyect/update/<int:pk>/', V_proyect_update.as_view()),
-    path('proyecto/delete/<int:pk>/', V_proyect_delete.as_view()),
+    path('proyect/delete/<int:pk>/', V_proyect_delete.as_view()),
     
 
     path('proyect_comentary/create/', V_proyect_comentary_create.as_view()),

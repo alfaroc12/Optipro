@@ -50,3 +50,21 @@ export const checkQuotationHasProject = async (
     return false;
   }
 };
+
+export const deleteProject = async (projectId: number): Promise<any> => {
+  try {
+    console.log(`Eliminando proyecto con ID: ${projectId}`);
+    const response = await api.delete(`/proyect/delete/${projectId}/`);
+    console.log("Respuesta de eliminación:", response.data);
+    return response.data;
+  } catch (error: any) {
+    console.error("Error en deleteProject service:", error);
+    
+    // Propagar el error con más información
+    if (error.response?.data) {
+      throw new Error(error.response.data.error || error.response.data.mensaje || "Error al eliminar el proyecto");
+    }
+    
+    throw new Error(error.message || "Error desconocido al eliminar el proyecto");
+  }
+};
