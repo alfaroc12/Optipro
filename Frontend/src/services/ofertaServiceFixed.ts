@@ -628,9 +628,23 @@ const ofertaServiceFixed = {
           valorTotal: response.data.total_quotation || 0,
         };
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error(`Error al obtener oferta con ID ${id}:`, error);
-      return null;
+      
+      // Manejar errores específicos del backend
+      if (error.response?.status === 404) {
+        const errorData = error.response.data;
+        if (errorData?.code === 'SALE_ORDER_NOT_FOUND') {
+          // El backend ya nos está diciendo que la oferta no existe
+          throw new Error(errorData.message || `La oferta con ID ${id} ya no existe.`);
+        } else {
+          throw new Error(`La oferta con ID ${id} no fue encontrada.`);
+        }
+      } else if (error.response?.status === 500) {
+        throw new Error(`Error interno del servidor al obtener la oferta con ID ${id}.`);
+      } else {
+        throw new Error(`Error al cargar la oferta con ID ${id}. Por favor, intente nuevamente.`);
+      }
     }
   },
 

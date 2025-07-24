@@ -343,8 +343,16 @@ const AdminOfertasPage = () => {
                   // Actualizar el estado para incluir esta oferta
                   dispatch(addOffer(oferta));
                 }
-              } catch (error) {
-                console.error("Error cargando oferta directamente:", error);
+              } catch (error: any) {
+                console.error(`Error al obtener oferta con ID ${idNum}:`, error);
+                
+                // Mostrar mensaje específico al usuario
+                if (error.message) {
+                  toast.error(error.message);
+                } else {
+                  toast.error(`No se pudo cargar la oferta con ID ${idNum}`);
+                }
+                return; // Salir de la función si hay error
               }
             }
 
@@ -435,10 +443,27 @@ const AdminOfertasPage = () => {
                 }, 100);
               }
             } else {
-              console.warn(
+              console.log(
                 `AdminOfertasPage: No se pudo encontrar la oferta con ID ${idNum}`
               );
-              toast.warning("No se pudo encontrar la oferta solicitada");
+              
+              // Mostrar mensaje específico informando que la oferta ya no existe
+              toast.error(
+                `La oferta #${idNum} ya no existe o ha sido eliminada.`,
+                {
+                  autoClose: 5000,
+                }
+              );
+              
+              // Opcional: disparar evento para limpiar la notificación
+              window.dispatchEvent(
+                new CustomEvent("invalidNotification", {
+                  detail: {
+                    notificationId: params.notificationId,
+                    reason: "Oferta no encontrada",
+                  },
+                })
+              );
             }
           } else {
             console.warn("AdminOfertasPage: Evento sin ID de oferta", params);
