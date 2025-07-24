@@ -11,6 +11,7 @@ from django.db import transaction
 from function.paginator import Limit_paginator
 from sale_order.models.attach_sale_order import M_attach_sale_order
 from sale_order.models.comentary_sale_order import M_comentary_sale_order
+from proyect.models.proyect import M_proyect
 from notifications.utils.notifications_ut import notify_sale_order_status_change  # <--- Importa la utilidad
 from notifications.utils.notifications_ut import notify_admins_quote_reminder
 from notifications.utils.notifications_ut import notify_admins_sale_order
@@ -350,6 +351,22 @@ class V_sale_order_delete(DestroyAPIView): # Clase para eliminar ofertas
         try:
             instance = self.get_object()
             sale_order_id = instance.id
+            
+            # Verificar si existen proyectos relacionados con esta oferta
+            proyectos_relacionados = M_proyect.objects.filter(sale_order_id=sale_order_id)
+            
+            if proyectos_relacionados.exists():
+                # Obtener los códigos de los proyectos relacionados para el mensaje
+                codigos_proyectos = list(proyectos_relacionados.values_list('code', flat=True))
+                proyectos_str = ', '.join(codigos_proyectos)
+                
+                return Response(
+                    {
+                        "error": f"Esta oferta no se puede eliminar porque está asociada a {proyectos_relacionados.count()} proyecto(s): {proyectos_str}. "
+                                f"Primero debe eliminar o reasignar los proyectos relacionados."
+                    },
+                    status=status.HTTP_400_BAD_REQUEST
+                )
             
             # Usamos transacción para asegurar que todo se elimina o nada
             with transaction.atomic():
