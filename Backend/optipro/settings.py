@@ -36,6 +36,7 @@ CORS_ALLOWED_ORIGINS = [
     "https://frontend-optipro-production.up.railway.app",
     "https://backend-optipro-production.up.railway.app",
     "https://optipro.site"
+    "localhost:5173",
 ]
 CSRF_TRUSTED_ORIGINS = [
     "https://frontend-optipro-production.up.railway.app",
