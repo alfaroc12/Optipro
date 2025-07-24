@@ -156,10 +156,27 @@ export const useNotifications = () => {
 
     fetchNotifications();
 
+    // Listener para limpiar notificaciones inválidas
+    const handleInvalidNotification = (event: CustomEvent) => {
+      const { notificationId, reason } = event.detail;
+      console.log(`Eliminando notificación inválida ${notificationId}: ${reason}`);
+      
+      // Eliminar la notificación del estado local
+      setNotifications(prev => prev.filter(n => n.id !== notificationId));
+      
+      // Opcional: llamar al backend para eliminar la notificación
+      // NotificationsService.delete(notificationId);
+    };
+    
+    window.addEventListener('invalidNotification', handleInvalidNotification as EventListener);
+
     // Opcionalmente, podemos configurar un intervalo para actualizar las notificaciones periódicamente
     const intervalId = setInterval(fetchNotifications, 30000); // Cada 30 segundos
 
-    return () => clearInterval(intervalId); // Limpieza al desmontar
+    return () => {
+      clearInterval(intervalId); // Limpieza al desmontar
+      window.removeEventListener('invalidNotification', handleInvalidNotification as EventListener);
+    };
   }, []);
 
   // Calcular el número de notificaciones no leídas
