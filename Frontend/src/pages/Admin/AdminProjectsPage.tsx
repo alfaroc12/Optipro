@@ -32,6 +32,7 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import api from "@/services/api";
+import { deleteProject } from "@/services/projectService";
 import NuevoProyectoForm from "@/components/modals/Admin/AdminNuevoProyectoForm";
 import AdminDetallesProyectoForm from "@/components/modals/Admin/AdminDetallesProyectoForm.tsx";
 
@@ -499,15 +500,16 @@ const AdminProjectsPage: React.FC = () => {
               <button
                 onClick={async () => {
                   try {
-                    await api.delete(`/proyecto/delete/${projectToDelete.id}/`);
+                    await deleteProject(projectToDelete.id);
+                    
                     const updated = allProjects.filter(p => p.id !== projectToDelete.id);
                     setAllProjects(updated);
                     dispatch(fetchProjectsSuccess(updated as any));
                     setShowDeleteModal(false);
                     setProjectToDelete(null);
-                  } catch (error) {
-                    alert("Error al eliminar el proyecto.");
-                    console.error(error);
+                  } catch (error: any) {
+                    console.error("Error al eliminar proyecto:", error);
+                    alert(error.message || "Error al eliminar el proyecto.");
                   }
                 }}
                 className="px-4 py-2 rounded-md bg-red-600 text-white hover:bg-red-700"

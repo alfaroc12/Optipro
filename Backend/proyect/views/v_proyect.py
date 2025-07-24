@@ -80,24 +80,31 @@ class V_proyect_update(UpdateAPIView):
 
 
 class V_proyect_delete(DestroyAPIView):
+    permission_classes = [AllowAny]
     queryset = M_proyect.objects.all()
 
     def delete(self, request, *args, **kwargs):
-        proyecto = self.get_object()
+        try:
+            proyecto = self.get_object()
 
-        # Buscar y eliminar archivos físicos
-        archivos = M_attach_proyect.objects.filter(proyect_id=proyecto)
-        for archivo in archivos:
-            try:
-                if archivo.attach and os.path.isfile(archivo.attach.path):
-                    os.remove(archivo.attach.path)
-                    print(f"Archivo eliminado: {archivo.attach.path}")
-            except Exception as e:
-                print(f"Error eliminando archivo {archivo.attach.name}: {str(e)}")
+            # Buscar y eliminar archivos físicos
+            archivos = M_attach_proyect.objects.filter(proyect_id=proyecto)
+            for archivo in archivos:
+                try:
+                    if archivo.attach and os.path.isfile(archivo.attach.path):
+                        os.remove(archivo.attach.path)
+                except Exception as e:
+                    print(f"Error eliminando archivo {archivo.attach.name}: {str(e)}")
 
-        # Luego eliminar el proyecto (esto elimina registros por cascada)
-        self.perform_destroy(proyecto)
-        return Response({'mensaje': 'Proyecto y documentos eliminados correctamente.'}, status=status.HTTP_204_NO_CONTENT)
+            # Eliminar el proyecto
+            self.perform_destroy(proyecto)
+            return Response({'mensaje': 'Proyecto eliminado correctamente.'}, status=status.HTTP_204_NO_CONTENT)
+            
+        except Exception as e:
+            return Response(
+                {"error": f"Error al eliminar el proyecto: {str(e)}"},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
 
 class V_proyect_export(ListAPIView):
     queryset = M_proyect.objects.all()
