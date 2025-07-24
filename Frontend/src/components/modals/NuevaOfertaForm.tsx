@@ -1757,21 +1757,21 @@ const NuevaOfertaForm: React.FC<NuevaOfertaFormProps> = ({
                 <div className="space-y-2">
                   {/* Paneles solares */}
                   <div className="flex items-center justify-between gap-4 p-2 hover:bg-gray-50 rounded-lg">
-                    <div className="flex items-center flex-1 min-w-0">
+                    <div className="flex items-center">
                       <input
                         type="checkbox"
                         id="panelesSolares"
                         name="panelesSolares"
                         checked={formData.equipamiento.panelesSolares}
                         onChange={handleEquipmentChange}
-                        className="appearance-none w-4 h-4 rounded border border-gray-300 bg-white checked:bg-[#4178D4] checked:border-[#4178D4] focus:outline-none focus:ring-2 focus:ring-[#4178D4] focus:ring-offset-2 transition-all flex-shrink-0"
+                        className="appearance-none w-4 h-4 rounded border border-gray-300 bg-white checked:bg-[#4178D4] checked:border-[#4178D4] focus:outline-none focus:ring-2 focus:ring-[#4178D4] focus:ring-offset-2 transition-all"
                         disabled={readOnly}
                       />
                       <label htmlFor="panelesSolares" className="ml-2">
                         Paneles solares
                       </label>
                     </div>
-                    <div className="flex items-center flex-shrink-0">
+                    <div className="flex items-center">
                       <span className="text-gray-500 mr-2">$</span>
                       <input
                         type="text"
@@ -1785,7 +1785,7 @@ const NuevaOfertaForm: React.FC<NuevaOfertaFormProps> = ({
                         }
                         onChange={handlePriceChange}
                         placeholder="0"
-                        className="w-24 p-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#4178D4] focus:border-transparent"
+                        className="w-32 p-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#4178D4] focus:border-transparent"
                         disabled={
                           !formData.equipamiento.panelesSolares || readOnly
                         }
@@ -1795,21 +1795,21 @@ const NuevaOfertaForm: React.FC<NuevaOfertaFormProps> = ({
 
                   {/* Estructuras de montaje */}
                   <div className="flex items-center justify-between gap-4 p-2 hover:bg-gray-50 rounded-lg">
-                    <div className="flex items-center flex-1 min-w-0">
+                    <div className="flex items-center">
                       <input
                         type="checkbox"
                         id="estructurasMontaje"
                         name="estructurasMontaje"
                         checked={formData.equipamiento.estructurasMontaje}
                         onChange={handleEquipmentChange}
-                        className="appearance-none w-4 h-4 rounded border border-gray-300 bg-white checked:bg-[#4178D4] checked:border-[#4178D4] focus:outline-none focus:ring-2 focus:ring-[#4178D4] focus:ring-offset-2 transition-all flex-shrink-0"
+                        className="appearance-none w-4 h-4 rounded border border-gray-300 bg-white checked:bg-[#4178D4] checked:border-[#4178D4] focus:outline-none focus:ring-2 focus:ring-[#4178D4] focus:ring-offset-2 transition-all"
                         disabled={readOnly}
                       />
                       <label htmlFor="estructurasMontaje" className="ml-2">
                         Estructuras de montaje
                       </label>
                     </div>
-                    <div className="flex items-center flex-shrink-0">
+                    <div className="flex items-center">
                       <span className="text-gray-500 mr-2">$</span>
                       <input
                         type="text"
@@ -1823,7 +1823,7 @@ const NuevaOfertaForm: React.FC<NuevaOfertaFormProps> = ({
                         }
                         onChange={handlePriceChange}
                         placeholder="0"
-                        className="w-24 p-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#4178D4] focus:border-transparent"
+                        className="w-32 p-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#4178D4] focus:border-transparent"
                         disabled={
                           !formData.equipamiento.estructurasMontaje || readOnly
                         }
@@ -1833,21 +1833,21 @@ const NuevaOfertaForm: React.FC<NuevaOfertaFormProps> = ({
 
                   {/* Cableado y gabinete */}
                   <div className="flex items-center justify-between gap-4 p-2 hover:bg-gray-50 rounded-lg">
-                    <div className="flex items-center flex-1 min-w-0">
+                    <div className="flex items-center">
                       <input
                         type="checkbox"
                         id="cableadoGabinete"
                         name="cableadoGabinete"
                         checked={formData.equipamiento.cableadoGabinete}
                         onChange={handleEquipmentChange}
-                        className="appearance-none w-4 h-4 rounded border border-gray-300 bg-white checked:bg-[#4178D4] checked:border-[#4178D4] focus:outline-none focus:ring-2 focus:ring-[#4178D4] focus:ring-offset-2 transition-all flex-shrink-0"
+                        className="appearance-none w-4 h-4 rounded border border-gray-300 bg-white checked:bg-[#4178D4] checked:border-[#4178D4] focus:outline-none focus:ring-2 focus:ring-[#4178D4] focus:ring-offset-2 transition-all"
                         disabled={readOnly}
                       />
                       <label htmlFor="cableadoGabinete" className="ml-2">
                         Cableado y gabinete
                       </label>
                     </div>
-                    <div className="flex items-center flex-shrink-0">
+                    <div className="flex items-center">
                       <span className="text-gray-500 mr-2">$</span>
                       <input
                         type="text"
@@ -1861,7 +1861,7 @@ const NuevaOfertaForm: React.FC<NuevaOfertaFormProps> = ({
                         }
                         onChange={handlePriceChange}
                         placeholder="0"
-                        className="w-24 p-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#4178D4] focus:border-transparent"
+                        className="w-32 p-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#4178D4] focus:border-transparent"
                         disabled={
                           !formData.equipamiento.cableadoGabinete || readOnly
                         }
@@ -1871,21 +1871,21 @@ const NuevaOfertaForm: React.FC<NuevaOfertaFormProps> = ({
 
                   {/* Legalización y diseños */}
                   <div className="flex items-center justify-between gap-4 p-2 hover:bg-gray-50 rounded-lg">
-                    <div className="flex items-center flex-1 min-w-0">
+                    <div className="flex items-center">
                       <input
                         type="checkbox"
                         id="legalizacionDisenos"
                         name="legalizacionDisenos"
                         checked={formData.equipamiento.legalizacionDisenos}
                         onChange={handleEquipmentChange}
-                        className="appearance-none w-4 h-4 rounded border border-gray-300 bg-white checked:bg-[#4178D4] checked:border-[#4178D4] focus:outline-none focus:ring-2 focus:ring-[#4178D4] focus:ring-offset-2 transition-all flex-shrink-0"
+                        className="appearance-none w-4 h-4 rounded border border-gray-300 bg-white checked:bg-[#4178D4] checked:border-[#4178D4] focus:outline-none focus:ring-2 focus:ring-[#4178D4] focus:ring-offset-2 transition-all"
                         disabled={readOnly}
                       />
                       <label htmlFor="legalizacionDisenos" className="ml-2">
                         Legalización y diseños
                       </label>
                     </div>
-                    <div className="flex items-center flex-shrink-0">
+                    <div className="flex items-center">
                       <span className="text-gray-500 mr-2">$</span>
                       <input
                         type="text"
@@ -1899,7 +1899,7 @@ const NuevaOfertaForm: React.FC<NuevaOfertaFormProps> = ({
                         }
                         onChange={handlePriceChange}
                         placeholder="0"
-                        className="w-24 p-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#4178D4] focus:border-transparent"
+                        className="w-32 p-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#4178D4] focus:border-transparent"
                         disabled={
                           !formData.equipamiento.legalizacionDisenos || readOnly
                         }
@@ -1909,21 +1909,21 @@ const NuevaOfertaForm: React.FC<NuevaOfertaFormProps> = ({
 
                   {/* Batería */}
                   <div className="flex items-center justify-between gap-4 p-2 hover:bg-gray-50 rounded-lg">
-                    <div className="flex items-center flex-1 min-w-0">
+                    <div className="flex items-center">
                       <input
                         type="checkbox"
                         id="bateria"
                         name="bateria"
                         checked={formData.equipamiento.bateria}
                         onChange={handleEquipmentChange}
-                        className="appearance-none w-4 h-4 rounded border border-gray-300 bg-white checked:bg-[#4178D4] checked:border-[#4178D4] focus:outline-none focus:ring-2 focus:ring-[#4178D4] focus:ring-offset-2 transition-all flex-shrink-0"
+                        className="appearance-none w-4 h-4 rounded border border-gray-300 bg-white checked:bg-[#4178D4] checked:border-[#4178D4] focus:outline-none focus:ring-2 focus:ring-[#4178D4] focus:ring-offset-2 transition-all"
                         disabled={readOnly}
                       />
                       <label htmlFor="bateria" className="ml-2">
                         Batería
                       </label>
                     </div>
-                    <div className="flex items-center flex-shrink-0">
+                    <div className="flex items-center">
                       <span className="text-gray-500 mr-2">$</span>
                       <input
                         type="text"
@@ -1935,7 +1935,7 @@ const NuevaOfertaForm: React.FC<NuevaOfertaFormProps> = ({
                         }
                         onChange={handlePriceChange}
                         placeholder="0"
-                        className="w-24 p-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#4178D4] focus:border-transparent"
+                        className="w-32 p-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#4178D4] focus:border-transparent"
                         disabled={!formData.equipamiento.bateria || readOnly}
                       />
                     </div>
@@ -1954,7 +1954,7 @@ const NuevaOfertaForm: React.FC<NuevaOfertaFormProps> = ({
                         disabled={readOnly}
                       />
                       <label htmlFor="inversor" className="ml-2">
-                        Inversores
+                        Inversores/Microinversores
                       </label>
                     </div>
                     <div className="flex items-center flex-shrink-0">
@@ -1979,21 +1979,21 @@ const NuevaOfertaForm: React.FC<NuevaOfertaFormProps> = ({
 
                   {/* Kit 5kw */}
                   <div className="flex items-center justify-between gap-4 p-2 hover:bg-gray-50 rounded-lg">
-                    <div className="flex items-center flex-1 min-w-0">
+                    <div className="flex items-center">
                       <input
                         type="checkbox"
                         id="kit5kw"
                         name="kit5kw"
                         checked={formData.equipamiento.kit5kw}
                         onChange={handleEquipmentChange}
-                        className="appearance-none w-4 h-4 rounded border border-gray-300 bg-white checked:bg-[#4178D4] checked:border-[#4178D4] focus:outline-none focus:ring-2 focus:ring-[#4178D4] focus:ring-offset-2 transition-all flex-shrink-0"
+                        className="appearance-none w-4 h-4 rounded border border-gray-300 bg-white checked:bg-[#4178D4] checked:border-[#4178D4] focus:outline-none focus:ring-2 focus:ring-[#4178D4] focus:ring-offset-2 transition-all"
                         disabled={readOnly}
                       />
                       <label htmlFor="kit5kw" className="ml-2">
                         Kit 5kw
                       </label>
                     </div>
-                    <div className="flex items-center flex-shrink-0">
+                    <div className="flex items-center">
                       <span className="text-gray-500 mr-2">$</span>
                       <input
                         type="text"
@@ -2005,7 +2005,7 @@ const NuevaOfertaForm: React.FC<NuevaOfertaFormProps> = ({
                         }
                         onChange={handlePriceChange}
                         placeholder="0"
-                        className="w-24 p-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#4178D4] focus:border-transparent"
+                        className="w-32 p-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#4178D4] focus:border-transparent"
                         disabled={!formData.equipamiento.kit5kw || readOnly}
                       />
                     </div>
@@ -2015,21 +2015,21 @@ const NuevaOfertaForm: React.FC<NuevaOfertaFormProps> = ({
                 <div className="space-y-2">
                   {/* Kit 8kw */}
                   <div className="flex items-center justify-between gap-4 p-2 hover:bg-gray-50 rounded-lg">
-                    <div className="flex items-center flex-1 min-w-0">
+                    <div className="flex items-center">
                       <input
                         type="checkbox"
                         id="kit8kw"
                         name="kit8kw"
                         checked={formData.equipamiento.kit8kw}
                         onChange={handleEquipmentChange}
-                        className="appearance-none w-4 h-4 rounded border border-gray-300 bg-white checked:bg-[#4178D4] checked:border-[#4178D4] focus:outline-none focus:ring-2 focus:ring-[#4178D4] focus:ring-offset-2 transition-all flex-shrink-0"
+                        className="appearance-none w-4 h-4 rounded border border-gray-300 bg-white checked:bg-[#4178D4] checked:border-[#4178D4] focus:outline-none focus:ring-2 focus:ring-[#4178D4] focus:ring-offset-2 transition-all"
                         disabled={readOnly}
                       />
                       <label htmlFor="kit8kw" className="ml-2">
                         Kit 8kw
                       </label>
                     </div>
-                    <div className="flex items-center flex-shrink-0">
+                    <div className="flex items-center">
                       <span className="text-gray-500 mr-2">$</span>
                       <input
                         type="text"
@@ -2041,7 +2041,7 @@ const NuevaOfertaForm: React.FC<NuevaOfertaFormProps> = ({
                         }
                         onChange={handlePriceChange}
                         placeholder="0"
-                        className="w-24 p-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#4178D4] focus:border-transparent"
+                        className="w-32 p-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#4178D4] focus:border-transparent"
                         disabled={!formData.equipamiento.kit8kw || readOnly}
                       />
                     </div>
@@ -2049,21 +2049,21 @@ const NuevaOfertaForm: React.FC<NuevaOfertaFormProps> = ({
 
                   {/* Kit 12kw */}
                   <div className="flex items-center justify-between gap-4 p-2 hover:bg-gray-50 rounded-lg">
-                    <div className="flex items-center flex-1 min-w-0">
+                    <div className="flex items-center">
                       <input
                         type="checkbox"
                         id="kit12kw"
                         name="kit12kw"
                         checked={formData.equipamiento.kit12kw}
                         onChange={handleEquipmentChange}
-                        className="appearance-none w-4 h-4 rounded border border-gray-300 bg-white checked:bg-[#4178D4] checked:border-[#4178D4] focus:outline-none focus:ring-2 focus:ring-[#4178D4] focus:ring-offset-2 transition-all flex-shrink-0"
+                        className="appearance-none w-4 h-4 rounded border border-gray-300 bg-white checked:bg-[#4178D4] checked:border-[#4178D4] focus:outline-none focus:ring-2 focus:ring-[#4178D4] focus:ring-offset-2 transition-all"
                         disabled={readOnly}
                       />
                       <label htmlFor="kit12kw" className="ml-2">
                         Kit 12kw
                       </label>
                     </div>
-                    <div className="flex items-center flex-shrink-0">
+                    <div className="flex items-center">
                       <span className="text-gray-500 mr-2">$</span>
                       <input
                         type="text"
@@ -2075,7 +2075,7 @@ const NuevaOfertaForm: React.FC<NuevaOfertaFormProps> = ({
                         }
                         onChange={handlePriceChange}
                         placeholder="0"
-                        className="w-24 p-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#4178D4] focus:border-transparent"
+                        className="w-32 p-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#4178D4] focus:border-transparent"
                         disabled={!formData.equipamiento.kit12kw || readOnly}
                       />
                     </div>
@@ -2083,21 +2083,21 @@ const NuevaOfertaForm: React.FC<NuevaOfertaFormProps> = ({
 
                   {/* Kit 15kw */}
                   <div className="flex items-center justify-between gap-4 p-2 hover:bg-gray-50 rounded-lg">
-                    <div className="flex items-center flex-1 min-w-0">
+                    <div className="flex items-center">
                       <input
                         type="checkbox"
                         id="kit15kw"
                         name="kit15kw"
                         checked={formData.equipamiento.kit15kw}
                         onChange={handleEquipmentChange}
-                        className="appearance-none w-4 h-4 rounded border border-gray-300 bg-white checked:bg-[#4178D4] checked:border-[#4178D4] focus:outline-none focus:ring-2 focus:ring-[#4178D4] focus:ring-offset-2 transition-all flex-shrink-0"
+                        className="appearance-none w-4 h-4 rounded border border-gray-300 bg-white checked:bg-[#4178D4] checked:border-[#4178D4] focus:outline-none focus:ring-2 focus:ring-[#4178D4] focus:ring-offset-2 transition-all"
                         disabled={readOnly}
                       />
                       <label htmlFor="kit15kw" className="ml-2">
                         Kit 15kw
                       </label>
                     </div>
-                    <div className="flex items-center flex-shrink-0">
+                    <div className="flex items-center">
                       <span className="text-gray-500 mr-2">$</span>
                       <input
                         type="text"
@@ -2109,7 +2109,7 @@ const NuevaOfertaForm: React.FC<NuevaOfertaFormProps> = ({
                         }
                         onChange={handlePriceChange}
                         placeholder="0"
-                        className="w-24 p-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#4178D4] focus:border-transparent"
+                        className="w-32 p-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#4178D4] focus:border-transparent"
                         disabled={!formData.equipamiento.kit15kw || readOnly}
                       />
                     </div>
@@ -2117,21 +2117,21 @@ const NuevaOfertaForm: React.FC<NuevaOfertaFormProps> = ({
 
                   {/* Kit 30kw */}
                   <div className="flex items-center justify-between gap-4 p-2 hover:bg-gray-50 rounded-lg">
-                    <div className="flex items-center flex-1 min-w-0">
+                    <div className="flex items-center">
                       <input
                         type="checkbox"
                         id="kit30kw"
                         name="kit30kw"
                         checked={formData.equipamiento.kit30kw}
                         onChange={handleEquipmentChange}
-                        className="appearance-none w-4 h-4 rounded border border-gray-300 bg-white checked:bg-[#4178D4] checked:border-[#4178D4] focus:outline-none focus:ring-2 focus:range-[#4178D4] focus:ring-offset-2 transition-all flex-shrink-0"
+                        className="appearance-none w-4 h-4 rounded border border-gray-300 bg-white checked:bg-[#4178D4] checked:border-[#4178D4] focus:outline-none focus:ring-2 focus:ring-[#4178D4] focus:ring-offset-2 transition-all"
                         disabled={readOnly}
                       />
                       <label htmlFor="kit30kw" className="ml-2">
                         Kit 30kw
                       </label>
                     </div>
-                    <div className="flex items-center flex-shrink-0">
+                    <div className="flex items-center">
                       <span className="text-gray-500 mr-2">$</span>
                       <input
                         type="text"
@@ -2143,7 +2143,7 @@ const NuevaOfertaForm: React.FC<NuevaOfertaFormProps> = ({
                         }
                         onChange={handlePriceChange}
                         placeholder="0"
-                        className="w-24 p-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#4178D4] focus:border-transparent"
+                        className="w-32 p-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#4178D4] focus:border-transparent"
                         disabled={!formData.equipamiento.kit30kw || readOnly}
                       />
                     </div>
@@ -2151,21 +2151,21 @@ const NuevaOfertaForm: React.FC<NuevaOfertaFormProps> = ({
 
                   {/* Transporte */}
                   <div className="flex items-center justify-between gap-4 p-2 hover:bg-gray-50 rounded-lg">
-                    <div className="flex items-center flex-1 min-w-0">
+                    <div className="flex items-center">
                       <input
                         type="checkbox"
                         id="transporte"
                         name="transporte"
                         checked={formData.equipamiento.transporte}
                         onChange={handleEquipmentChange}
-                        className="appearance-none w-4 h-4 rounded border border-gray-300 bg-white checked:bg-[#4178D4] checked:border-[#4178D4] focus:outline-none focus:ring-2 focus:ring-[#4178D4] focus:ring-offset-2 transition-all flex-shrink-0"
+                        className="appearance-none w-4 h-4 rounded border border-gray-300 bg-white checked:bg-[#4178D4] checked:border-[#4178D4] focus:outline-none focus:ring-2 focus:ring-[#4178D4] focus:ring-offset-2 transition-all"
                         disabled={readOnly}
                       />
                       <label htmlFor="transporte" className="ml-2">
                         Transporte
                       </label>
                     </div>
-                    <div className="flex items-center flex-shrink-0">
+                    <div className="flex items-center">
                       <span className="text-gray-500 mr-2">$</span>
                       <input
                         type="text"
@@ -2179,7 +2179,7 @@ const NuevaOfertaForm: React.FC<NuevaOfertaFormProps> = ({
                         }
                         onChange={handlePriceChange}
                         placeholder="0"
-                        className="w-24 p-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#4178D4] focus:border-transparent"
+                        className="w-32 p-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#4178D4] focus:border-transparent"
                         disabled={!formData.equipamiento.transporte || readOnly}
                       />
                     </div>
@@ -2187,21 +2187,21 @@ const NuevaOfertaForm: React.FC<NuevaOfertaFormProps> = ({
 
                   {/* Mano de obra */}
                   <div className="flex items-center justify-between gap-4 p-2 hover:bg-gray-50 rounded-lg">
-                    <div className="flex items-center flex-1 min-w-0">
+                    <div className="flex items-center">
                       <input
                         type="checkbox"
                         id="manoDeObra"
                         name="manoDeObra"
                         checked={formData.equipamiento.manoDeObra}
                         onChange={handleEquipmentChange}
-                        className="appearance-none w-4 h-4 rounded border border-gray-300 bg-white checked:bg-[#4178D4] checked:border-[#4178D4] focus:outline-none focus:ring-2 focus:ring-[#4178D4] focus:ring-offset-2 transition-all flex-shrink-0"
+                        className="appearance-none w-4 h-4 rounded border border-gray-300 bg-white checked:bg-[#4178D4] checked:border-[#4178D4] focus:outline-none focus:ring-2 focus:ring-[#4178D4] focus:ring-offset-2 transition-all"
                         disabled={readOnly}
                       />
                       <label htmlFor="manoDeObra" className="ml-2">
                         Mano de obra
                       </label>
                     </div>
-                    <div className="flex items-center flex-shrink-0">
+                    <div className="flex items-center">
                       <span className="text-gray-500 mr-2">$</span>
                       <input
                         type="text"
@@ -2215,7 +2215,7 @@ const NuevaOfertaForm: React.FC<NuevaOfertaFormProps> = ({
                         }
                         onChange={handlePriceChange}
                         placeholder="0"
-                        className="w-24 p-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#4178D4] focus:border-transparent"
+                        className="w-32 p-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#4178D4] focus:border-transparent"
                         disabled={!formData.equipamiento.manoDeObra || readOnly}
                       />
                     </div>
@@ -2223,21 +2223,21 @@ const NuevaOfertaForm: React.FC<NuevaOfertaFormProps> = ({
 
                   {/* Microinversores */}
                   <div className="flex items-center justify-between gap-4 p-2 hover:bg-gray-50 rounded-lg">
-                    <div className="flex items-center flex-1 min-w-0">
+                    <div className="flex items-center">
                       <input
                         type="checkbox"
                         id="microinversores"
                         name="microinversores"
                         checked={formData.equipamiento.microinversores}
                         onChange={handleEquipmentChange}
-                        className="appearance-none w-4 h-4 rounded border border-gray-300 bg-white checked:bg-[#4178D4] checked:border-[#4178D4] focus:outline-none focus:ring-2 focus:ring-[#4178D4] focus:ring-offset-2 transition-all flex-shrink-0"
+                        className="appearance-none w-4 h-4 rounded border border-gray-300 bg-white checked:bg-[#4178D4] checked:border-[#4178D4] focus:outline-none focus:ring-2 focus:ring-[#4178D4] focus:ring-offset-2 transition-all"
                         disabled={readOnly}
                       />
                       <label htmlFor="microinversores" className="ml-2">
                         Otros conceptos
                       </label>
                     </div>
-                    <div className="flex items-center flex-shrink-0">
+                    <div className="flex items-center">
                       <span className="text-gray-500 mr-2">$</span>
                       <input
                         type="text"
@@ -2251,16 +2251,16 @@ const NuevaOfertaForm: React.FC<NuevaOfertaFormProps> = ({
                         }
                         onChange={handlePriceChange}
                         placeholder="0"
-                        className="w-24 p-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#4178D4] focus:border-transparent"
+                        className="w-32 p-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#4178D4] focus:border-transparent"
                         disabled={
                           !formData.equipamiento.microinversores || readOnly
                         }
                       />
                     </div>
                   </div>
-                </div>
-              </div>
-            </div>
+                </div>{" "}
+              </div>{" "}
+            </div>{" "}
             <div className="bg-gray-50 rounded-lg p-5 mb-6">
               <h4 className="font-semibold text-[#34509F] mb-3">
                 Documentación
