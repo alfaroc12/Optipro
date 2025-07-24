@@ -339,11 +339,9 @@ const AdminProjectsPage: React.FC = () => {
   };
 
   const handleDeleteProject = (id: any) => {
-    const project = allProjects.find(p => p.id === id);
-    if (!project) return;
-
-    setProjectToDelete(project);
     setShowDeleteModal(true);
+    setProjectToDelete(id);
+
   };
   const handleFormSubmit = (data: any) => {
     console.log("Nuevo proyecto enviado:", data);
