@@ -451,7 +451,7 @@ const AdminOfertasPage = () => {
               toast.error(
                 `La oferta #${idNum} ya no existe o ha sido eliminada.`,
                 {
-                  duration: 5000,
+                  autoClose: 5000,
                 }
               );
               
