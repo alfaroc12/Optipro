@@ -282,14 +282,25 @@ const AdminNuevaOfertaForm: React.FC<NuevaOfertaFormProps> = ({
 
         // Actualizar el formulario con los datos de la visita seleccionada
         // Procesar apellido para dividirlo si tiene un espacio
+
         let lastName = visitData.last_name || "";
         let secondSurname = "";
 
         // Si el apellido tiene un espacio, dividirlo en dos partes
         if (lastName.includes(" ")) {
           const nameParts = lastName.split(" ");
-          lastName = nameParts[0]; // Primera parte del apellido
-          secondSurname = nameParts.slice(1).join(" "); // El resto como segundo apellido
+          lastName = nameParts[0]; // Primera parte 
+          secondSurname = nameParts.slice(1).join(" "); // Todo el resto 
+        }
+
+        let firstName = visitData.name || "";
+        let otherName = "";
+
+        // Si el nombre tiene un espacio, dividirlo en dos partes
+        if (firstName.includes(" ")) {
+          const nameParts = firstName.split(" ");
+          firstName = nameParts[0]; // Primera parte del nombre
+          otherName = nameParts[1] || ""; // Solo la segunda palabra como segundo nombre
         }
 
         // Procesar fechas para su uso en el formulario - con log adicional para debug
@@ -309,8 +320,9 @@ const AdminNuevaOfertaForm: React.FC<NuevaOfertaFormProps> = ({
           ...prev,
           // Datos del cliente
           nombreCliente: `${visitData.name || ""} ${visitData.last_name || ""}`,
-          firs_name: visitData.name || "",
-          last_name: lastName,
+          firs_name: firstName,        // Usar el primer nombre procesado
+          other_name: otherName,       // Usar el segundo nombre procesado
+          last_name: lastName,        // Primer apellido
           secon_surname: secondSurname,
           departamento: visitData.department || "",
           // Ciudad se actualizará después con la lógica específica del departamento

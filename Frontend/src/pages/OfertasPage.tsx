@@ -38,6 +38,7 @@ import VisitaTecnicaForm from "@/components/modals/VisitaTecnicaForm";
 import NuevaOfertaForm from "@/components/modals/NuevaOfertaForm";
 import ChatWall from "@/components/chat/ChatWall";
 
+
 // @ts-ignore
 type Oferta = OfertaStore;
 
@@ -1019,16 +1020,28 @@ const OfertasPage = () => {
                                       : "000"}
                                   </td>
                                   <td
-                                    className={`py-3 px-4 font-medium ${
+                                    className={`py-3 px-4 font-medium flex items-center ${
                                       oferta.estado === "aprobado" ||
                                       oferta.estado === "rechazado" ||
                                       user?.role === "admin"
-                                        ? "cursor-pointer hover:text-[#4178D4] hover:underline flex items-center"
+                                        ? "cursor-pointer hover:text-[#4178D4] hover:underline"
                                         : ""
                                     }`}
                                     onClick={() => handleNombreClick(oferta)}
                                   >
+                                    {/* Icono de estado */}
+                                    {oferta.estado === "aprobado" && (
+                                      <Check className="w-3 h-3 mr-2 text-green-600" />
+                                    )}
+                                    {oferta.estado === "rechazado" && (
+                                      <X className="w-3 h-3 mr-2 text-red-600" />
+                                    )}
+                                    {oferta.estado === "pendiente" && (
+                                      <Clock className="w-3 h-3 mr-2 text-yellow-600" />
+                                    )}
+                                    
                                     {oferta.nombre || "Sin nombre"}
+                                    
                                     {(oferta.estado === "aprobado" ||
                                       oferta.estado === "rechazado" ||
                                       user?.role === "admin") && (
