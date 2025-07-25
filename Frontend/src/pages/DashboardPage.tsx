@@ -123,7 +123,7 @@ const DashboardPage = () => {
 
           {/* Informes Card */}
         <a 
-          href="https://app.powerbi.com/view?r=eyJrIjoiMTAxZjExMzctZWJjMi00NzcyLThhYWUtM2VhYTlhNWQ4MWFhIiwidCI6IjhkMzY4MzZlLTZiNzUtNGRlNi1iYWI5LTVmNGIxNzc1NDI3ZiIsImMiOjR9" 
+          href="https://app.powerbi.com/view?r=eyJrIjoiMmE3MGRjODAtMjc2ZS00ZjIwLWJlNmUtNmIxNmQyY2U2YzVlIiwidCI6IjhkMzY4MzZlLTZiNzUtNGRlNi1iYWI5LTVmNGIxNzc1NDI3ZiIsImMiOjR9" 
           target="_blank" 
           rel="noopener noreferrer"
           className="block no-underline group w-full max-w-[700px]"
