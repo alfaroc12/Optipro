@@ -289,8 +289,8 @@ const AdminNuevaOfertaForm: React.FC<NuevaOfertaFormProps> = ({
         // Si el apellido tiene un espacio, dividirlo en dos partes
         if (lastName.includes(" ")) {
           const nameParts = lastName.split(" ");
-          lastName = nameParts[0]; // Primera parte -> PERTUZ
-          secondSurname = nameParts[1] || ""; // Segunda parte -> HOYOS
+          lastName = nameParts[0]; // Primera parte 
+          secondSurname = nameParts[1] || ""; // Segunda parte 
         }
 
         let firstName = visitData.name || "";
