@@ -3705,7 +3705,17 @@ const AdminNuevaOfertaForm: React.FC<NuevaOfertaFormProps> = ({
                 <div>
                   <p className="text-sm text-gray-500 mb-1">Valor total:</p>
                   <p className="font-medium">
-                    ${formData.valorTotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')} COP
+                    ${(() => {
+                      const num = formData.valorTotal;
+                      const isInteger = num % 1 === 0;
+                      if (isInteger) {
+                        return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                      } else {
+                        const [integer, decimal] = num.toString().split('.');
+                        const formattedInteger = integer.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                        return `${formattedInteger},${decimal}`;
+                      }
+                    })()} COP
                   </p>
                 </div>
                 <div>
