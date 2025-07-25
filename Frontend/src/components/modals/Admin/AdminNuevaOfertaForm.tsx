@@ -290,7 +290,7 @@ const AdminNuevaOfertaForm: React.FC<NuevaOfertaFormProps> = ({
         if (lastName.includes(" ")) {
           const nameParts = lastName.split(" ");
           lastName = nameParts[0]; // Primera parte 
-          secondSurname = nameParts[1] || ""; // Segunda parte 
+          secondSurname = nameParts.slice(1).join(" "); // Todo el resto 
         }
 
         let firstName = visitData.name || "";
