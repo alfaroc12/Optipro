@@ -1019,26 +1019,34 @@ const OfertasPage = () => {
                                       ? oferta.id.toString().padStart(3, "0")
                                       : "000"}
                                   </td>
-                                  <td className="py-3 px-4 text-center">
-                                    <span
-                                      className={`
-                                        inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium
-                                        ${oferta.estado === "aprobado" ? "bg-green-100 text-green-800" : ""}
-                                        ${oferta.estado === "rechazado" ? "bg-red-100 text-red-800" : ""}
-                                        ${oferta.estado === "pendiente" ? "bg-yellow-100 text-yellow-800" : ""}
-                                      `}
-                                    >
-                                      {oferta.estado === "aprobado" && (
-                                        <Check className="w-3 h-3 mr-1" />
-                                      )}
-                                      {oferta.estado === "rechazado" && (
-                                        <X className="w-3 h-3 mr-1" />
-                                      )}
-                                      {oferta.estado === "pendiente" && (
-                                        <Clock className="w-3 h-3 mr-1" />
-                                      )}
-                                      {oferta.estado.charAt(0).toUpperCase() + oferta.estado.slice(1)}
-                                    </span>
+                                  <td
+                                    className={`py-3 px-4 font-medium ${
+                                      oferta.estado === "aprobado" ||
+                                      oferta.estado === "rechazado" ||
+                                      user?.role === "admin"
+                                        ? "cursor-pointer hover:text-[#4178D4] hover:underline flex items-center"
+                                        : ""
+                                    }`}
+                                    onClick={() => handleNombreClick(oferta)}
+                                  >
+                                    {/* Icono de estado */}
+                                    {oferta.estado === "aprobado" && (
+                                      <Check className="w-3 h-3 mr-2 text-green-600" />
+                                    )}
+                                    {oferta.estado === "rechazado" && (
+                                      <X className="w-3 h-3 mr-2 text-red-600" />
+                                    )}
+                                    {oferta.estado === "pendiente" && (
+                                      <Clock className="w-3 h-3 mr-2 text-yellow-600" />
+                                    )}
+                                    
+                                    {oferta.nombre || "Sin nombre"}
+                                    
+                                    {(oferta.estado === "aprobado" ||
+                                      oferta.estado === "rechazado" ||
+                                      user?.role === "admin") && (
+                                      <MessageSquare className="ml-2 w-4 h-4 text-[#4178D4]" />
+                                    )}
                                   </td>
                                   <td className="py-3 px-4 text-gray-600">
                                     {oferta.ciudad || "Sin ciudad"}
