@@ -292,7 +292,7 @@ const DetallesProyectoForm: React.FC<DetallesProyectoFormProps> = ({
 						<div key={idx} className="flex justify-between items-center border rounded-lg px-4 py-2 bg-white shadow-sm">
 							<p className="text-sm text-gray-700 truncate">{file.name}</p>
 							<a
-								href={`http://127.0.0.1:8000${file.attach}`}
+								href={`${import.meta.env.VITE_API_URL || "http://127.0.0.1:8000"}${file.attach}`}
 								target="_blank"
 								rel="noopener noreferrer"
 								className="text-blue-600 hover:text-blue-800"
@@ -908,7 +908,7 @@ const DetallesProyectoForm: React.FC<DetallesProyectoFormProps> = ({
 													{matching.map((file, idx) => (
 														<div key={idx} className="flex items-center gap-2">
 															<a
-																href={`http://127.0.0.1:8000${file.attach}`}
+																href={`${import.meta.env.VITE_API_URL || "http://127.0.0.1:8000"}${file.attach}`}
 																target="_blank"
 																rel="noopener noreferrer"
 																className="inline-flex items-center gap-1 border border-[#4178D4] text-[#4178D4] rounded-full px-3 py-1 text-xs hover:bg-blue-50"
