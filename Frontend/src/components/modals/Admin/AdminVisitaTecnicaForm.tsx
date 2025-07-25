@@ -379,7 +379,7 @@ const AdminVisitaTecnicaForm: React.FC<VisitaTecnicaFormProps> = ({
                   htmlFor="nombre"
                   className="block mb-1.5 font-medium text-gray-700"
                 >
-                  Nombre<span className="text-red-500">*</span>
+                  {"Nombre(s)"}<span className="text-red-500">*</span>
                 </label>
                 <input
                   id="nombre"
