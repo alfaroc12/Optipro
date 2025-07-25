@@ -38,6 +38,7 @@ import VisitaTecnicaForm from "@/components/modals/VisitaTecnicaForm";
 import NuevaOfertaForm from "@/components/modals/NuevaOfertaForm";
 import ChatWall from "@/components/chat/ChatWall";
 
+
 // @ts-ignore
 type Oferta = OfertaStore;
 
@@ -1019,11 +1020,11 @@ const OfertasPage = () => {
                                       : "000"}
                                   </td>
                                   <td
-                                    className={`py-3 px-4 font-medium ${
+                                    className={`py-3 px-4 font-medium flex items-center ${
                                       oferta.estado === "aprobado" ||
                                       oferta.estado === "rechazado" ||
                                       user?.role === "admin"
-                                        ? "cursor-pointer hover:text-[#4178D4] hover:underline flex items-center"
+                                        ? "cursor-pointer hover:text-[#4178D4] hover:underline"
                                         : ""
                                     }`}
                                     onClick={() => handleNombreClick(oferta)}
