@@ -3705,7 +3705,7 @@ const AdminNuevaOfertaForm: React.FC<NuevaOfertaFormProps> = ({
                 <div>
                   <p className="text-sm text-gray-500 mb-1">Valor total:</p>
                   <p className="font-medium">
-                    ${formData.valorTotal.toLocaleString('es-CO')} COP
+                    ${formData.valorTotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')} COP
                   </p>
                 </div>
                 <div>
