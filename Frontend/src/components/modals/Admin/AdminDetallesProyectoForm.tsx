@@ -706,7 +706,7 @@ const AdminDetallesProyectoForm: React.FC<DetallesProyectoFormProps> = ({
 						<div key={idx} className="flex justify-between items-center border rounded-lg px-4 py-2 bg-white shadow-sm">
 							<p className="text-sm text-gray-700 truncate">{file.name}</p>
 							<a
-								href={`${import.meta.env.VITE_API_URL || "http://127.0.0.1:8000"}${file.attach}`}
+								href={`${import.meta.env.VITE_API_URL || "https://backend-optipro-production.up.railway.app"}${file.attach}`}
 								download
 								target="_blank"
 								rel="noopener noreferrer"
