@@ -19,19 +19,48 @@ export const fetchQuotationDocument = async (
   cotizacionId: string | number
 ): Promise<string | null> => {
   try {
+    // URL base de la API de producción
+    const API_BASE_URL = "https://backend-optipro-production.up.railway.app";
+    
+    // Función auxiliar para obtener los headers de autenticación
+    function getAuthHeaders() {
+      const token = JSON.parse(localStorage.getItem("auth") || "{}")?.token || "";
+      return token ? { Authorization: `Bearer ${token}` } : {};
+    }
+    
     // Primero intentamos obtener los detalles de la oferta para verificar si hay un archivo
-    const ofertaResponse = await api.get(
-      `/sale_order/retrieve/${cotizacionId}/`
+    const ofertaResponse = await axios.get(
+      `${API_BASE_URL}/sale_order/retrieve/${cotizacionId}/`,
+      {
+        headers: {
+          ...getAuthHeaders()
+        }
+      }
     );
 
     if (!ofertaResponse.data || !ofertaResponse.data.archivo_cotizacion) {
       return null;
     }
 
-    // Si hay un archivo, obtenemos la URL y descargamos el archivo
-    const fileUrl = ofertaResponse.data.archivo_cotizacion;
-    const response = await api.get(fileUrl, {
+    // Si hay un archivo, aseguramos que la URL es absoluta y usa la URL de producción
+    let fileUrl = ofertaResponse.data.archivo_cotizacion;
+    
+    // Si la URL no es absoluta o no usa la URL de producción, la corregimos
+    if (!fileUrl.startsWith('http')) {
+      fileUrl = `${API_BASE_URL}/${fileUrl.startsWith('/') ? fileUrl.substring(1) : fileUrl}`;
+    } else if (!fileUrl.includes(API_BASE_URL)) {
+      // Extraer la ruta de la URL
+      const urlObj = new URL(fileUrl);
+      const path = urlObj.pathname;
+      fileUrl = `${API_BASE_URL}${path}`;
+    }
+    
+    // Realizar la petición para obtener el archivo
+    const response = await axios.get(fileUrl, {
       responseType: "blob",
+      headers: {
+        ...getAuthHeaders()
+      }
     });
 
     if (response.status === 200) {
@@ -49,16 +78,36 @@ export const fetchQuotationDocuments = async (
 ): Promise<QuotationDocument[]> => {
   try {
     let response;
+    const API_BASE_URL = "https://backend-optipro-production.up.railway.app";
+    
     try {
-      // Intentar con la ruta principal
-      response = await api.get(
-        `/sale_order/attach_sale_order/list/?sale_order=${cotizacionId}`
+      // Intentar con la ruta principal en la URL de producción
+      response = await axios.get(
+        `${API_BASE_URL}/sale_order/attach_sale_order/list/?sale_order=${cotizacionId}`,
+        {
+          headers: {
+            // Incluir token si está disponible
+            ...getAuthHeaders()
+          }
+        }
       );
     } catch (error) {
-      // Si falla, intentar con la ruta de depuración
-      response = await api.get(
-        `/debug/attach_sale_order/?sale_order=${cotizacionId}`
+      // Si falla, intentar con la ruta de depuración en la URL de producción
+      response = await axios.get(
+        `${API_BASE_URL}/debug/attach_sale_order/?sale_order=${cotizacionId}`,
+        {
+          headers: {
+            // Incluir token si está disponible
+            ...getAuthHeaders()
+          }
+        }
       );
+    }
+    
+    // Función auxiliar para obtener los headers de autenticación
+    function getAuthHeaders() {
+      const token = JSON.parse(localStorage.getItem("auth") || "{}")?.token || "";
+      return token ? { Authorization: `Bearer ${token}` } : {};
     }
 
     if (!response.data) {
@@ -271,7 +320,7 @@ export const downloadQuotationPDF = async (
     }
 
     // La URL del endpoint que genera el PDF de la cotización
-    const url = `${API_URL}/api/quotations_pdf/${cotizacionId}/`;
+    const url = `https://backend-optipro-production.up.railway.app/api/quotations_pdf/${cotizacionId}/`;
     
 
     // Realizar la petición para obtener el PDF como un blob

@@ -1,6 +1,20 @@
 export const downloadFile = async (url: string, filename: string): Promise<boolean> => {
   try {
     console.log(`Intentando descargar: ${filename} desde ${url}`);
+    
+    // Asegurar que la URL sea absoluta y use la URL de producción
+    if (!url.startsWith("http")) {
+      const API_BASE_URL = "https://backend-optipro-production.up.railway.app";
+      url = `${API_BASE_URL}/${url.startsWith('/') ? url.substring(1) : url}`;
+      console.log("URL corregida:", url);
+    } else if (!url.includes("backend-optipro-production.up.railway.app")) {
+      // Reemplazar cualquier otra URL por la de producción
+      const urlObj = new URL(url);
+      const path = urlObj.pathname;
+      const API_BASE_URL = "https://backend-optipro-production.up.railway.app";
+      url = `${API_BASE_URL}${path}`;
+      console.log("URL reemplazada por producción:", url);
+    }
 
     // Crear un nuevo objeto AbortController para poder cancelar la petición si es necesario
     const controller = new AbortController();
@@ -95,7 +109,7 @@ export const downloadFile = async (url: string, filename: string): Promise<boole
 export const getCorrectMediaUrl = (url: string): string => {
   if (!url) return "";
 
-  // URL base del API actualizada
+  // URL base del API actualizada - Aseguramos usar siempre la URL de producción
   const API_BASE_URL = "https://backend-optipro-production.up.railway.app";
 
   console.log("URL original:", url);
@@ -129,6 +143,17 @@ export const getCorrectMediaUrl = (url: string): string => {
     }
     if (cleanedUrl.includes("http://localhost:8000")) {
       cleanedUrl = cleanedUrl.replace("http://localhost:8000", API_BASE_URL);
+    }
+    // También reemplazar cualquier otra URL que no sea la de producción
+    if (!cleanedUrl.includes(API_BASE_URL) && 
+        (cleanedUrl.startsWith("http://") || cleanedUrl.startsWith("https://"))) {
+      // Extraer la parte de la ruta después del dominio
+      const urlParts = cleanedUrl.split('/');
+      // Eliminar protocolo y dominio
+      urlParts.splice(0, 3);
+      const pathOnly = urlParts.join('/');
+      // Construir nueva URL
+      cleanedUrl = `${API_BASE_URL}/${pathOnly}`;
     }
 
     // Asegurar que contenga /media/media/ (estructura correcta según el backend)
@@ -169,6 +194,7 @@ export const getCorrectMediaUrl = (url: string): string => {
 
 export const downloadQuotationPDF = () => {
   const API_BASE_URL = "https://backend-optipro-production.up.railway.app";
-  const pdfPath = `${API_BASE_URL}/ctz/cotizacion.pdf`;
+  // Cambiamos la ruta para usar la API correcta
+  const pdfPath = `${API_BASE_URL}/api/quotations_pdf/latest/`;
   downloadFile(pdfPath, "cotizacion.pdf");
 };
