@@ -1043,7 +1043,7 @@ const AdminNuevaOfertaForm: React.FC<NuevaOfertaFormProps> = ({
           let fileUrl = archivo.attach;
           if (!fileUrl.startsWith("http")) {
             fileUrl = getCorrectMediaUrl(
-              `http://127.0.0.1:8000${archivo.attach}`
+              `https://backend-optipro-production.up.railway.app${archivo.attach}`
             );
           } else {
             fileUrl = getCorrectMediaUrl(fileUrl);
@@ -1073,7 +1073,7 @@ const AdminNuevaOfertaForm: React.FC<NuevaOfertaFormProps> = ({
           let fileUrl = archivo.attach;
           if (!fileUrl.startsWith("http")) {
             fileUrl = getCorrectMediaUrl(
-              `http://127.0.0.1:8000${archivo.attach}`
+              `https://backend-optipro-production.up.railway.app${archivo.attach}`
             );
           } else {
             fileUrl = getCorrectMediaUrl(fileUrl);
@@ -1099,7 +1099,7 @@ const AdminNuevaOfertaForm: React.FC<NuevaOfertaFormProps> = ({
           let fileUrl = archivo.attach;
           if (!fileUrl.startsWith("http")) {
             fileUrl = getCorrectMediaUrl(
-              `http://127.0.0.1:8000${archivo.attach}`
+              `https://backend-optipro-production.up.railway.app${archivo.attach}`
             );
           } else {
             fileUrl = getCorrectMediaUrl(fileUrl);
@@ -1127,7 +1127,7 @@ const AdminNuevaOfertaForm: React.FC<NuevaOfertaFormProps> = ({
             let fileUrl = archivo.attach;
             if (!fileUrl.startsWith("http")) {
               fileUrl = getCorrectMediaUrl(
-                `http://127.0.0.1:8000${archivo.attach}`
+                `https://backend-optipro-production.up.railway.app${archivo.attach}`
               );
             } else {
               fileUrl = getCorrectMediaUrl(fileUrl);
@@ -1157,7 +1157,7 @@ const AdminNuevaOfertaForm: React.FC<NuevaOfertaFormProps> = ({
             let fileUrl = archivo.attach;
             if (!fileUrl.startsWith("http")) {
               fileUrl = getCorrectMediaUrl(
-                `http://127.0.0.1:8000${archivo.attach}`
+                `https://backend-optipro-production.up.railway.app${archivo.attach}`
               );
             } else {
               fileUrl = getCorrectMediaUrl(fileUrl);
@@ -1186,7 +1186,7 @@ const AdminNuevaOfertaForm: React.FC<NuevaOfertaFormProps> = ({
             let fileUrl = archivo.attach;
             if (!fileUrl.startsWith("http")) {
               fileUrl = getCorrectMediaUrl(
-                `http://127.0.0.1:8000${archivo.attach}`
+                `https://backend-optipro-production.up.railway.app${archivo.attach}`
               );
             } else {
               fileUrl = getCorrectMediaUrl(fileUrl);
@@ -1209,7 +1209,7 @@ const AdminNuevaOfertaForm: React.FC<NuevaOfertaFormProps> = ({
 
       // Usar la función de corrección de URL para el método de respaldo
       const fileUrl = getCorrectMediaUrl(
-        `http://127.0.0.1:8000/media/media/${cleanFileName}`
+        `https://backend-optipro-production.up.railway.app/media/media/${cleanFileName}`
       );
 
       console.log("URL de respaldo:", fileUrl);
@@ -1219,7 +1219,7 @@ const AdminNuevaOfertaForm: React.FC<NuevaOfertaFormProps> = ({
       if (!success) {
         console.log("Primer intento fallido, probando con ruta alternativa");
         const altFileUrl = getCorrectMediaUrl(
-          `http://127.0.0.1:8000/media/${cleanFileName}`
+          `https://backend-optipro-production.up.railway.app/media/${cleanFileName}`
         );
         console.log("URL alternativa:", altFileUrl);
         downloadFile(altFileUrl, cleanFileName || filename);
@@ -1276,7 +1276,7 @@ const AdminNuevaOfertaForm: React.FC<NuevaOfertaFormProps> = ({
         } else {
           fileUrl = getCorrectMediaUrl(
             `${
-              import.meta.env.VITE_API_URL || "http://127.0.0.1:8000"
+              import.meta.env.VITE_API_URL || "https://backend-optipro-production.up.railway.app"
             }/media/media/${formData.archivoCotizacion}`
           );
         }
@@ -1296,7 +1296,7 @@ const AdminNuevaOfertaForm: React.FC<NuevaOfertaFormProps> = ({
           } else {
             altFileUrl = getCorrectMediaUrl(
               `${
-                import.meta.env.VITE_API_URL || "http://127.0.0.1:8000"
+                import.meta.env.VITE_API_URL || "https://backend-optipro-production.up.railway.app"
               }/media/${formData.archivoCotizacion}`
             );
           }
@@ -1349,7 +1349,7 @@ const AdminNuevaOfertaForm: React.FC<NuevaOfertaFormProps> = ({
             let fileUrl = hojaCalculoInfo.attach;
             if (!fileUrl.startsWith("http")) {
               fileUrl = getCorrectMediaUrl(
-                `http://127.0.0.1:8000${hojaCalculoInfo.attach}`
+                `https://backend-optipro-production.up.railway.app${hojaCalculoInfo.attach}`
               );
             } else {
               fileUrl = getCorrectMediaUrl(fileUrl);
@@ -1381,7 +1381,7 @@ const AdminNuevaOfertaForm: React.FC<NuevaOfertaFormProps> = ({
             let fileUrl = hojaCalculoPorFlag.attach;
             if (!fileUrl.startsWith("http")) {
               fileUrl = getCorrectMediaUrl(
-                `http://127.0.0.1:8000${hojaCalculoPorFlag.attach}`
+                `https://backend-optipro-production.up.railway.app${hojaCalculoPorFlag.attach}`
               );
             } else {
               fileUrl = getCorrectMediaUrl(fileUrl);
@@ -1407,7 +1407,7 @@ const AdminNuevaOfertaForm: React.FC<NuevaOfertaFormProps> = ({
             let fileUrl = hojaCalculoArchivo.attach;
             if (!fileUrl.startsWith("http")) {
               fileUrl = getCorrectMediaUrl(
-                `http://127.0.0.1:8000${hojaCalculoArchivo.attach}`
+                `https://backend-optipro-production.up.railway.app${hojaCalculoArchivo.attach}`
               );
             } else {
               fileUrl = getCorrectMediaUrl(fileUrl);
@@ -1439,7 +1439,7 @@ const AdminNuevaOfertaForm: React.FC<NuevaOfertaFormProps> = ({
             let fileUrl = hojaCalculoInfo.attach;
             if (!fileUrl.startsWith("http")) {
               fileUrl = getCorrectMediaUrl(
-                `http://127.0.0.1:8000${hojaCalculoInfo.attach}`
+                `https://backend-optipro-production.up.railway.app${hojaCalculoInfo.attach}`
               );
             } else {
               fileUrl = getCorrectMediaUrl(fileUrl);
@@ -1471,7 +1471,7 @@ const AdminNuevaOfertaForm: React.FC<NuevaOfertaFormProps> = ({
             let fileUrl = hojaCalculoPorFlag.attach;
             if (!fileUrl.startsWith("http")) {
               fileUrl = getCorrectMediaUrl(
-                `http://127.0.0.1:8000${hojaCalculoPorFlag.attach}`
+                `https://backend-optipro-production.up.railway.app${hojaCalculoPorFlag.attach}`
               );
             } else {
               fileUrl = getCorrectMediaUrl(fileUrl);
@@ -1497,7 +1497,7 @@ const AdminNuevaOfertaForm: React.FC<NuevaOfertaFormProps> = ({
             let fileUrl = hojaCalculoArchivo.attach;
             if (!fileUrl.startsWith("http")) {
               fileUrl = getCorrectMediaUrl(
-                `http://127.0.0.1:8000${hojaCalculoArchivo.attach}`
+                `https://backend-optipro-production.up.railway.app${hojaCalculoArchivo.attach}`
               );
             } else {
               fileUrl = getCorrectMediaUrl(fileUrl);
@@ -1528,7 +1528,7 @@ const AdminNuevaOfertaForm: React.FC<NuevaOfertaFormProps> = ({
 
         // Usar la función de corrección de URL para el método de respaldo
         const fileUrl = getCorrectMediaUrl(
-          `http://127.0.0.1:8000/media/media/${cleanFileName}`
+          `https://backend-optipro-production.up.railway.app/media/media/${cleanFileName}`
         );
 
         console.log("URL de descarga:", fileUrl);
@@ -1539,7 +1539,7 @@ const AdminNuevaOfertaForm: React.FC<NuevaOfertaFormProps> = ({
         if (!success) {
           console.log("Primer intento fallido, probando con ruta alternativa");
           const altFileUrl = getCorrectMediaUrl(
-            `http://127.0.0.1:8000/media/${cleanFileName}`
+            `https://backend-optipro-production.up.railway.app/media/${cleanFileName}`
           );
           console.log("URL alternativa:", altFileUrl);
           await downloadFile(altFileUrl, cleanFileName || filename);
@@ -3688,7 +3688,7 @@ const AdminNuevaOfertaForm: React.FC<NuevaOfertaFormProps> = ({
                           <a
                             href={`${
                               import.meta.env.VITE_API_URL ||
-                              "http://127.0.0.1:8000"
+                              "https://backend-optipro-production.up.railway.app"
                             }/${formData.archivoCotizacion}`}
                             target="_blank"
                             rel="noopener noreferrer"

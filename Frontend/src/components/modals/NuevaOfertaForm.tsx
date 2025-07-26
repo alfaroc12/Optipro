@@ -859,7 +859,7 @@ const NuevaOfertaForm: React.FC<NuevaOfertaFormProps> = ({
 
       if (archivo && archivo.attach) {
         // Si encontramos el archivo en la información original, usamos esa URL
-        const fileUrl = `http://127.0.0.1:8000${archivo.attach}`;
+        const fileUrl = `https://backend-optipro-production.up.railway.app${archivo.attach}`;
         downloadFile(fileUrl, filename);
         return;
       }
@@ -867,7 +867,7 @@ const NuevaOfertaForm: React.FC<NuevaOfertaFormProps> = ({
 
     // Si no lo encontramos en la información original, intentamos construir la URL del backend
     const justFileName = filename.split("/").pop();
-    const fileUrl = `http://127.0.0.1:8000/media/${justFileName}`;
+    const fileUrl = `https://backend-optipro-production.up.railway.app/media/${justFileName}`;
     downloadFile(fileUrl, justFileName || filename);
   };
   const handleDownloadCotizacion = () => {
@@ -898,7 +898,7 @@ const NuevaOfertaForm: React.FC<NuevaOfertaFormProps> = ({
         // Si la ruta ya es una URL completa, la usamos directamente
         const fileUrl = formData.archivoCotizacion.toString().startsWith("http")
           ? formData.archivoCotizacion.toString()
-          : `${import.meta.env.VITE_API_URL || "http://127.0.0.1:8000"}/${
+          : `${import.meta.env.VITE_API_URL || "https://backend-optipro-production.up.railway.app"}/${
               formData.archivoCotizacion
             }`;
 
@@ -932,7 +932,7 @@ const NuevaOfertaForm: React.FC<NuevaOfertaFormProps> = ({
       ) {
         const hojaCalculoInfo = formData.todosLosArchivos.hoja_calculo[0];
         if (hojaCalculoInfo && hojaCalculoInfo.attach) {
-          const fileUrl = `http://127.0.0.1:8000${hojaCalculoInfo.attach}`;
+          const fileUrl = `https://backend-optipro-production.up.railway.app${hojaCalculoInfo.attach}`;
           downloadFile(fileUrl, hojaCalculoInfo.name);
           return;
         }
@@ -949,7 +949,7 @@ const NuevaOfertaForm: React.FC<NuevaOfertaFormProps> = ({
         );
 
         if (hojaCalculoPorFlag && hojaCalculoPorFlag.attach) {
-          const fileUrl = `http://127.0.0.1:8000${hojaCalculoPorFlag.attach}`;
+          const fileUrl = `https://backend-optipro-production.up.railway.app${hojaCalculoPorFlag.attach}`;
           downloadFile(fileUrl, hojaCalculoPorFlag.name);
           return;
         }
@@ -961,7 +961,7 @@ const NuevaOfertaForm: React.FC<NuevaOfertaFormProps> = ({
         );
 
         if (hojaCalculoArchivo && hojaCalculoArchivo.attach) {
-          const fileUrl = `http://127.0.0.1:8000${hojaCalculoArchivo.attach}`;
+          const fileUrl = `https://backend-optipro-production.up.railway.app${hojaCalculoArchivo.attach}`;
           downloadFile(fileUrl, hojaCalculoArchivo.name);
           return;
         }
@@ -978,7 +978,7 @@ const NuevaOfertaForm: React.FC<NuevaOfertaFormProps> = ({
       ) {
         const hojaCalculoInfo = initialData.todosLosArchivos.hoja_calculo[0];
         if (hojaCalculoInfo && hojaCalculoInfo.attach) {
-          const fileUrl = `http://127.0.0.1:8000${hojaCalculoInfo.attach}`;
+          const fileUrl = `https://backend-optipro-production.up.railway.app${hojaCalculoInfo.attach}`;
           downloadFile(fileUrl, hojaCalculoInfo.name);
           return;
         }
@@ -995,7 +995,7 @@ const NuevaOfertaForm: React.FC<NuevaOfertaFormProps> = ({
         );
 
         if (hojaCalculoPorFlag && hojaCalculoPorFlag.attach) {
-          const fileUrl = `http://127.0.0.1:8000${hojaCalculoPorFlag.attach}`;
+          const fileUrl = `https://backend-optipro-production.up.railway.app${hojaCalculoPorFlag.attach}`;
           downloadFile(fileUrl, hojaCalculoPorFlag.name);
           return;
         }
@@ -1007,7 +1007,7 @@ const NuevaOfertaForm: React.FC<NuevaOfertaFormProps> = ({
         );
 
         if (hojaCalculoArchivo && hojaCalculoArchivo.attach) {
-          const fileUrl = `http://127.0.0.1:8000${hojaCalculoArchivo.attach}`;
+          const fileUrl = `https://backend-optipro-production.up.railway.app${hojaCalculoArchivo.attach}`;
           downloadFile(fileUrl, hojaCalculoArchivo.name);
           return;
         }
@@ -1023,7 +1023,7 @@ const NuevaOfertaForm: React.FC<NuevaOfertaFormProps> = ({
     ) {
       const filename = hojaCalculo as string;
       const justFileName = filename.split("/").pop();
-      const fileUrl = `http://127.0.0.1:8000/media/${justFileName}`;
+      const fileUrl = `https://backend-optipro-production.up.railway.app/media/${justFileName}`;
       downloadFile(fileUrl, justFileName || filename);
       return;
     }
@@ -2916,7 +2916,7 @@ const NuevaOfertaForm: React.FC<NuevaOfertaFormProps> = ({
                                 <a
                                   href={`${
                                     import.meta.env.VITE_API_URL ||
-                                    "http://127.0.0.1:8000"
+                                    "https://backend-optipro-production.up.railway.app"
                                   }/${formData.archivoCotizacion}`}
                                   target="_blank"
                                   rel="noopener noreferrer"

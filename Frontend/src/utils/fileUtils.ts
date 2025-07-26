@@ -95,8 +95,8 @@ export const downloadFile = async (url: string, filename: string): Promise<boole
 export const getCorrectMediaUrl = (url: string): string => {
   if (!url) return "";
 
-  // Obtener la URL base del API desde la configuración (asegurarse de que no tenga "/" al final)
-  const API_BASE_URL = "http://127.0.0.1:8000";
+  // URL base del API actualizada
+  const API_BASE_URL = "https://backend-optipro-production.up.railway.app";
 
   console.log("URL original:", url);
 
@@ -118,12 +118,17 @@ export const getCorrectMediaUrl = (url: string): string => {
 
   // Si la URL ya es absoluta (comienza con http:// o https://), procesarla
   if (cleanedUrl.startsWith("http://") || cleanedUrl.startsWith("https://")) {
-    // Corregir duplicación de base URL
-    if (cleanedUrl.includes("http://127.0.0.1:8000http://127.0.0.1:8000")) {
-      cleanedUrl = cleanedUrl.replace(
-        "http://127.0.0.1:8000http://127.0.0.1:8000",
-        "http://127.0.0.1:8000"
-      );
+    // Corregir duplicación de base URL si existe
+    if (cleanedUrl.includes(API_BASE_URL + API_BASE_URL)) {
+      cleanedUrl = cleanedUrl.replace(API_BASE_URL + API_BASE_URL, API_BASE_URL);
+    }
+
+    // Corregir URLs de desarrollo local si están presentes
+    if (cleanedUrl.includes("http://127.0.0.1:8000")) {
+      cleanedUrl = cleanedUrl.replace("http://127.0.0.1:8000", API_BASE_URL);
+    }
+    if (cleanedUrl.includes("http://localhost:8000")) {
+      cleanedUrl = cleanedUrl.replace("http://localhost:8000", API_BASE_URL);
     }
 
     // Asegurar que contenga /media/media/ (estructura correcta según el backend)
@@ -163,6 +168,7 @@ export const getCorrectMediaUrl = (url: string): string => {
 };
 
 export const downloadQuotationPDF = () => {
-  const pdfPath = "/ctz/cotizacion.pdf";
+  const API_BASE_URL = "https://backend-optipro-production.up.railway.app";
+  const pdfPath = `${API_BASE_URL}/ctz/cotizacion.pdf`;
   downloadFile(pdfPath, "cotizacion.pdf");
 };
