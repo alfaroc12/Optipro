@@ -7,9 +7,9 @@ from django.core.validators import FileExtensionValidator
 class M_attach_proyect(models.Model):
     news_choices = [
         ('Ninguna', 'none'),
-        ('Cambio solicitados por cliente', 'Changes requested by customer'),
+        ('Cambios solicitados por cliente', 'Changes requested by customer'),
         ('Cambio por error en calculos', 'Change due to error in calculations'),
-        ('adicion de equipos','adding equipment')
+        ('Adicion de equipos','adding equipment')
     ]
     fulfillment_choices = [
         ('Completado', 'Completed'),

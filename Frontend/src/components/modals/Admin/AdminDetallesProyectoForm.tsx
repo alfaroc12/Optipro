@@ -1190,7 +1190,7 @@ const AdminDetallesProyectoForm: React.FC<DetallesProyectoFormProps> = ({
 
 		const novedadesOptions = [
 			"Ninguna",
-			"Cambio solicitados por cliente",
+			"Cambios solicitados por cliente",
 			"Cambio por erro en calculos",
 			"adicion de equipos",
 		];
