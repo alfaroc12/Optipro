@@ -1551,7 +1551,7 @@ const AdminDetallesProyectoForm: React.FC<DetallesProyectoFormProps> = ({
             </span>
 						{formData.progreso !== undefined && (
 							<span className="text-xs text-gray-500">
-    						Progreso: {formData.etapa === "finaly" ? 100 : formData.progreso}%
+    						Progreso: {formData.etapa === "finaly" ? 100 : project.progreso}%
 							</span>
 						)}
 					</div>
