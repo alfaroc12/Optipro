@@ -73,8 +73,8 @@ INSTALLED_APPS = [
     'proyect',
     'chat',
     'notifications',
+    'function',  # Agregado para management commands
     'whitenoise.runserver_nostatic',
-
 ]
 
 REST_FRAMEWORK = {
@@ -113,6 +113,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'function.middleware.FileUploadTimeoutMiddleware',
+    'function.middleware.MemoryOptimizationMiddleware',
 ]
 
 ROOT_URLCONF = 'optipro.urls'
@@ -149,7 +150,11 @@ CHANNEL_LAYERS = {
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
-    'default': dj_database_url.config(default=os.getenv('DATABASE_URL'))
+    'default': dj_database_url.config(
+        default=os.getenv('DATABASE_URL'),
+        conn_max_age=300,  # Conexiones viven 5 minutos
+        conn_health_checks=True  # Verificar salud de conexiones
+    )
 }
 
 
@@ -196,8 +201,8 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Configuraciones de manejo de archivos
-FILE_UPLOAD_MAX_MEMORY_SIZE = 10 * 1024 * 1024  # 10MB
-DATA_UPLOAD_MAX_MEMORY_SIZE = 10 * 1024 * 1024  # 10MB
+FILE_UPLOAD_MAX_MEMORY_SIZE = 50 * 1024 * 1024  # 50MB
+DATA_UPLOAD_MAX_MEMORY_SIZE = 100 * 1024 * 1024  # 100MB
 DATA_UPLOAD_MAX_NUMBER_FIELDS = 1000
 
 # Default primary key field type
@@ -214,13 +219,17 @@ CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_RESULT_BACKEND = None  # Desactivar result backend para evitar problemas de pickle
 
-# Configuración de logging
+# Configuración de logging mejorada
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
     'formatters': {
         'verbose': {
             'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
+            'style': '{',
+        },
+        'simple': {
+            'format': '{levelname} {message}',
             'style': '{',
         },
     },
@@ -245,6 +254,21 @@ LOGGING = {
             'level': 'ERROR',
             'propagate': False,
         },
+        'django.db.backends': {
+            'handlers': ['console'],
+            'level': 'WARNING',
+            'propagate': False,
+        },
+        'function.middleware': {
+            'handlers': ['console'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+        'gunicorn.error': {
+            'handlers': ['console'],
+            'level': 'INFO',
+            'propagate': False,
+        },
     },
 }
 
@@ -256,9 +280,24 @@ SESSION_COOKIE_SECURE = True  # HTTPS only en producción
 SESSION_COOKIE_HTTPONLY = True  # Prevenir acceso desde JavaScript
 SESSION_COOKIE_SAMESITE = 'Lax'  # Protección CSRF
 
-# Configuraciones de timeout más robustas
-DATA_UPLOAD_MAX_MEMORY_SIZE = 100 * 1024 * 1024  # 100MB
-FILE_UPLOAD_MAX_MEMORY_SIZE = 50 * 1024 * 1024   # 50MB
+# Configuraciones adicionales para prevenir timeouts y mejorar rendimiento
+CONN_MAX_AGE = 300  # Reutilizar conexiones DB por 5 minutos
+CONN_HEALTH_CHECKS = True  # Verificar salud de conexiones
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Configuraciones adicionales para prevenir timeouts
-CONN_MAX_AGE = 60  # Reutilizar conexiones DB por 60 segundos
+# Configuraciones de cache para mejorar rendimiento
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'unique-snowflake',
+        'TIMEOUT': 300,
+        'OPTIONS': {
+            'MAX_ENTRIES': 1000,
+            'CULL_FREQUENCY': 3,
+        }
+    }
+}
+
+# Configuraciones para evitar memory leaks en workers
+USE_TZ = True
+USE_I18N = True
