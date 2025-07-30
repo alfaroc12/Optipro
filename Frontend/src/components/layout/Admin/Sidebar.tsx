@@ -39,7 +39,7 @@ const Sidebar: React.FC<SidebarProps> = ({ toggleSidebar }) => {
     },
     {
       name: "INFORMES",
-      path: "https://app.powerbi.com/view?r=eyJrIjoiMmE3MGRjODAtMjc2ZS00ZjIwLWJlNmUtNmIxNmQyY2U2YzVlIiwidCI6IjhkMzY4MzZlLTZiNzUtNGRlNi1iYWI5LTVmNGIxNzc1NDI3ZiIsImMiOjR9",
+      path: "https://app.powerbi.com/view?r=eyJrIjoiNjhjNWZiNjktMjU2NC00NDkwLTg2NjMtZTZjMmYyNDAyYjA5IiwidCI6IjhkMzY4MzZlLTZiNzUtNGRlNi1iYWI5LTVmNGIxNzc1NDI3ZiIsImMiOjR9",
       icon: <BarChart3 className="w-full h-full text-[#4178D4]" />,
       isExternal: true,
     },
