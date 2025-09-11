@@ -1037,7 +1037,7 @@ const AdminDetallesProyectoForm: React.FC<DetallesProyectoFormProps> = ({
 								className="flex items-center gap-2 text-sm text-gray-700"
 							>
 								<a
-									href={`http://127.0.0.1:8000${file.attach}`}
+									href={`${import.meta.env.VITE_API_URL || "https://backend-optipro-production.up.railway.app"}${file.attach}`}
 									target="_blank"
 									rel="noopener noreferrer"
 									className="flex items-center gap-1 text-blue-600 hover:underline"
@@ -1258,7 +1258,7 @@ const AdminDetallesProyectoForm: React.FC<DetallesProyectoFormProps> = ({
 													{matching.map((file: any, idx: number) => (
 														<div key={idx} className="flex items-center gap-2">
 															<a
-																href={`${import.meta.env.VITE_API_URL || "http://127.0.0.1:8000"}${file.attach}`}
+																href={`${import.meta.env.VITE_API_URL || "https://backend-optipro-production.up.railway.app"}${file.attach}`}
 																target="_blank"
 																rel="noopener noreferrer"
 																className="inline-flex items-center gap-1 border border-[#4178D4] text-[#4178D4] rounded-full px-3 py-1 text-xs hover:bg-blue-50"
@@ -1372,7 +1372,7 @@ const AdminDetallesProyectoForm: React.FC<DetallesProyectoFormProps> = ({
 					</div>
 				</div>
 			</div>
-		};
+		);
 	};
 
 
@@ -1412,7 +1412,7 @@ const AdminDetallesProyectoForm: React.FC<DetallesProyectoFormProps> = ({
 			cumplimientoEstado
 		);
 		
-		return(
+		return (
 			<form onSubmit={handleUpdateProject} className="p-6">
 				{isSubmitting && (
 					<div className="absolute inset-0 bg-white bg-opacity-50 flex items-center justify-center z-50 rounded-xl">
@@ -1486,8 +1486,8 @@ const AdminDetallesProyectoForm: React.FC<DetallesProyectoFormProps> = ({
 					)}
 				</div>
 			</form>
-		)
-	}
+		);
+	};
 
 	if (formData.status === "finaly") {
 		return (
@@ -1556,7 +1556,7 @@ const AdminDetallesProyectoForm: React.FC<DetallesProyectoFormProps> = ({
             </span>
 						{formData.progreso !== undefined && (
 							<span className="text-xs text-gray-500">
-    						Progreso: {formData.etapa === "finaly" ? 100 : project.progreso}%
+    						Progreso: {formData.etapa === "finaly" ? 100 : formData.progreso}%
 							</span>
 						)}
 					</div>
