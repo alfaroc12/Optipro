@@ -1037,7 +1037,7 @@ const AdminDetallesProyectoForm: React.FC<DetallesProyectoFormProps> = ({
 								className="flex items-center gap-2 text-sm text-gray-700"
 							>
 								<a
-									href={`${import.meta.env.VITE_API_URL || "https://backend-optipro-production.up.railway.app"}${file.attach}`}
+									href={`http://127.0.0.1:8000${file.attach}`}
 									target="_blank"
 									rel="noopener noreferrer"
 									className="flex items-center gap-1 text-blue-600 hover:underline"
