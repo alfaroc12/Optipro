@@ -1600,6 +1600,6 @@ const AdminDetallesProyectoForm: React.FC<DetallesProyectoFormProps> = ({
 			{renderForm()}
 		</div>
 	);
-};
+// ...existing code...
 
 export default AdminDetallesProyectoForm;
