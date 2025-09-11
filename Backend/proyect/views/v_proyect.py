@@ -1,4 +1,4 @@
-from rest_framework.generics import CreateAPIView,ListAPIView, RetrieveAPIView, UpdateAPIView, 
+from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView, UpdateAPIView, DestroyAPIView 
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status

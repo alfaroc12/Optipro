@@ -1303,12 +1303,10 @@ const AdminDetallesProyectoForm: React.FC<DetallesProyectoFormProps> = ({
 													value={novedadesEstado[doc.key] || "Ninguna"}
 													onChange={async (e) => {
 														const newValue = e.target.value;
-														setNovedadesEstado((prev) => ({
-															...prev,
-															[doc.key]: newValue,
-														}));
-
-														const matching = (formData.attachments || []).find((att: any) =>
+													setNovedadesEstado((prev) => ({
+														...prev,
+														[doc.key]: newValue,
+													}));														const matching = (formData.attachments || []).find((att: any) =>
 															att.name.toLowerCase().includes(doc.key)
 														);
 														if (matching) {
