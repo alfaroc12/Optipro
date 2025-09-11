@@ -845,9 +845,9 @@ const DetallesProyectoForm: React.FC<DetallesProyectoFormProps> = ({
 
 		const novedadesOptions = [
 			"Ninguna",
-			"Cambio solicitados por cliente",
-			"Cambio por erro en calculos",
-			"adicion de equipos",
+			"Cambios solicitados por cliente",
+			"Cambio por error en calculos",
+			"Adicion de equipos",
 		];
 
 		const cumplimientoOptions = ["Pendiente", "En progreso", "Completado"];
