@@ -13,6 +13,7 @@ class M_proyect(models.Model):
     date = models.DateField(null=False, auto_now_add=True, editable=False)
     code = models.CharField(max_length=6, null=False, unique=True, validators=[only_numbers])
     status = models.CharField(max_length=30, null=False, blank=False, choices=status_choices)
+    progress_percentage = models.FloatField(default=0.0)
     sale_order_id = models.ForeignKey(M_sale_order, null=False, blank=False, on_delete=models.DO_NOTHING, db_column='sale_order_id')
     
 

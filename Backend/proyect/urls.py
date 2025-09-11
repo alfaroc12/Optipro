@@ -1,5 +1,5 @@
 from django.urls import path
-from proyect.views.v_proyect import V_proyect_create, V_proyect_list, V_proyect_retrive,V_proyect_update,V_proyect_delete, V_proyect_export
+from proyect.views.v_proyect import V_proyect_create, V_proyect_list, V_proyect_retrive,V_proyect_update,V_proyect_delete, V_proyect_export, UpdateProjectProgress
 from proyect.views.v_proyect_comentary import V_proyect_comentary_create, V_proyect_comentary_list, V_proyect_comentary_retrive, V_proyect_comentary_update
 from proyect.views.v_attach_proyect import AttachProyect, V_attach_proyect_list, V_attach_proyect_retrive, V_attach_proyect_update, V_attach_proyect_PowerBi, V_attach_proyect_delete
 from proyect.views.v_saleorder_to_proyect import V_sale_order_to_proyect
@@ -32,4 +32,5 @@ urlpatterns = [
 
     path('powerbi/proyectos/', V_proyect_export.as_view(), name='export_proyectos'),
     path('powerbi/attach_proyect/', V_attach_proyect_PowerBi.as_view(), name='export_attach_proyect'),
+    path('powerbi/UpdateProjectProgress/', UpdateProjectProgress.as_view(), name='export_progress_percentage'),
 ]

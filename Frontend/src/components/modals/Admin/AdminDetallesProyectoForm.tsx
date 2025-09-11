@@ -270,13 +270,18 @@ const AdminDetallesProyectoForm: React.FC<DetallesProyectoFormProps> = ({
 			// Payload con todos los campos que quieres actualizar
 
 			let newStatus = formData.status;
-
 		// Si está en planification y la cotización es aprobada, cambia a process
 			if (formData.etapa === "planification" && formData.estadoCotizacion === "aprobado") {
 				newStatus = "process";
 			}
+			const progresoActualizado = calcularProgresoDocumentos(
+				formData.attachments || [],
+				formData.status,
+				cumplimientoEstado
+			);
 			const payload = {
 				status: newStatus,
+				progress_percentage: progresoActualizado,
 				sale_order: {
 					id: formData.sale_order?.id,
 					date: formData.sale_order?.date,
@@ -1367,7 +1372,7 @@ const AdminDetallesProyectoForm: React.FC<DetallesProyectoFormProps> = ({
 					</div>
 				</div>
 			</div>
-		);
+		};
 	};
 
 

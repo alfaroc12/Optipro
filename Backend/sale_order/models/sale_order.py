@@ -72,6 +72,7 @@ class M_sale_order(models.Model):
 
     code = models.CharField(max_length=6, null=False, blank=False, unique=True, validators=[only_numbers])
     state = models.CharField(max_length=35, null=False, blank=False, choices=state_choices, default='pendiente')
+    
     user_id = models.ForeignKey(User, null=False, on_delete=models.DO_NOTHING, db_column='user_id')
     technical_visit_id = models.ForeignKey(M_technical_visit,null=True,blank=True,on_delete=models.SET_NULL,
     related_name="sale_orders")

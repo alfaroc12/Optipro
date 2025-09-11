@@ -8,13 +8,13 @@ class M_attach_proyect(models.Model):
     news_choices = [
         ('Ninguna', 'none'),
         ('Cambio solicitados por cliente', 'Changes requested by customer'),
-        ('Cambio por error en calculos', 'Change due to error in calculations'),
-        ('adicion de equipos','adding equipment')
+        ('Cambio por error en cálculos', 'Change due to error in calculations'),
+        ('Adición de equipos','adding equipment')
     ]
     fulfillment_choices = [
         ('Completado', 'Completed'),
         ('En progreso', 'In progress'),
-        ('pendiente', 'Pending'),
+        ('Pendiente', 'Pending'),
     ]
     date = models.DateField(null=False, auto_now_add=True, editable=False)
     date_2 = models.DateField(null=True, blank=True, editable=True)

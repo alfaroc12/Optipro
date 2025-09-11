@@ -109,6 +109,7 @@ class sz_proyect_powerBi(serializers.ModelSerializer):
             'attachments',
             'code',
             'status',
+            'progress_percentage',
             'sale_order_id',
         ]
         read_only_fields = fields

@@ -1,4 +1,5 @@
-from rest_framework.generics import CreateAPIView,ListAPIView, RetrieveAPIView, UpdateAPIView, DestroyAPIView
+from rest_framework.generics import CreateAPIView,ListAPIView, RetrieveAPIView, UpdateAPIView, 
+from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -111,3 +112,18 @@ class V_proyect_export(ListAPIView):
     serializer_class = sz_proyect_powerBi
     pagination_class = None  
     permission_classes = [AllowAny]
+
+class UpdateProjectProgress(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request, pk):
+        try:
+            project = M_proyect.objects.get(pk=pk)
+        except M_proyect.DoesNotExist:
+            return Response({'error': 'Project not found'}, status=status.HTTP_404_NOT_FOUND)
+        progress = request.data.get('progress_percentage')
+        if progress is not None:
+            project.progress_percentage = progress
+            project.save()
+            return Response({'success': True}, status=status.HTTP_200_OK)
+        return Response({'error': 'Missing progress'}, status=status.HTTP_400_BAD_REQUEST)
