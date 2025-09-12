@@ -270,18 +270,13 @@ const AdminDetallesProyectoForm: React.FC<DetallesProyectoFormProps> = ({
 			// Payload con todos los campos que quieres actualizar
 
 			let newStatus = formData.status;
+
 		// Si está en planification y la cotización es aprobada, cambia a process
 			if (formData.etapa === "planification" && formData.estadoCotizacion === "aprobado") {
 				newStatus = "process";
 			}
-			const progresoActualizado = calcularProgresoDocumentos(
-				formData.attachments || [],
-				formData.status,
-				cumplimientoEstado
-			);
 			const payload = {
 				status: newStatus,
-				progress_percentage: progresoActualizado,
 				sale_order: {
 					id: formData.sale_order?.id,
 					date: formData.sale_order?.date,
@@ -1258,7 +1253,7 @@ const AdminDetallesProyectoForm: React.FC<DetallesProyectoFormProps> = ({
 													{matching.map((file: any, idx: number) => (
 														<div key={idx} className="flex items-center gap-2">
 															<a
-																href={`${import.meta.env.VITE_API_URL || "https://backend-optipro-production.up.railway.app"}${file.attach}`}
+																href={`${import.meta.env.VITE_API_URL || "http://127.0.0.1:8000"}${file.attach}`}
 																target="_blank"
 																rel="noopener noreferrer"
 																className="inline-flex items-center gap-1 border border-[#4178D4] text-[#4178D4] rounded-full px-3 py-1 text-xs hover:bg-blue-50"
@@ -1303,10 +1298,12 @@ const AdminDetallesProyectoForm: React.FC<DetallesProyectoFormProps> = ({
 													value={novedadesEstado[doc.key] || "Ninguna"}
 													onChange={async (e) => {
 														const newValue = e.target.value;
-													setNovedadesEstado((prev) => ({
-														...prev,
-														[doc.key]: newValue,
-													}));														const matching = (formData.attachments || []).find((att: any) =>
+														setNovedadesEstado((prev) => ({
+															...prev,
+															[doc.key]: newValue,
+														}));
+
+														const matching = (formData.attachments || []).find((att: any) =>
 															att.name.toLowerCase().includes(doc.key)
 														);
 														if (matching) {
@@ -1410,7 +1407,7 @@ const AdminDetallesProyectoForm: React.FC<DetallesProyectoFormProps> = ({
 			cumplimientoEstado
 		);
 		
-		return (
+		return(
 			<form onSubmit={handleUpdateProject} className="p-6">
 				{isSubmitting && (
 					<div className="absolute inset-0 bg-white bg-opacity-50 flex items-center justify-center z-50 rounded-xl">
@@ -1484,8 +1481,8 @@ const AdminDetallesProyectoForm: React.FC<DetallesProyectoFormProps> = ({
 					)}
 				</div>
 			</form>
-		);
-	};
+		)
+	}
 
 	if (formData.status === "finaly") {
 		return (
@@ -1554,7 +1551,7 @@ const AdminDetallesProyectoForm: React.FC<DetallesProyectoFormProps> = ({
             </span>
 						{formData.progreso !== undefined && (
 							<span className="text-xs text-gray-500">
-    						Progreso: {formData.etapa === "finaly" ? 100 : formData.progreso}%
+    						Progreso: {formData.etapa === "finaly" ? 100 : project.progreso}%
 							</span>
 						)}
 					</div>
