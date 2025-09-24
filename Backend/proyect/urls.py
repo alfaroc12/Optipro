@@ -32,5 +32,5 @@ urlpatterns = [
 
     path('powerbi/proyectos/', V_proyect_export.as_view(), name='export_proyectos'),
     path('powerbi/attach_proyect/', V_attach_proyect_PowerBi.as_view(), name='export_attach_proyect'),
-    path('powerbi/UpdateProjectProgress/', UpdateProjectProgress.as_view(), name='export_progress_percentage'),
+    path('powerbi/UpdateProjectProgress/<int:pk>/', UpdateProjectProgress.as_view(), name='export_progress_percentage'),
 ]
