@@ -1372,7 +1372,7 @@ const AdminDetallesProyectoForm: React.FC<DetallesProyectoFormProps> = ({
 					</div>
 				</div>
 			</div>
-		};
+		);
 	};
 
 
