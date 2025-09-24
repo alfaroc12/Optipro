@@ -1,9 +1,0 @@
-[build]
-builder = "nixpacks"
-
-[deploy]
-restartPolicyType = "never"
-replicas = 1
-
-[experimental]
-configAsCode = true
