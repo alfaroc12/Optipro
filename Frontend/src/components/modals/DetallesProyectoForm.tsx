@@ -32,6 +32,16 @@ interface Notification {
 	message: string;
 }
 
+const updateProjectProgress = async (projectId: number, progress: number) => {
+  try {
+    await api.post(`/proyect/progress/${projectId}/`, {
+      progress_percentage: progress
+    });
+  } catch (error) {
+    console.error('Error al actualizar el progreso:', error);
+  }
+};
+
 const DetallesProyectoForm: React.FC<DetallesProyectoFormProps> = ({
 																																		 project,
 																																		 onSubmit,
@@ -129,12 +139,20 @@ const DetallesProyectoForm: React.FC<DetallesProyectoFormProps> = ({
 		if (formData.status === "process") {
 			const progreso = calcularProgresoPorCumplimiento(formData.attachments, cumplimientoEstado);
 			setFormData((prev: any) => ({ ...prev, progreso }));
+			// Enviar el progreso al backend
+			if (formData.id) {
+				updateProjectProgress(formData.id, progreso);
+			}
 		} else {
 			const progreso = formData.status === "finaly" ? 100 : calcularProgresoDocumentos(
 				formData.attachments || [],
 				formData.status
 			);
 			setFormData((prev: any) => ({ ...prev, progreso }));
+			// Enviar el progreso al backend
+			if (formData.id) {
+				updateProjectProgress(formData.id, progreso);
+			}
 		}
 	}, [formData.attachments, cumplimientoEstado, formData.status]);
 
