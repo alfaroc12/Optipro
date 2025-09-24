@@ -32,6 +32,16 @@ interface Notification {
 	message: string;
 }
 
+const updateProjectProgress = async (projectId: number, progress: number) => {
+  try {
+    await api.post(`/proyect/progress/${projectId}/`, {
+      progress_percentage: progress
+    });
+  } catch (error) {
+    console.error('Error al actualizar el progreso:', error);
+  }
+};
+
 const DetallesProyectoForm: React.FC<DetallesProyectoFormProps> = ({
 																																		 project,
 																																		 onSubmit,
