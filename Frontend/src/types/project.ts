@@ -22,7 +22,7 @@ export interface Project {
   name?: string;
   description?: string;
   user_id: number;
-  project_id: number;
+  project_id: any;
   tipo?: string;
   etapa?: "Planificación" | "Ejecución" | "Finalizado" | "Suspendido";
   sale_order?: SaleOrder;

@@ -1,4 +1,4 @@
-import { useState, useEffect} from "react";
+import {useState, useEffect, useRef} from "react";
 import {useDispatch} from "react-redux";
 import {useAppSelector} from "@/hooks/useAppSelector";
 import {
@@ -32,13 +32,14 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import api from "@/services/api";
+import { sendProgressToPowerBI } from "@/services/powerbi";
 import { deleteProject } from "@/services/projectService";
 import NuevoProyectoForm from "@/components/modals/Admin/AdminNuevoProyectoForm";
 import AdminDetallesProyectoForm from "@/components/modals/Admin/AdminDetallesProyectoForm.tsx";
 
 interface Project {
   cotizador: any;
-  id: number;
+  id: any;
   nombre: string;
   ciudad: string;
   fechaEmision: string;
@@ -231,6 +232,7 @@ const AdminProjectsPage: React.FC = () => {
       fechaFinalizacion: apiProject.sale_order?.date_end,
       progreso,
       cotizador: apiProject.sale_order?.cotizador || 'Sin asignar',
+			saleOrderId: apiProject.sale_order?.id ?? apiProject.sale_order_id ?? apiProject.code
     };
   };
 
@@ -259,7 +261,26 @@ const AdminProjectsPage: React.FC = () => {
     startIndex,
     startIndex + itemsPerPage
   );
-  const handlePageChange = (page: number) => setCurrentPage(page);
+
+	const sentProjectIdsRef = useRef<Set<string | number>>(new Set());
+
+	useEffect(() => {
+		displayedProjects.forEach((p) => {
+			const projectId = p.id; // ID de proyecto
+			const progress = typeof p.progreso === "number" ? p.progreso : 0;
+
+			if (!projectId) return;
+			if (sentProjectIdsRef.current.has(projectId)) return;
+
+			sendProgressToPowerBI(projectId, progress)
+				.catch((err) => console.error("PowerBI send error:", err));
+
+			sentProjectIdsRef.current.add(projectId);
+		});
+	}, [displayedProjects]);
+
+
+	const handlePageChange = (page: number) => setCurrentPage(page);
   const handleItemsPerPageChange = (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
