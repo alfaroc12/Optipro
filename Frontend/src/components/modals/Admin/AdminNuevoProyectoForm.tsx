@@ -395,7 +395,7 @@ const AdminNuevoProyectoForm: React.FC<NuevoProyectoFormProps> = ({
     </div>
   );
 
-  // PASO 2: Información del proyecto
+  // PASO 2: Información del proyecto de grado
   const renderStep2 = () => (
     <div className="mb-6">
       <div className="mb-6 pb-4 border-b border-gray-100">
